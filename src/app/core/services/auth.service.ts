@@ -8,10 +8,8 @@ import {
   TokenRefreshResponse,
   TokenVerifyResponse,
 } from '../models/auth.model';
-import { Observable, pipe, switchMap, take, tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { StorageService } from './storage.service';
-import { DecodedTokenType, User } from '../models/user.model';
-import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +18,6 @@ export class Authservice {
   private readonly http = inject(HttpClient);
   private readonly apiUrl = inject(API_URL);
   private storageService = inject(StorageService);
-  private userService = inject(UserService);
 
   constructor() {}
 

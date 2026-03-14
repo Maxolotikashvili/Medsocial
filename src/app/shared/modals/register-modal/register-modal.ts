@@ -1,25 +1,20 @@
-import { Component, inject, Signal, signal } from '@angular/core';
-import { MbInput } from '../../features/mb-input/mb-input';
-import {
-  AbstractControl,
-  NonNullableFormBuilder,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import { Effect } from '../../shared/directives/effect';
-import { InitialFocus } from '../../shared/directives/initial-focus';
-import { passwordMatchValidator } from '../validators/password-match.validator';
+import { Component, inject, signal } from '@angular/core';
+import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { formatDate } from '@angular/common';
-import { alphaOnlyValidator } from '../validators/alpha-only.validator';
-import { ageValidator } from '../validators/date-validator';
-import { RegisterRequest } from '../../core/models/auth.model';
-import { Authservice } from '../../core/services/auth.service';
-import { emailPatternValidator } from '../validators/email.validator';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Loading } from "../../features/loading/loading";
 import { finalize } from 'rxjs';
-import { PopupService } from '../../core/services/popup.service';
-import { ModalService } from '../../core/services/modal.service';
+import { Effect } from '../../directives/effect';
+import { InitialFocus } from '../../directives/initial-focus';
+import { Loading } from '../../../features/loading/loading';
+import { MbInput } from '../../../features/mb-input/mb-input';
+import { Authservice } from '../../../core/services/auth.service';
+import { PopupService } from '../../../core/services/popup.service';
+import { ModalService } from '../../../core/services/modal.service';
+import { alphaOnlyValidator } from '../../validators/alpha-only.validator';
+import { emailPatternValidator } from '../../validators/email.validator';
+import { ageValidator } from '../../validators/date-validator';
+import { passwordMatchValidator } from '../../validators/password-match.validator';
+import { RegisterRequest } from '../../../core/models/auth.model';
 
 @Component({
   selector: 'app-register-modal',

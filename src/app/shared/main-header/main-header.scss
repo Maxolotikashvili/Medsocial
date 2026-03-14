@@ -84,6 +84,21 @@ header {
             background-color: var(--color-green-0);
         }
     }
+
+    .user-profile-link {
+        margin-left: auto;
+        border: 2px solid var(--color-blue-3);
+        color: var(--color-blue-3);
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        font-size: 24px;
+    }
+
+    .user-profile-link:hover {
+        background-color: var(--color-blue-3);
+        color: var(--color-white-0);
+    }
 }
 
 .header-scrolled {

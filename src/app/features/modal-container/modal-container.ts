@@ -20,9 +20,20 @@ export class ModalContainer {
   constructor() {}
 
   public loadComponent(component: Type<any>) {
+    const element = this.dialog.nativeElement;
+
+    if (element.hasAttribute('open')) {
+      const wrapper = element.querySelector('.modal-wrapper');
+      wrapper?.classList.remove('modal-swapping');
+      void (wrapper as HTMLElement).offsetWidth;
+      wrapper?.classList.add('modal-swapping');
+    }
     this.anchor.clear();
     this.anchor.createComponent(component);
-    this.dialog.nativeElement.showModal();
+
+    if (!element.hasAttribute('open')) {
+      element.showModal();
+    }
   }
 
   public close() {

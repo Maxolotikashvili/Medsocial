@@ -8,7 +8,8 @@
     outline: none;
 }
 
-a, button {
+a,
+button {
     text-decoration: none;
     color: inherit;
     cursor: pointer;
@@ -20,4 +21,9 @@ li {
 
 body {
     min-height: 100dvh;
+}
+
+.no-scroll {
+    overflow: hidden;
+    height: 100vh;
 }

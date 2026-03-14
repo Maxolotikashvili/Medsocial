@@ -5,7 +5,7 @@ export interface RegisterRequest {
   dob: string;
   password: string;
   password1: string;
-  role?: 0 | 1;
+  role?: 1 | 2;
 }
 
 export interface LoginRequest {

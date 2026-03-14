@@ -25,8 +25,14 @@
         </ul>
     </nav>
 
-    <div class="header-button-links-wrapper">
-        <a class="sign-in-link mb-link" href="#" (click)="openLoginModal()">Sign In</a>
-        <a class="lets-talk-link mb-link" href="#" [effect]="'arrow'" (click)="test()">Appointment</a>
-    </div>
+    @if (isUserSignedIn()) {
+        <a class="mb-button-naked user-profile-link">
+            <fa-icon [icon]="faUser"></fa-icon>
+        </a>
+    } @else {
+        <div class="header-button-links-wrapper">
+            <a class="sign-in-link mb-link" href="#" (click)="openLoginModal()">Sign In</a>
+            <a class="lets-talk-link mb-link" href="#" [effect]="'arrow'">Appointment</a>
+        </div>
+    }
 </header>
