@@ -1,0 +1,27 @@
+// Color variables for the application, higher numbers indicate lighter colors
+
+:root {
+    --color-blue-0: #5C728E;
+    --color-blue-1: #1d78e2;
+    --color-blue-2: #4589F4;
+    --color-blue-3: #00A6FB;
+
+    --color-black-0: #031d36;
+
+    --color-gray-0: #acacac82;
+
+    --color-white-0: #ffffff;
+    --color-white-1: #ecf7ff;
+
+    --color-green-0: #2ac28e;
+
+    --color-red-0: #F7588D;
+
+    --color-yellow-0: #ffc422;
+
+    --color-gradient-0: #{'linear-gradient(45deg, #CDFFF1 0%, rgba(203, 245, 246, 0.73) 28.13%, rgba(240, 251, 224, 0.80) 79.75%, #F8FFDA 100%)'};
+
+    --color-error: #ff4444;
+
+    --box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}

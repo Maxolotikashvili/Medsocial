@@ -1,0 +1,75 @@
+@use '../../styles/layout.scss' as *;
+
+.login-modal-wrapper {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    width: 600px;
+    height: 100%;
+    gap: 1rem;
+    background: var(--color-gradient-0);
+    padding: 3rem;
+
+    img {
+        width: 11.25rem;
+        height: 50px;
+    }
+
+    form {
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        gap: 2rem;
+        width: 100%;
+        height: 100%;
+
+        .input-wrapper {
+            width: 100%;
+            @include flex-column();
+            gap: 1.5rem;
+
+            input {
+                width: 100%;
+            }
+        }
+
+        .remember-me-wrapper {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+
+            .forget-link {
+                color: var(--color-blue-3);
+            }
+
+            .forget-link:hover {
+                color: var(--color-blue-0);
+            }
+        }
+
+        .error-message {
+            color: var(--color-error);
+        }
+    }
+    .divider {
+        width: 100%;
+        height: 1px;
+        background-color: var(--color-blue-0);
+        opacity: 0.3;
+    }
+
+    .text-button-wrapper {
+        display: flex;
+        align-items: center;
+        
+        .signup-link {
+            margin-left: 0.4rem;
+            color: var(--color-blue-2);
+            font-size: 0.875rem;
+        }
+    
+        .signup-link:hover {
+            color: var(--color-blue-0);
+        }
+    }
+}

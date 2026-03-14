@@ -1,0 +1,97 @@
+@use '../../styles/layout.scss' as *;
+
+$header-height: 70px;
+$gap-size-between-logo-and-links: 8rem;
+$gap-size-between-links: 2rem;
+$gap-size-between-buttons: 1rem;
+
+$header-animation-time: 0.5s;
+
+header {
+    width: 100%;
+    position: fixed;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    height: $header-height;
+    padding-inline: var(--global-component-padding);
+    transition: background-color $header-animation-time ease;
+
+    .company-logo {
+        width: 9.5rem;
+        margin-right: $gap-size-between-logo-and-links;
+    }
+
+    nav {
+        ul {
+            display: flex;
+            gap: $gap-size-between-links;
+
+            .header-list {
+                .header-link {
+                    position: relative;
+                }
+
+                .header-link:before {
+                    content: "";
+                    position: absolute;
+                    bottom: -2px;
+                    left: 0;
+                    width: 0;
+                    height: 1px;
+                    background-color: var(--color-blue-2);
+                    transition: width var(--global-transition-duration) ease;
+                }
+            }
+
+            .header-list:hover {
+                .header-link {
+                    color: var(--color-blue-2);
+                }
+
+                .header-link::before {
+                    width: 100%;
+                }
+            }
+        }
+    }
+
+    .header-button-links-wrapper {
+        display: flex;
+        align-items: center;
+        margin-left: auto;
+        display: flex;
+        gap: $gap-size-between-buttons;
+
+        .sign-in-link {
+            color: var(--color-white-0);
+        }
+
+        .sign-in-link:hover {
+            color: var(--color-blue-2);
+        }
+
+        .lets-talk-link {
+            @include flex-center();
+            width: 9.3rem;
+            height: 50px;
+            background-color: var(--color-blue-2);
+            color: var(--color-white-0);
+            border-radius: var(--global-round-radius);
+        }
+
+        .lets-talk-link:hover {
+            background-color: var(--color-green-0);
+        }
+    }
+}
+
+.header-scrolled {
+    background-color: var(--color-white-1);
+
+    .header-button-links-wrapper {
+        .sign-in-link {
+            color: var(--color-black-0);
+        }
+    }
+}

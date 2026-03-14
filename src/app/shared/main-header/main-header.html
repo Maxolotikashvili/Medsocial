@@ -1,0 +1,32 @@
+<header [class.header-scrolled]="isScrolled">
+    <img src="images/company-logo.png" alt="Company Logo" class="company-logo">
+
+    <nav>
+        <ul>
+            <li class="header-list">
+                <a href="#" class="header-link mb-link">Home</a>
+            </li>
+
+            <li class="header-list">
+                <a href="#" class="header-link mb-link">About</a>
+            </li>
+
+            <li class="header-list">
+                <a href="#" class="header-link mb-link">Services</a>
+            </li>
+
+            <li class="header-list">
+                <a href="#" class="header-link mb-link">Blog</a>
+            </li>
+
+            <li class="header-list">
+                <a href="#" class="header-link mb-link">Contact</a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="header-button-links-wrapper">
+        <a class="sign-in-link mb-link" href="#" (click)="openLoginModal()">Sign In</a>
+        <a class="lets-talk-link mb-link" href="#" [effect]="'arrow'" (click)="test()">Appointment</a>
+    </div>
+</header>

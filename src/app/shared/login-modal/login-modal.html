@@ -1,0 +1,28 @@
+<div class="login-modal-wrapper">
+    <img src="images/company-logo.png" alt="Company-logo">
+
+    <form (submit)="loginUser($event)">
+        <div class="input-wrapper">
+            <mb-input [required]="true" id="email" label="Email" type="email" [(value)]="emailValue"></mb-input>
+            <mb-input [required]="true" id="password" label="Password" type="password" [(value)]="passwordValue"></mb-input>
+        </div>
+
+        <div class="remember-me-wrapper">
+            <mb-checkbox [id]="'rememberMe'" label="Remember me" [(checked)]="isRememberMeChecked"></mb-checkbox>
+            
+            <a href="#" class="mb-link forget-link">Forgot Password?</a>
+        </div>
+
+        <span class="error-message text-small">{{errorMessage()}}</span>
+
+        <button class="mb-button-fullsize mb-button-round" [effect]="'arrow'">Sign In</button>
+    </form>
+
+    <div class="divider"></div>
+
+    <div class="text-description text-button-wrapper">Already have an account? <button class="mb-button-naked signup-link" (click)="openRegisterModal()">Sign up</button></div>
+
+    @if (isRequestPending()) {
+        <loading></loading>
+    }
+</div>

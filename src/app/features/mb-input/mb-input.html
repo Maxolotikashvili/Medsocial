@@ -1,0 +1,41 @@
+<!-- Text inputs -->
+
+<div class="group" [class.error-state]="isInvalid" [class.type-date]="type() === 'date'">
+  @if (type() !== 'date') {
+    <input
+      [type]="type()"
+      [required]="isRequired"
+      [disabled]="isDisabled()"
+      [id]="id()"
+      [value]="value()"
+      [placeholder]="placeholder()"
+      (input)="handleInput($event)"
+      (blur)="handleBlur()"
+      autocomplete="on"
+      class="mb-input"
+    />
+    <span class="highlight"></span>
+    <span class="bar"></span>
+    <label [for]="id()"> {{ label() }} </label>
+  }
+  <!-- Date input -->
+  @if (type() === 'date') {
+    <input
+      type="date"
+      [id]="id()"
+      [required]="isRequired"
+      [disabled]="isDisabled()"
+      (input)="handleInput($event)"
+      (blur)="handleBlur()"
+      [min]="min()"
+      [max]="max()"
+      class="mb-input date-input"
+    />
+    <span class="bar"></span>
+    <label [for]="id()"> {{ label() }} </label>
+  }
+
+  @if (isInvalid) {
+    <span class="text-small error-text"> {{ currentErrorMessage }} </span>
+  }
+</div>

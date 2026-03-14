@@ -1,0 +1,77 @@
+@use './fonts.scss';
+@use './colors.scss';
+@use './layout.scss' as *;
+
+@mixin default-text {
+    font-family: var(--font-family-work);
+    color: var(--color-black-0);
+}
+
+.heading-h1 {
+    font-size: 3.125rem;
+    font-weight: 800;
+    @include default-text();
+    color: var(--color-black-0);
+}
+
+.heading-h2 {
+    font-size: 2.25rem;
+    font-weight: 700;
+    @include default-text();
+    color: var(--color-black-0);
+}
+
+.heading-h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    @include default-text();
+    color: var(--color-black-0);
+}
+
+.heading-h4 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    @include default-text();
+    color: var(--color-black-0);
+}
+
+.heading-h5 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    @include default-text();
+    color: var(--color-blue-2);
+}
+
+.text-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--color-black-0);
+    font-family: var(--font-family-dm);
+}
+
+.text-description {
+    font-size: 1rem;
+    font-weight: 400;
+    font-family: var(--font-family-dm);
+    color: var(--color-blue-0);
+}
+
+.text-plain {
+    font-size: 1.125rem;
+    font-weight: 400;
+    font-family: var(--font-family-dm);
+}
+
+.text-small {
+    font-size: 0.875rem;
+    font-weight: 400;
+    font-family: var(--font-family-dm);
+    color: var(--color-white-0);
+}
+
+.mb-link {
+    font-size: 1rem;
+    font-weight: 400;
+    font-family: var(--font-family-dm);
+    transition: background-color var(--global-transition-duration) ease, color var(--global-transition-duration) ease;
+}

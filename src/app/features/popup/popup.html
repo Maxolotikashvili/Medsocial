@@ -1,0 +1,6 @@
+<div class="popup-wrapper" [class]="popupService.type()" animate.enter="popup-in" animate.leave="popup-out">
+  <span>{{ popupService.message() }}</span>
+  <button class="xmark close-btn" (click)="popupService.close()">
+    <fa-icon [icon]="xmark"></fa-icon>
+  </button>
+</div>

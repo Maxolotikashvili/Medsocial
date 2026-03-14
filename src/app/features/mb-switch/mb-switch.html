@@ -1,0 +1,14 @@
+<div [class]="switchClass()">
+<span class="side-label" [class.active]="!checked()" (click)="setToggle(false)">{{label1()}}</span>
+
+  <label class="switch">
+    <input type="checkbox" 
+           [id]="id()" 
+           [checked]="checked()" 
+           [disabled]="disabled()" 
+           (change)="onToggle($event)">
+    <span class="slider"></span>
+  </label>
+
+  <span class="side-label" [class.active]="checked()" (click)="setToggle(true)">{{label2()}}</span>
+</div>

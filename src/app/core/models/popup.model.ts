@@ -1,0 +1,1 @@
+export type PopupType = 'warning' | 'error' | 'success' | 'info';

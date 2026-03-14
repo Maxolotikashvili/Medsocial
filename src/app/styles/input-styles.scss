@@ -1,0 +1,82 @@
+@use './layout.scss' as *;
+
+@mixin button {
+    background-color: var(--color-blue-3);
+    color: var(--color-white-0);
+    text-transform: capitalize;
+    font-size: 1rem;
+    font-family: var(--font-family-dm);
+    border: none;
+    padding: 0.75rem 0;
+    @include flex-center();
+    height: 3.125rem;
+    transition: background-color var(--global-transition-duration) ease, color var(--global-transition-duration) ease;
+}
+
+.mb-button-naked {
+    @include button();
+    background-color: transparent;
+}
+
+.mb-button-naked:hover {
+    color: var(--color-blue-1);
+}
+
+.mb-button-xs {
+    @include button();
+    width: 3.75rem;
+}
+
+.mb-button-s {
+    @include button();
+    width: 10rem;
+}
+
+.mb-button-m {
+    @include button();
+    width: 11.25rem;
+}
+
+.mb-button-l {
+    @include button();
+    width: 16.875rem;
+}
+
+.mb-button-xxl {
+    @include button();
+    width: 25rem;
+}
+
+.mb-button-fullsize {
+    @include button();
+    width: 100%;
+}
+
+.mb-button-square {
+    border-radius: 8px;
+}
+
+.mb-button-round {
+    border-radius: 30px;
+}
+
+.xmark {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+
+    fa-icon {
+        font-size: 1rem;
+        color: var(--color-black-0);
+        transition: color var(--global-transition-duration) ease;
+    }
+}
+
+.xmark:hover {
+    fa-icon {
+        color: var(--color-blue-3);
+    }
+}

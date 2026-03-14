@@ -1,0 +1,118 @@
+:host {
+    display: contents;
+}
+
+.mb-input {
+    width: 100%;
+    padding: 0.75rem 0.25rem;
+    background: transparent;
+    outline: none;
+    resize: none;
+    font-weight: 400;
+    border: none;
+    font-family: var(--font-family-dm);
+    color: var(--color-blue-0);
+    font-size: 1rem;
+    border-bottom: 1px solid var(--color-blue-0);
+}
+
+.group {
+    position: relative;
+}
+
+label {
+    font-family: var(--font-family-dm);
+    position: absolute;
+    left: 5px;
+    top: 10px;
+    transition: var(--global-transition-duration) ease all;
+    -moz-transition: var(--global-transition-duration) ease all;
+    -webkit-transition: var(--global-transition-duration) ease all;
+}
+
+input:focus~label,
+input:not(:placeholder-shown)~label,
+input.has-value ~ label
+ {
+    top: -18px;
+    font-size: .875rem;
+    color: var(--color-blue-3);
+}
+
+.date-input {
+    appearance: none;
+    border-bottom: 1px solid var(--color-blue-0);
+
+    &::-webkit-calendar-picker-indicator {
+        cursor: pointer;
+        filter: invert(0.5);
+    }
+}
+
+.date-input::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+}
+
+.bar {
+    position: relative;
+    display: block;
+    width: 100%;
+}
+
+.bar:before,
+.bar:after {
+    content: '';
+    height: 1.5px;
+    width: 0;
+    bottom: 0;
+    position: absolute;
+    background: var(--color-blue-3);
+    transition: var(--global-transition-duration) ease all;
+    -moz-transition: var(--global-transition-duration) ease all;
+    -webkit-transition: var(--global-transition-duration) ease all;
+}
+
+.bar:before {
+    left: 50%;
+}
+
+.bar:after {
+    right: 50%;
+}
+
+input:focus~.bar:before,
+input:focus~.bar:after {
+    width: 50%;
+}
+
+.error-text {
+    position: absolute;
+    bottom: 0;
+    transform: translateY(150%);
+    opacity: 0;
+    left: 5px;
+    color: var(--color-error);
+    animation: fadeInError 0.2s forwards;
+}
+
+@keyframes fadeInError {
+    to {
+        transform: translateY(110%);
+        opacity: 1;
+    }
+}
+
+.group.error-state {
+    input {
+        border-bottom-color: var(--color-error);
+    }
+
+    .bar:before,
+    .bar:after {
+        background: var(--color-error);
+    }
+
+    label {
+        color: var(--color-error)
+    }
+}

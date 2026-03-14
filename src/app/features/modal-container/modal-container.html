@@ -1,0 +1,8 @@
+<dialog #dialogElement (click)="closeOnBackdrop($event)" (close)="close()">
+    <div class="modal-wrapper">
+        <ng-container #contentAnchor></ng-container>
+        <button class="xmark" (click)="close()">
+            <fa-icon [icon]="xmark"></fa-icon>
+        </button>
+    </div>
+</dialog>

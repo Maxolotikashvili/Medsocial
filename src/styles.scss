@@ -1,1 +1,15 @@
-/* You can add global styles to this file, and also import other style files */
+// Global styles for the application
+
+@use './app/styles/reset.scss';
+@use './app/styles/colors.scss';
+@use './app/styles/text-styles.scss';
+@use './app/styles/input-styles.scss';
+@use './app/styles/animations.scss';
+
+:root {
+    --global-component-padding: 5.5rem;
+    --global-border-radius: 10px;
+    --global-transition-duration: 0.3s;
+    --global-square-radius: 8px;
+    --global-round-radius: 30px;
+}

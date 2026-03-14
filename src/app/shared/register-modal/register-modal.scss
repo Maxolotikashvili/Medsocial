@@ -1,0 +1,33 @@
+@use '../../styles/layout.scss' as *;
+
+.register-modal-wrapper {
+    width: 40rem;
+    min-width: inherit;
+    @include flex-center();
+    flex-flow: column;
+    padding: 1rem 1.5rem;
+    background: var(--color-gradient-0);
+    overflow-y: auto;
+
+    .company-logo {
+        width: 11.25rem;
+        margin: 2rem 0 2.5rem 0;
+    }
+
+    form {
+        width: 100%;
+
+        .input-wrapper {
+            display: flex;
+            flex-flow: column;
+            gap: 2.4rem;
+            padding: 1rem;
+            height: 46vh;
+            overflow-y: auto;
+        }
+    }
+
+    .submit-button {
+        margin: 3rem 0 2rem 0;
+    }
+}
