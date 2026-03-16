@@ -1,5 +1,7 @@
 <header [class.header-scrolled]="isScrolled" [class.header-not-home]="router.url !== '/' && router.url !== '/home'">
-    <img src="images/company-logo.png" alt="Company Logo" class="company-logo">
+    <a routerLink="/home">
+        <img src="images/company-logo.png" alt="Company Logo" class="company-logo">
+    </a>
     <nav>
         <ul>
             <li class="header-list">

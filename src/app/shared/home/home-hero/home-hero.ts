@@ -6,10 +6,7 @@ import { TitleCasePipe } from '@angular/common';
   selector: 'home-hero',
   imports: [Effect, TitleCasePipe],
   templateUrl: './home-hero.html',
-  styleUrl: './home-hero.scss',
-  animations: [
-    
-  ]
+  styleUrl: './home-hero.scss'
 })
 export class HomeHero {
 

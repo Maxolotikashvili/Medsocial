@@ -1,3 +1,4 @@
+// Effect arrow
 .effect-host-arrow {
     display: inline-flex;
     align-items: center;
@@ -31,4 +32,69 @@
             transform: translateX(12px);
         }
     }
+}
+
+// Enter effect
+$animation-duration: 1s;
+$animation-distance: 40px;
+
+.enter-animation-top {
+    animation: slide-top $animation-duration;
+}
+
+.enter-animation-right {
+    animation: slide-right $animation-duration;
+}
+
+.enter-animation-bottom {
+    animation: slide-bottom $animation-duration;
+}
+
+.enter-animation-left {
+    animation: slide-left $animation-duration;
+}
+
+@keyframes slide-top {
+  from {
+    opacity: 0;
+    transform: translateY(-$animation-distance);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-right {
+  from {
+    opacity: 0;
+    transform: translateX(-$animation-distance);
+
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-bottom {
+  from {
+    opacity: 0;
+    transform: translateY($animation-distance);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-left {
+  from {
+    opacity: 0;
+    transform: translateX($animation-distance);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }

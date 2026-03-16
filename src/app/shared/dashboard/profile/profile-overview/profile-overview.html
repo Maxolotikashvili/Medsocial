@@ -2,7 +2,7 @@
     <h5 class="heading-h5 overview-heading">Overview</h5>
     <div class="divider"></div>
 
-    <div class="stats-wrapper-grid">
+    <div class="stats-wrapper-grid" animate.enter="enter-animation-bottom">
         @for (card of statistics(); track $index) {
             <statcard [data]="card"></statcard>
         }
