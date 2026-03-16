@@ -14,7 +14,7 @@ export interface User {
   email: string;
   title: string;
   image: string;
-  dob: Date;
+  dob: string;
   bio: string;
   age_is_public: boolean;
   total_operations: number;

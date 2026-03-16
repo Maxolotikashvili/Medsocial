@@ -7,6 +7,7 @@
     --color-blue-3: #00A6FB;
 
     --color-black-0: #031d36;
+    --color-black-1: color-mix(in srgb, var(--color-black-0), transparent 85%);
 
     --color-gray-0: #acacac82;
 
@@ -14,6 +15,7 @@
     --color-white-1: #ecf7ff;
 
     --color-green-0: #2ac28e;
+    --color-green-1: #013c5aa3;
 
     --color-red-0: #F7588D;
 

@@ -1,17 +1,17 @@
 @use '../../../styles/layout.scss' as *;
 
 .register-modal-wrapper {
-    width: 40rem;
+    width: 64rem;
     min-width: inherit;
     @include flex-center();
     flex-flow: column;
-    padding: 1rem 1.5rem;
+    padding: 1.6rem 2.4rem;
     background: var(--color-gradient-0);
     overflow-y: auto;
 
     .company-logo {
-        width: 11.25rem;
-        margin: 2rem 0 2.5rem 0;
+        width: 18rem;
+        margin: 3.2rem 0 4rem 0;
     }
 
     form {
@@ -20,14 +20,14 @@
         .input-wrapper {
             display: flex;
             flex-flow: column;
-            gap: 2.4rem;
-            padding: 1rem;
+            gap: 3.84rem;
+            padding: 1.6rem;
             height: 46vh;
             overflow-y: auto;
         }
     }
 
     .submit-button {
-        margin: 3rem 0 2rem 0;
+        margin: 4.8rem 0 3.2rem 0;
     }
 }

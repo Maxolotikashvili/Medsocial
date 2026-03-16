@@ -1,0 +1,10 @@
+<div class="profile-overview-wrapper">
+    <h5 class="heading-h5 overview-heading">Overview</h5>
+    <div class="divider"></div>
+
+    <div class="stats-wrapper-grid">
+        @for (card of statistics(); track $index) {
+            <statcard [data]="card"></statcard>
+        }
+    </div>
+</div>

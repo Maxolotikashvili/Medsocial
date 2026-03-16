@@ -4,12 +4,12 @@
     background-color: var(--color-blue-3);
     color: var(--color-white-0);
     text-transform: capitalize;
-    font-size: 1rem;
+    font-size: 1.6rem;
     font-family: var(--font-family-dm);
     border: none;
-    padding: 0.75rem 0;
+    padding: 1.2rem 0;
     @include flex-center();
-    height: 3.125rem;
+    height: 5rem;
     transition: background-color var(--global-transition-duration) ease, color var(--global-transition-duration) ease;
 }
 
@@ -24,27 +24,27 @@
 
 .mb-button-xs {
     @include button();
-    width: 3.75rem;
+    width: 6rem;
 }
 
 .mb-button-s {
     @include button();
-    width: 10rem;
+    width: 16rem;
 }
 
 .mb-button-m {
     @include button();
-    width: 11.25rem;
+    width: 18rem;
 }
 
 .mb-button-l {
     @include button();
-    width: 16.875rem;
+    width: 27rem;
 }
 
 .mb-button-xxl {
     @include button();
-    width: 25rem;
+    width: 40rem;
 }
 
 .mb-button-fullsize {
@@ -58,25 +58,4 @@
 
 .mb-button-round {
     border-radius: 30px;
-}
-
-.xmark {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-
-    fa-icon {
-        font-size: 1rem;
-        color: var(--color-black-0);
-        transition: color var(--global-transition-duration) ease;
-    }
-}
-
-.xmark:hover {
-    fa-icon {
-        color: var(--color-blue-3);
-    }
 }

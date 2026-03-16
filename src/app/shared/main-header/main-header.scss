@@ -1,24 +1,25 @@
 @use '../../styles/layout.scss' as *;
 
+$gap-size-between-logo-and-links: 12.8rem;
+$gap-size-between-links: 3.2rem;
+$gap-size-between-buttons: 1.6rem;
 $header-height: 70px;
-$gap-size-between-logo-and-links: 8rem;
-$gap-size-between-links: 2rem;
-$gap-size-between-buttons: 1rem;
-
 $header-animation-time: 0.5s;
 
 header {
     width: 100%;
     position: fixed;
+    top: 0;
     background-color: transparent;
     display: flex;
     align-items: center;
-    height: $header-height;
-    padding-inline: var(--global-component-padding);
+    height: 7rem;
+    padding-inline: var(--global-side-padding);
+    z-index: var(--highest-z-index);
     transition: background-color $header-animation-time ease;
 
     .company-logo {
-        width: 9.5rem;
+        width: 15.2rem;
         margin-right: $gap-size-between-logo-and-links;
     }
 
@@ -73,7 +74,7 @@ header {
 
         .lets-talk-link {
             @include flex-center();
-            width: 9.3rem;
+            width: 14.8rem;
             height: 50px;
             background-color: var(--color-blue-2);
             color: var(--color-white-0);
@@ -109,4 +110,8 @@ header {
             color: var(--color-black-0);
         }
     }
+}
+
+.header-not-home {
+    background-color: var(--color-white-1);
 }

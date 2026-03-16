@@ -9,7 +9,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Loading } from '../../../features/loading/loading';
 
 @Component({
-  selector: 'app-login-modal',
+  selector: 'login-modal',
   imports: [MbCheckbox, MbInput, Effect, Loading],
   templateUrl: './login-modal.html',
   styleUrl: './login-modal.scss',

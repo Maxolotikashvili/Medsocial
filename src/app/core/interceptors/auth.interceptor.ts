@@ -1,23 +1,22 @@
 import { HttpInterceptorFn } from "@angular/common/http";
-import { StorageService } from "../services/storage.service";
 import { inject } from "@angular/core";
+import { Authservice } from "../services/auth.service";
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-    const storageService = inject(StorageService);
+  const authService = inject(Authservice);
 
-    const token = storageService.get<string>('access_token');
-    const authEndpoints = ['/token', '/register'];
-    const isAuthRequest = authEndpoints.some(url => req.url.includes(url));
+  const token = authService.access_token();
 
-    if (token && !isAuthRequest) {
-        const authReq = req.clone({
-            setHeaders: {
-                Authorization: `Bearer ${token}`
-            }
-        })
+  const authEndpoints = ['/auth/token/', '/auth/register/'];
+  const isAuthRequest = authEndpoints.some(endpoint => req.url.includes(endpoint));
 
-        return next(authReq);
+  if (!token || isAuthRequest) return next(req);
+
+  const authReq = req.clone({
+    setHeaders: {
+      Authorization: `Bearer ${token}`
     }
+  });
 
-    return next(req);
-}
+  return next(authReq);
+};

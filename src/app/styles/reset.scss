@@ -19,6 +19,11 @@ li {
     list-style: none;
 }
 
+html {
+    font-size: 10px;
+    scroll-behavior: smooth;
+}
+
 body {
     min-height: 100dvh;
 }
@@ -26,4 +31,8 @@ body {
 .no-scroll {
     overflow: hidden;
     height: 100vh;
+}
+
+router-outlet {
+    display: contents;
 }

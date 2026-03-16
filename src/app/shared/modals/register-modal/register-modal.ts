@@ -17,7 +17,7 @@ import { passwordMatchValidator } from '../../validators/password-match.validato
 import { RegisterRequest } from '../../../core/models/auth.model';
 
 @Component({
-  selector: 'app-register-modal',
+  selector: 'register-modal',
   imports: [MbInput, ReactiveFormsModule, Effect, InitialFocus, Loading],
   templateUrl: './register-modal.html',
   styleUrl: './register-modal.scss',

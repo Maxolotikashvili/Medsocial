@@ -4,14 +4,14 @@
     display: flex;
     flex-flow: column;
     align-items: center;
-    width: 600px;
+    width: 550px;
     height: 100%;
-    gap: 1rem;
+    gap: 2rem;
     background: var(--color-gradient-0);
-    padding: 3rem;
+    padding: 5rem 4rem;
 
     img {
-        width: 11.25rem;
+        width: 18rem;
         height: 50px;
     }
 
@@ -19,14 +19,13 @@
         display: flex;
         flex-flow: column;
         align-items: center;
-        gap: 2rem;
         width: 100%;
         height: 100%;
 
         .input-wrapper {
             width: 100%;
             @include flex-column();
-            gap: 1.5rem;
+            gap: 2.4rem;
 
             input {
                 width: 100%;
@@ -37,6 +36,7 @@
             width: 100%;
             display: flex;
             justify-content: space-between;
+            margin: 2rem 0;
 
             .forget-link {
                 color: var(--color-blue-3);
@@ -63,9 +63,9 @@
         align-items: center;
         
         .signup-link {
-            margin-left: 0.4rem;
+            margin-left: 0.64rem;
             color: var(--color-blue-2);
-            font-size: 0.875rem;
+            font-size: 1.4rem;
         }
     
         .signup-link:hover {

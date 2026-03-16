@@ -1,38 +1,37 @@
-<header [class.header-scrolled]="isScrolled">
+<header [class.header-scrolled]="isScrolled" [class.header-not-home]="router.url !== '/' && router.url !== '/home'">
     <img src="images/company-logo.png" alt="Company Logo" class="company-logo">
-
     <nav>
         <ul>
             <li class="header-list">
-                <a href="#" class="header-link mb-link">Home</a>
+                <a href="#" class="header-link mb-link text-size-2">Home</a>
             </li>
 
             <li class="header-list">
-                <a href="#" class="header-link mb-link">About</a>
+                <a href="#" class="header-link mb-link text-size-2">About</a>
             </li>
 
             <li class="header-list">
-                <a href="#" class="header-link mb-link">Services</a>
+                <a href="#" class="header-link mb-link text-size-2">Services</a>
             </li>
 
             <li class="header-list">
-                <a href="#" class="header-link mb-link">Blog</a>
+                <a href="#" class="header-link mb-link text-size-2">Blog</a>
             </li>
 
             <li class="header-list">
-                <a href="#" class="header-link mb-link">Contact</a>
+                <a href="#" class="header-link mb-link text-size-2">Contact</a>
             </li>
         </ul>
     </nav>
 
     @if (isUserSignedIn()) {
-        <a class="mb-button-naked user-profile-link">
+        <a class="mb-button-naked user-profile-link" routerLink="/dashboard/profile">
             <fa-icon [icon]="faUser"></fa-icon>
         </a>
     } @else {
         <div class="header-button-links-wrapper">
-            <a class="sign-in-link mb-link" href="#" (click)="openLoginModal()">Sign In</a>
-            <a class="lets-talk-link mb-link" href="#" [effect]="'arrow'">Appointment</a>
+            <a class="sign-in-link mb-link text-size-2" (click)="openLoginModal()">Sign In</a>
+            <a class="lets-talk-link mb-link text-size-2" [effect]="'arrow'">Appointment</a>
         </div>
     }
 </header>

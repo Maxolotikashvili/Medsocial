@@ -4,7 +4,7 @@
 
 .mb-input {
     width: 100%;
-    padding: 0.75rem 0.25rem;
+    padding: 1.2rem 0.4rem;
     background: transparent;
     outline: none;
     resize: none;
@@ -12,7 +12,7 @@
     border: none;
     font-family: var(--font-family-dm);
     color: var(--color-blue-0);
-    font-size: 1rem;
+    font-size: 1.6rem;
     border-bottom: 1px solid var(--color-blue-0);
 }
 
@@ -35,7 +35,7 @@ input:not(:placeholder-shown)~label,
 input.has-value ~ label
  {
     top: -18px;
-    font-size: .875rem;
+    font-size: 1.4rem;
     color: var(--color-blue-3);
 }
 

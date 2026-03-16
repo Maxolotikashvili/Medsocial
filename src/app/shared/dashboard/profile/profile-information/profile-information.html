@@ -1,0 +1,18 @@
+<div class="profile-information-wrapper">
+    <div class="heading-wrapper">
+        <h5 class="heading-h5 text-size-4">Profile Information</h5>
+        <button class="mb-button-xs edit-button">Edit</button>
+    </div>
+    <div class="divider"></div>
+
+    <ul>
+        @for (info of userInfoList(); track $index) {
+            @if (info) {
+                <li>
+                    <span class="text-description info-name"> {{info.name| titlecase}}: </span>
+                    <span class="text-description info-value"> {{info.value | titlecase}} </span>
+                </li>
+            }
+        }
+    </ul>
+</div>

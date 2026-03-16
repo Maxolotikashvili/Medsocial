@@ -1,0 +1,13 @@
+<div role="banner" class="breadcrumb-wrapper">
+    <h1 class="heading-h1 current-url">{{currentUrl.substring(1) | titlecase}}</h1>
+    <p class="current-url-chain">
+        <a routerLink="/home" class="mb-link text-size-3">Home</a>
+        <span class="text-plain next">></span>
+        <span class="text-plain"> {{currentUrl.substring(1) | titlecase}} </span>
+    </p>
+</div>
+
+<div class="dashboard-content-wrapper">
+    <dashboard-sidebar></dashboard-sidebar>
+    <router-outlet></router-outlet>
+</div>

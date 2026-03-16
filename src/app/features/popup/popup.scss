@@ -1,13 +1,13 @@
 $popup-width: 320px;
-$popup-padding: 1rem 1.5rem;
+$popup-padding: 1.6rem 2.4rem;
 $popup-border-radius: 12px;
 $popup-box-shadow:  -5px 10px 30px rgba(0, 0, 0, 0.2);
 $popup-text-color: var(--color-white-0);
 
 :host {
     position: fixed;
-    top: 2rem;
-    right: 2rem;
+    top: 3.2rem;
+    right: 3.2rem;
     z-index: 1000; 
     pointer-events: none;
 }
@@ -18,7 +18,7 @@ $popup-text-color: var(--color-white-0);
     align-items: center;
     justify-content: space-between;
     min-width: $popup-width;
-    max-width: 420px;
+    max-width: 42rem;
     padding: $popup-padding;
     border-radius: $popup-border-radius;
     box-shadow: $popup-box-shadow;

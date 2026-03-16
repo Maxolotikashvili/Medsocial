@@ -16,7 +16,7 @@
     />
     <span class="highlight"></span>
     <span class="bar"></span>
-    <label [for]="id()"> {{ label() }} </label>
+    <label [for]="id()" class="text-size-2"> {{ label() }} </label>
   }
   <!-- Date input -->
   @if (type() === 'date') {
@@ -32,7 +32,7 @@
       class="mb-input date-input"
     />
     <span class="bar"></span>
-    <label [for]="id()"> {{ label() }} </label>
+    <label [for]="id()" class="text-size-2"> {{ label() }} </label>
   }
 
   @if (isInvalid) {

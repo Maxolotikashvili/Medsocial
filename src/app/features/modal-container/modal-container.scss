@@ -1,4 +1,5 @@
 @use '../../styles/layout.scss' as *;
+@use '../../styles/elements.scss' as *;
 
 $modal-min-width: 36vw;
 $modal-bg-color: var(--color-white-0);
@@ -12,7 +13,10 @@ dialog {
     min-width: $modal-min-width;
     border: none;
     @include flex-center();
-    @include position-center();
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     border-radius: $modal-border-radius;
     background: $modal-bg-color;
     background-color: transparent;

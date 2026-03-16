@@ -1,1 +1,34 @@
-<p>dashboard-sidebar works!</p>
+<div class="sidebar-wrapper">
+    <div class="image-wrapper">
+    <img class="profile-image" [src]="user().image" alt="User image" />
+    <h4 class="heading-h3 name">{{ user().first_name | titlecase }} {{ user().last_name | titlecase }}</h4>
+    <p class="text-small title">
+        @if (user().title) {
+        <ng-container>{{ user().title }}</ng-container>
+        } @else {
+            <ng-container>Patient</ng-container>
+        }
+    </p>
+  </div>
+
+  <nav class="sidebar-links-nav">
+    <ul>
+        @for (link of allRoutes; track link.name) {
+            @if (link.role.includes(user().role)) {
+                <li>
+                    <a class="mb-link text-size-2 route-link" [routerLink]="link.route" routerLinkActive="active"> 
+                        <span> {{link.name}} </span>
+                        <fa-icon [icon]="arrowRight"></fa-icon>
+                    </a>
+                </li>
+            }
+        }
+        <li>
+            <button class="mb-link text-size-2 logout-button" (click)="logOut()"> 
+                <span>Logout</span>
+                <fa-icon [icon]="arrowRight"></fa-icon>
+            </button>
+        </li>
+    </ul>
+  </nav>
+</div>

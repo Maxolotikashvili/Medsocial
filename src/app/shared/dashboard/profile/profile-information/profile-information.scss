@@ -1,0 +1,48 @@
+@use '../../../../styles/elements.scss' as *;
+
+.profile-information-wrapper {
+    margin-top: 2.4rem;
+
+    .heading-wrapper {
+        display: flex;
+        justify-content: space-between;
+
+        h5 {
+            color: var(--color-black-0);
+        }
+
+        .edit-button {
+            border-radius: var(--global-round-radius);
+            padding: 0.6rem;
+            height: unset;
+        }
+
+        .edit-button:hover {
+            background-color: var(--color-green-0);
+        }
+    }
+
+    .divider {
+        margin-top: 1rem;
+    }
+
+    ul {
+        li {
+            // display: flex;
+            // align-items: center;
+            // gap: 5rem;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid var(--color-black-1);
+
+            .info-name {
+                display: inline-block;
+                min-width: 100px;
+                color: var(--color-black-0);
+            }
+
+            .info-value {
+                color: var(--color-blue-0);
+            }
+        }
+    }
+}

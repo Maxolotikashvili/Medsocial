@@ -1,0 +1,38 @@
+@use '../../styles/layout.scss' as *;
+
+.stat-card {
+    display: flex;
+    align-items: center;
+    padding: 3rem 2rem;
+    background-color: var(--color-blue-3);
+    border-radius: var(--global-square-radius);
+    height: 15.28rem;
+
+    .icon {
+        @include flex-center();
+        width: 60px;
+        height: 60px;
+        margin-right: 2rem;
+        background-color: var(--color-white-0);
+        color: var(--color-blue-3);
+        border-radius: 50%;
+    }
+
+    .text-wrapper {
+        display: flex;
+        flex-flow: column;
+        gap: 5px;
+
+        .value {
+            color: var(--color-white-0);
+        }
+    }
+
+    .watermark {
+        width: 50px;
+        height: 40px;
+        opacity: 0.2;
+        align-self: flex-end;
+        margin-left: auto;
+    }
+}

@@ -7,9 +7,10 @@
 @use './app/styles/animations.scss';
 
 :root {
-    --global-component-padding: 5.5rem;
+    --global-side-padding: 8.7rem;
     --global-border-radius: 10px;
     --global-transition-duration: 0.3s;
     --global-square-radius: 8px;
     --global-round-radius: 30px;
+    --highest-z-index: 2147483647;
 }
