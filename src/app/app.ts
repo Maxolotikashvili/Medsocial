@@ -1,13 +1,13 @@
-import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { PopupService } from './core/services/popup.service';
 import { PopupComponent } from './features/popup/popup';
 import { MainHeader } from './shared/main-header/main-header';
 import { RouterOutlet } from '@angular/router';
-import { Authservice } from './core/services/auth.service';
+import { Breadcrumb } from "./shared/breadcrumb/breadcrumb";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, MainHeader, PopupComponent],
+  imports: [RouterOutlet, MainHeader, PopupComponent, Breadcrumb],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })

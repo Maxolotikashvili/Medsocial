@@ -19,7 +19,7 @@ export interface User {
   age_is_public: boolean;
   total_operations: number;
   timezone: string;
-  phone: string;
+  phone?: string;
   role: 1 | 2;
   is_verified: boolean;
   phone_verified: boolean;
@@ -31,4 +31,5 @@ export interface User {
       code: string;
     },
   ];
+  rating?: number
 }

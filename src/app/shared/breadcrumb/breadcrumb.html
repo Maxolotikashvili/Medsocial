@@ -1,0 +1,15 @@
+@if (isVisible) {
+<div role="banner" class="breadcrumb-wrapper">
+  <h1 class="heading-h1 current-url">
+    {{ crumbs.length ? crumbs[crumbs.length - 1].label : 'Home' }}
+  </h1>
+  <p class="current-url-chain">
+    <a routerLink="/home" class="mb-link text-size-3">Home</a>
+
+    @for (crumb of crumbs; track $index; let last = $last) {
+        <fa-icon [icon]="separator" class="text-plain separator"></fa-icon>
+      <a class="mb-link text-size-3" [routerLink]="crumb.url">{{ crumb.label }}</a>
+    }
+  </p>
+</div>
+}

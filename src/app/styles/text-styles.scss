@@ -2,44 +2,45 @@
 @use './colors.scss';
 @use './layout.scss' as *;
 
-@mixin default-text {
+@mixin default-heading {
     font-family: var(--font-family-work);
     color: var(--color-black-0);
+    letter-spacing: 1px;
 }
 
 .heading-h1 {
     font-size: 6rem;
     font-weight: 700;
     line-height: 1.2;
-    @include default-text();
+    @include default-heading();
     color: var(--color-black-0);
 }
 
 .heading-h2 {
     font-size: 3.6rem;
     font-weight: 700;
-    @include default-text();
+    @include default-heading();
     color: var(--color-black-0);
 }
 
 .heading-h3 {
     font-size: 2.4rem;
     font-weight: 600;
-    @include default-text();
+    @include default-heading();
     color: var(--color-black-0);
 }
 
 .heading-h4 {
     font-size: 2rem;
     font-weight: 600;
-    @include default-text();
+    @include default-heading();
     color: var(--color-black-0);
 }
 
 .heading-h5 {
     font-size: 1.8rem;
     font-weight: 700;
-    @include default-text();
+    @include default-heading();
     color: var(--color-blue-2);
 }
 
