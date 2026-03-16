@@ -12,6 +12,7 @@ import { EMPTY, Observable, switchMap, tap, timer } from 'rxjs';
 import { StorageService } from './storage.service';
 import { AUTH_CONFIG } from '../configs/auth.config';
 import { DecodedTokenType, User } from '../models/user.model';
+import { USER_INITIAL_VALUE } from '../configs/user.config';
 
 @Injectable({
   providedIn: 'root',
@@ -27,7 +28,7 @@ export class Authservice {
   public refresh_token = this.refreshTokenSignal.asReadonly();
 
   public isLoggedIn: Signal<boolean> = computed(() => !!this.accessTokenSignal());
-  private currentUserSignal = signal<User>({} as User);
+  private currentUserSignal = signal<User>(USER_INITIAL_VALUE);
   public user = this.currentUserSignal.asReadonly();
 
   constructor() {}
@@ -47,7 +48,6 @@ export class Authservice {
         this.refreshTokenSignal.set(res.refresh);
 
         this.scheduleTokenRefresh();
-        location.reload();
       }),
     );
   }

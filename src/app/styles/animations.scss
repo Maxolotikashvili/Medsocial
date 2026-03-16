@@ -1,37 +1,37 @@
 // Effect arrow
 .effect-host-arrow {
-    display: inline-flex;
-    align-items: center;
-    overflow: hidden;
-    position: relative;
+  display: inline-flex;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
 
+  .effect-icon-container {
+    font-size: 18px;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translate(-10px, -50%);
+    display: inline-flex;
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+
+  .effect-content-wrapper {
+    display: inline-block;
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+
+  &:hover,
+  &.is-hovered {
     .effect-icon-container {
-        font-size: 18px;
-        position: absolute;
-        left: 0;
-        top: 50%;
-        transform: translate(-10px, -50%);
-        display: inline-flex;
-        opacity: 0;
-        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      opacity: 1;
+      transform: translate(50%, -50%);
     }
 
     .effect-content-wrapper {
-        display: inline-block;
-        transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      transform: translateX(12px);
     }
-
-    &:hover,
-    &.is-hovered {
-        .effect-icon-container {
-            opacity: 1;
-            transform: translate(50%, -50%);
-        }
-
-        .effect-content-wrapper {
-            transform: translateX(12px);
-        }
-    }
+  }
 }
 
 // Enter effect
@@ -39,19 +39,23 @@ $animation-duration: 1s;
 $animation-distance: 40px;
 
 .enter-animation-top {
-    animation: slide-top $animation-duration;
+  animation: slide-top $animation-duration;
 }
 
 .enter-animation-right {
-    animation: slide-right $animation-duration;
+  animation: slide-right $animation-duration;
 }
 
 .enter-animation-bottom {
-    animation: slide-bottom $animation-duration;
+  animation: slide-bottom $animation-duration;
 }
 
 .enter-animation-left {
-    animation: slide-left $animation-duration;
+  animation: slide-left $animation-duration;
+}
+
+.leave-animation {
+  animation: leave $animation-duration;
 }
 
 @keyframes slide-top {
@@ -59,6 +63,7 @@ $animation-distance: 40px;
     opacity: 0;
     transform: translateY(-$animation-distance);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -71,6 +76,7 @@ $animation-distance: 40px;
     transform: translateX(-$animation-distance);
 
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -82,6 +88,7 @@ $animation-distance: 40px;
     opacity: 0;
     transform: translateY($animation-distance);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -93,8 +100,21 @@ $animation-distance: 40px;
     opacity: 0;
     transform: translateX($animation-distance);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
+  }
+}
+
+@keyframes leave {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY($animation-distance);
   }
 }

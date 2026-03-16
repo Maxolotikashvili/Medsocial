@@ -35,12 +35,16 @@ export class LoginModal {
     this.isRequestPending.set(true);
 
     this.authService.login({ email: this.emailValue, password: this.passwordValue }).subscribe({
-        next: () => {location.reload()},
+        next: () => {
+          this.isRequestPending.set(false); 
+          location.reload()
+        },
         error: (err: HttpErrorResponse) => this.handleLoginError(err)
       });
   }
 
   private handleLoginError(err: HttpErrorResponse) {
+    this.isRequestPending.set(false);
     if (err.status < 500) {
       this.errorMessage.set(err.error.detail);
       setTimeout(() => {

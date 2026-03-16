@@ -14,5 +14,5 @@ import { Authservice } from './core/services/auth.service';
 export class App {
   public readonly title = signal('medproject');
   private popupService = inject(PopupService);
-  public isPopupOpen = this.popupService.isOpen
+  public isPopupOpen = this.popupService.isOpen;
 }

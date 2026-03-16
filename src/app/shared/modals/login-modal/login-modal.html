@@ -13,7 +13,9 @@
             <a href="#" class="mb-link forget-link text-size-2">Forgot Password?</a>
         </div>
 
-        <span class="error-message text-small">{{errorMessage()}}</span>
+        @if (errorMessage()) {
+            <span class="error-message text-small">{{errorMessage()}}</span>
+        }
 
         <button class="mb-button-fullsize mb-button-round" [effect]="'arrow'">Sign In</button>
     </form>

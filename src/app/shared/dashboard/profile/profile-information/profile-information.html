@@ -8,7 +8,7 @@
 
     <ul>
         @for (info of userInfoList(); track $index) {
-            @if (info) {
+            @if (info.value) {
                 <li>
                     <span class="text-description info-name"> {{info.name| titlecase}}: </span>
                     <span class="text-description info-value"> {{info.value | titlecase}} </span>

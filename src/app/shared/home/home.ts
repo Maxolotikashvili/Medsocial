@@ -11,11 +11,11 @@ import { HomeHero } from "./home-hero/home-hero";
 })  
 export class Home implements OnInit {
   private viewportScroller = inject(ViewportScroller);
+  
   constructor() {}
 
   ngOnInit(): void {
     this.scrollToTopOnInit();
-    console.log('sd')
   }
 
   private scrollToTopOnInit(): void {

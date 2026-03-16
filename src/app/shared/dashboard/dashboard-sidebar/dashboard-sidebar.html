@@ -14,14 +14,12 @@
   <nav class="sidebar-links-nav">
     <ul>
         @for (link of allRoutes; track link.name) {
-            @if (link.role.includes(user().role)) {
-                <li>
-                    <a class="mb-link text-size-2 route-link" [routerLink]="link.route" routerLinkActive="active"> 
-                        <span> {{link.name}} </span>
-                        <fa-icon [icon]="arrowRight"></fa-icon>
-                    </a>
-                </li>
-            }
+            <li>
+                <a class="mb-link text-size-2 route-link" [routerLink]="link.route" routerLinkActive="active"> 
+                    <span> {{link.name}} </span>
+                    <fa-icon [icon]="arrowRight"></fa-icon>
+                </a>
+            </li>
         }
         <li>
             <button class="mb-link text-size-2 logout-button" (click)="logOut()"> 

@@ -15,11 +15,13 @@ import { Authservice } from '../../../core/services/auth.service';
 })
 export class DashboardSidebar {
   private authService = inject(Authservice);
-  public user = this.authService.user;
+  
+  public readonly user = this.authService.user;
   public readonly allRoutes: DashboardNavLink[] = DASHBOARD_SIDEBAR_ROUTES;
+  
   public arrowRight: IconDefinition = faAngleRight;
 
-  constructor() {}
+  constructor() {console.log(this.user())}
 
   public logOut() {
     this.authService.logOut();
