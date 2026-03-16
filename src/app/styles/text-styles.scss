@@ -8,8 +8,9 @@
 }
 
 .heading-h1 {
-    font-size: 5.6rem;
-    font-weight: 800;
+    font-size: 6rem;
+    font-weight: 700;
+    line-height: 1.2;
     @include default-text();
     color: var(--color-black-0);
 }
@@ -60,6 +61,7 @@
     font-size: 1.8rem;
     font-weight: 400;
     font-family: var(--font-family-dm);
+    color: var(--color-blue-0);
 }
 
 .text-title {

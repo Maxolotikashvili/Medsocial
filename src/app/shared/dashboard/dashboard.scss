@@ -6,7 +6,7 @@
     flex-flow: column;
     justify-content: center;
     width: 100%;
-    padding: 70px 0 0 var(--global-side-padding);
+    padding: var(--global-header-size) 0 0 var(--global-side-padding);
     background-image: url('../../../../public/images/breadcrumb_background.jpg');
     background-repeat: no-repeat;
     background-size: contain;
