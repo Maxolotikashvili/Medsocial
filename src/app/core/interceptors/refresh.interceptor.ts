@@ -9,7 +9,7 @@ const refreshSubject = new BehaviorSubject<string | null>(null);
 export const refreshInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(Authservice);
 
-  if (req.url.includes('/auth/token/refresh/')) {
+  if (req.url.includes('/auth/')) {
     return next(req);
   }
 
