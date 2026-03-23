@@ -1,11 +1,14 @@
-// Use your design system colors
-$loader-primary: var(--color-blue-3); 
+$loader-primary: var(--color-blue-3);
 $loader-secondary: var(--color-white-0);
 $loader-size: 2px;
 $blur-intensity: 6px;
 
 :host {
-    position: absolute; 
+    display: contents;
+}
+
+.loader-wrapper {
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -13,43 +16,62 @@ $blur-intensity: 6px;
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
-    
-    backdrop-filter: blur($blur-intensity); 
+    z-index: var(--highest-z-index);
+
+    backdrop-filter: blur($blur-intensity);
     -webkit-backdrop-filter: blur($blur-intensity);
     background-color: rgba(0, 0, 0, 0.76);
     transition: all 0.3s ease;
+
+    .loader {
+        position: relative;
+        width: 48px;
+        height: 48px;
+        display: inline-block;
+    }
+
+    .loader::after,
+    .loader::before {
+        content: '';
+        box-sizing: border-box;
+        width: 48px;
+        height: 48px;
+        border: $loader-size solid $loader-secondary;
+        position: absolute;
+        left: 0;
+        top: 0;
+        animation: rotationBreak 3s ease-in-out infinite alternate;
+    }
+
+    .loader::after {
+        border-color: $loader-primary;
+        animation-direction: alternate-reverse;
+    }
 }
 
-.loader {
-    position: relative;
-    width: 48px;
-    height: 48px;
-    display: inline-block;
-}
-
-.loader::after,
-.loader::before {
-    content: '';
-    box-sizing: border-box;
-    width: 48px;
-    height: 48px;
-    border: $loader-size solid $loader-secondary;
+.local {
     position: absolute;
-    left: 0;
-    top: 0;
-    animation: rotationBreak 3s ease-in-out infinite alternate;
-}
-
-.loader::after {
-    border-color: $loader-primary;
-    animation-direction: alternate-reverse;
+    z-index: 0;
 }
 
 @keyframes rotationBreak {
-    0%   { transform: rotate(0); }
-    25%  { transform: rotate(90deg); }
-    50%  { transform: rotate(180deg); }
-    75%  { transform: rotate(270deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0);
+    }
+
+    25% {
+        transform: rotate(90deg);
+    }
+
+    50% {
+        transform: rotate(180deg);
+    }
+
+    75% {
+        transform: rotate(270deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }

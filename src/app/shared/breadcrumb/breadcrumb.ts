@@ -3,7 +3,6 @@ import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faAngleRight, IconDefinition } from '@fortawesome/free-solid-svg-icons';
-import { NgStyle } from '../../../../node_modules/@angular/common/types/_common_module-chunk';
 
 @Component({
   selector: 'breadcrumb',

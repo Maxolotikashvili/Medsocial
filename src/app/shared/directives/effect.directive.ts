@@ -12,7 +12,7 @@ import {
   selector: '[effect]',
   standalone: true,
 })
-export class Effect implements OnInit {
+export class EffectDirective implements OnInit {
   @Input() effect: 'arrow' | 'none' = 'none';
 
   private host: HTMLElement = inject(ElementRef).nativeElement;

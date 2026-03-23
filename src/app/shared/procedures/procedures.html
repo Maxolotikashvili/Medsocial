@@ -1,0 +1,32 @@
+@if (procedures(); as data) {
+    @if (data.results.length > 0) {
+        <div class="procedures-component-wrapper">
+
+            <filters></filters>
+
+            <div class="procedures-wrapper-grid">
+                @for (procedure of data.results; track procedure.id) {
+                    <div class="procedure-wrapper">
+                        <div class="image-wrapper">
+                            <img class="procedure-img" [src]="procedure.image" (error)="handleImageError($event)" alt="Procedure">
+                            <div class="service-icon procedure-icon" [class]="procedure.title | categoryColor">
+                                <fa-icon [icon]="procedure.title | categoryIcon"></fa-icon>
+                            </div>
+                        </div>
+                        <a class="heading-h4 procedure-link procedure-title"> {{procedure.title}} </a>
+                        <p class="text-description procedure-text"> {{procedure.description}} </p>
+                        <a class="mb-link text-size-2 read-more-link">Read More</a>
+                    </div>
+                }
+            </div>  
+            
+            <div class="pagination-wrapper">
+                <pagination [maxDisplayedPages]="5" [totalPages]="totalPages()" (pageChange)="handlePageChange($event)"></pagination>
+            </div> 
+        </div>
+    }
+}
+
+@if (isLoading()) {
+    <loading></loading>
+}

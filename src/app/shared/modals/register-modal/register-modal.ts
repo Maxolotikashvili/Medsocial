@@ -3,8 +3,8 @@ import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angula
 import { formatDate } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { finalize } from 'rxjs';
-import { Effect } from '../../directives/effect';
-import { InitialFocus } from '../../directives/initial-focus';
+import { EffectDirective } from '../../directives/effect.directive';
+import { InitialFocusDirective } from '../../directives/initial-focus.directive';
 import { Loading } from '../../../features/loading/loading';
 import { MbInput } from '../../../features/mb-input/mb-input';
 import { Authservice } from '../../../core/services/auth.service';
@@ -15,10 +15,11 @@ import { emailPatternValidator } from '../../validators/email.validator';
 import { ageValidator } from '../../validators/date-validator';
 import { passwordMatchValidator } from '../../validators/password-match.validator';
 import { RegisterRequest } from '../../../core/models/auth.model';
+import { FormUtils } from '../../utilities/form-utility';
 
 @Component({
   selector: 'register-modal',
-  imports: [MbInput, ReactiveFormsModule, Effect, InitialFocus, Loading],
+  imports: [MbInput, ReactiveFormsModule, EffectDirective, InitialFocusDirective, Loading],
   templateUrl: './register-modal.html',
   styleUrl: './register-modal.scss',
 })
@@ -27,7 +28,7 @@ export class RegisterModal {
   private authService = inject(Authservice);
   private popupService = inject(PopupService);
   private modalService = inject(ModalService);
-  
+
   public isRequestPending = signal(false);
 
   public readonly minBirthDate: string = formatDate(
@@ -64,31 +65,20 @@ export class RegisterModal {
 
       this.isRequestPending.set(true);
 
-      this.authService.register(newUser).pipe(finalize(() => this.isRequestPending.set(false))).subscribe({
-        next: (response) => {
-          console.log(response)
-          this.modalService.close();
-          this.popupService.show('Registration successful', 'success');
-        },
+      this.authService
+        .register(newUser).pipe(finalize(() => this.isRequestPending.set(false))).subscribe({
+          next: (response) => {
+            console.log(response);
+            this.modalService.close();
+            this.popupService.show('Registration successful', 'success');
+          },
 
-        error: (err: HttpErrorResponse) => {
-          if (err.status === 400 && err.error) {
-            const serverErrors = err.error;
-
-            Object.keys(serverErrors).forEach((key) => {
-              const control = this.registerForm.get(key);
-              if (control) {
-                control.setErrors({
-                  serverError: serverErrors[key][0],
-                });
-                control.markAsTouched();
-              }
-            });
-          } else {
-            console.error('Something went wrong on the server:', err);
-          }
-        },
-      });
+          error: (err: HttpErrorResponse) => {
+            if (err.status === 400 && err.error) {
+              FormUtils.setServerErrors(this.registerForm, err.error);
+            }
+          },
+        });
     } else {
       this.registerForm.markAllAsTouched();
       return;

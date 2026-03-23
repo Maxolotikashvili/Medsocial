@@ -1,0 +1,28 @@
+<nav aria-label="Pagination">
+    <ul class="pagination-list">
+        <li>
+            <button class="mb-pagination-button" [disabled]="!hasPrevious()" (click)="goToPage(currentPage() - 1)">
+                <fa-icon [icon]="previousIcon"></fa-icon>
+            </button>
+        </li>
+
+        @for (page of pages(); track page) {
+            <li>
+                <button class="mb-pagination-button" [class.active-pagination]="page === currentPage()" (click)="goToPage(page)">
+                    {{ page }}
+                </button>
+            </li>
+        }
+
+        @if (showRightEllipsis()) {
+            <li><span class="ellipsis">...</span></li>
+            <li><button class="mb-pagination-button" (click)="goToPage(totalPages())">{{ totalPages() }}</button></li>
+        }
+
+        <li>
+            <button class="mb-pagination-button" [disabled]="!hasNext()" (click)="goToPage(currentPage() + 1)">
+                <fa-icon [icon]="nextIcon"></fa-icon>
+            </button>
+        </li>
+    </ul>
+</nav>

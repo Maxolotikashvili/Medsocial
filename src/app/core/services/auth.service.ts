@@ -13,6 +13,7 @@ import { StorageService } from './storage.service';
 import { AUTH_CONFIG } from '../configs/auth.config';
 import { DecodedTokenType, User } from '../models/user.model';
 import { USER_INITIAL_VALUE } from '../configs/user.config';
+import { API_ENDPOINTS } from '../configs/api-endpoints.config';
 
 @Injectable({
   providedIn: 'root',
@@ -35,11 +36,11 @@ export class Authservice {
 
   public register(userData: RegisterRequest): Observable<RegisterRequest> {
     userData.role = 2;
-    return this.http.post<RegisterRequest>(`${this.apiUrl}/auth/register/`, userData);
+    return this.http.post<RegisterRequest>(`${this.apiUrl}/${API_ENDPOINTS.AUTH.REGISTER}`, userData);
   }
 
   public login(credentials: LoginRequest): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.apiUrl}/auth/token/`, credentials).pipe(
+    return this.http.post<LoginResponse>(`${this.apiUrl}/${API_ENDPOINTS.AUTH.LOGIN}`, credentials).pipe(
       tap((res: LoginResponse) => {
         this.storageService.set(AUTH_CONFIG.STORAGE_KEYS.ACCESS_TOKEN, res.access);
         this.storageService.set(AUTH_CONFIG.STORAGE_KEYS.REFRESH_TOKEN, res.refresh);
@@ -85,7 +86,7 @@ export class Authservice {
       throw new Error('No refresh token');
     }
 
-    return this.http.post<TokenRefreshResponse>(`${this.apiUrl}/auth/token/refresh/`, { refresh }).pipe(
+    return this.http.post<TokenRefreshResponse>(`${this.apiUrl}/${API_ENDPOINTS.AUTH.TOKEN_REFRESH}`, { refresh }).pipe(
       tap((res) => {
         this.storageService.set(AUTH_CONFIG.STORAGE_KEYS.ACCESS_TOKEN, res.access);
         this.accessTokenSignal.set(res.access);
@@ -94,7 +95,7 @@ export class Authservice {
   }
 
   private verifyToken(): Observable<TokenVerifyResponse> {
-    return this.http.post<TokenVerifyResponse>(`${this.apiUrl}/auth/token/verify`, {
+    return this.http.post<TokenVerifyResponse>(`${this.apiUrl}/${API_ENDPOINTS.AUTH.TOKEN_VERIFY}`, {
       token: this.access_token(),
     });
   }
@@ -112,9 +113,9 @@ export class Authservice {
     if (!access_token) return EMPTY;
 
     const payload = this.decodeToken(access_token);
-    const id = payload?.user_id;
+    const id = payload?.user_id!;
 
-    return this.http.get<User>(`${this.apiUrl}/users/${id}/`).pipe(tap((user) => this.currentUserSignal.set(user)));
+    return this.http.get<User>(`${this.apiUrl}/${API_ENDPOINTS.USERS.USER(id)}`).pipe(tap((user) => this.currentUserSignal.set(user)));
   }
 
   private decodeToken(token: string): DecodedTokenType | null {

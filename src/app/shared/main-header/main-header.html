@@ -5,23 +5,25 @@
     <nav>
         <ul>
             <li class="header-list">
-                <a href="#" class="header-link mb-link text-size-2">Home</a>
+                <a routerLink="/home" class="header-link mb-link text-size-2" routerLinkActive="active">Home</a>
             </li>
 
             <li class="header-list">
-                <a href="#" class="header-link mb-link text-size-2">About</a>
+                <a href="#" class="header-link mb-link text-size-2" routerLinkActive="active">About</a>
+            </li>
+
+            @if (isUserLoggedIn()) {
+                <li class="header-list">
+                    <a routerLink="/procedures" class="header-link mb-link text-size-2" routerLinkActive="active">Procedures</a>
+                </li>
+            }
+
+            <li class="header-list">
+                <a href="#" class="header-link mb-link text-size-2" routerLinkActive="active">Blog</a>
             </li>
 
             <li class="header-list">
-                <a href="#" class="header-link mb-link text-size-2">Services</a>
-            </li>
-
-            <li class="header-list">
-                <a href="#" class="header-link mb-link text-size-2">Blog</a>
-            </li>
-
-            <li class="header-list">
-                <a href="#" class="header-link mb-link text-size-2">Contact</a>
+                <a href="#" class="header-link mb-link text-size-2" routerLinkActive="active">Contact</a>
             </li>
         </ul>
     </nav>

@@ -19,6 +19,7 @@
 
     --color-red-0: #F7588D;
 
+    --color-orange-0: #ff8026;
     --color-yellow-0: #ffc422;
 
     --color-gradient-0: #{'linear-gradient(45deg, #CDFFF1 0%, rgba(203, 245, 246, 0.73) 28.13%, rgba(240, 251, 224, 0.80) 79.75%, #F8FFDA 100%)'};
@@ -26,4 +27,28 @@
     --color-error: #ff4444;
 
     --box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.background-blue {
+    background-color: var(--color-blue-3);
+}
+
+.background-green {
+    background-color: var(--color-green-0);
+}
+
+.background-yellow {
+    background-color: var(--color-yellow-0);
+}
+
+.background-red {
+    background-color: var(--color-red-0);
+}
+
+.background-orange {
+    background-color: var(--color-orange-0);
+}
+
+.background-gray {
+    background-color: var(--color-gray-0);
 }

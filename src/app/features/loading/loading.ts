@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input, InputSignal } from '@angular/core';
 
 @Component({
   selector: 'loading',
@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrl: './loading.scss',
 })
 export class Loading {
-
+  public local: InputSignal<boolean> = input<boolean>(false);
 }

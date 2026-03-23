@@ -13,8 +13,8 @@
     padding: var(--global-header-size) 0 0 var(--global-side-padding);
     background-image: url('../../../../public/images/breadcrumb_background.jpg');
     background-repeat: no-repeat;
-    background-size: contain;
-    height: 57.7vh;
+    background-size: cover;
+    height: 60vh;
     z-index: 10;
 
     .current-url {

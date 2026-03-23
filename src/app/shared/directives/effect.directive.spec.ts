@@ -1,8 +1,8 @@
-import { Effect } from './effect';
+import { EffectDirective } from './effect.directive';
 
 describe('Effect', () => {
   it('should create an instance', () => {
-    const directive = new Effect();
+    const directive = new EffectDirective();
     expect(directive).toBeTruthy();
   });
 });

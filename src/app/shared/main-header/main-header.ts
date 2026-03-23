@@ -2,23 +2,26 @@ import { Component, HostListener, inject, signal, WritableSignal } from '@angula
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faUser, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { ModalService } from '../../core/services/modal.service';
-import { Effect } from '../directives/effect';
+import { EffectDirective } from '../directives/effect.directive';
 import { LoginModal } from '../modals/login-modal/login-modal';
 import { StorageService } from '../../core/services/storage.service';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AUTH_CONFIG } from '../../core/configs/auth.config';
+import { Authservice } from '../../core/services/auth.service';
 
 @Component({
   selector: 'main-header',
-  imports: [Effect, FaIconComponent, RouterLink],
+  imports: [EffectDirective, FaIconComponent, RouterLink, RouterLinkActive],
   templateUrl: './main-header.html',
   styleUrl: './main-header.scss',
 })
 export class MainHeader {
   private modalService = inject(ModalService);
+  private authService = inject(Authservice);
   private storageService = inject(StorageService);
   public router = inject(Router);
-
+  
+  public isUserLoggedIn: WritableSignal<boolean> = signal<boolean>(this.authService.isLoggedIn());
   public isScrolled: boolean = false;
   public faUser: IconDefinition = faUser;
   public readonly isUserSignedIn: WritableSignal<string | null> = signal(

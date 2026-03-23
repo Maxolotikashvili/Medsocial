@@ -40,3 +40,15 @@ export interface Address {
   phone: string;
   text: string;
 }
+
+export interface ProceduresQueryParams {
+  city?: string,
+  country?: string,
+  hospital?: string,
+  max_price?: number,
+  min_price?: number,
+  name?: string,
+  order?: 'title' | '-title' | 'price' | '-price',
+  page?: number,
+  title?: string
+}

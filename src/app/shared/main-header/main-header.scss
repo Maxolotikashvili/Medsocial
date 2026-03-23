@@ -15,7 +15,7 @@ header {
     align-items: center;
     height: 7rem;
     padding-inline: var(--global-side-padding);
-    z-index: var(--highest-z-index);
+    z-index: 10000;
     transition: background-color $header-animation-time ease;
 
     .company-logo {
@@ -42,6 +42,10 @@ header {
                     height: 1px;
                     background-color: var(--color-blue-2);
                     transition: width var(--global-transition-duration) ease;
+                }
+
+                .active {
+                    color: var(--color-blue-2);
                 }
             }
 

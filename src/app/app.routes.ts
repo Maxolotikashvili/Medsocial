@@ -2,10 +2,12 @@ import { Routes } from '@angular/router';
 import { Home } from './shared/home/home';
 import { Dashboard } from './shared/dashboard/dashboard';
 import { authGuard } from './core/guards/auth.guard';
+import { Procedures } from './shared/procedures/procedures';
 
 export const routes: Routes = [
   { path: 'home', component: Home },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: 'procedures', component: Procedures, canActivate: [authGuard] },
   {
     path: 'dashboard',
     component: Dashboard,

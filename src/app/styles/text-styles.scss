@@ -5,7 +5,7 @@
 @mixin default-heading {
     font-family: var(--font-family-work);
     color: var(--color-black-0);
-    letter-spacing: 1px;
+    transition: color var(--global-transition-duration) ease;
 }
 
 .heading-h1 {
@@ -99,5 +99,5 @@
 .mb-link {
     font-weight: 400;
     font-family: var(--font-family-dm);
-    transition: background-color var(--global-transition-duration) ease, color var(--global-transition-duration) ease;
+    transition: background-color var(--global-transition-duration) ease, color var(--global-transition-duration) ease, border var(--global-transition-duration) ease;
 }

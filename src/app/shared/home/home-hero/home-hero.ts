@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { Effect } from "../../directives/effect";
+import { EffectDirective } from "../../directives/effect.directive";
 import { TitleCasePipe } from '@angular/common';
 
 @Component({
   selector: 'home-hero',
-  imports: [Effect, TitleCasePipe],
+  imports: [EffectDirective, TitleCasePipe],
   templateUrl: './home-hero.html',
   styleUrl: './home-hero.scss'
 })
