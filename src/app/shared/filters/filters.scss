@@ -1,0 +1,46 @@
+:host {
+    display: contents;
+}
+
+.filters-wrapper {
+    display: flex;
+    gap: 1rem;
+
+    .button-green {
+        background-color: var(--color-green-0);
+    }
+
+    .button-blue {
+        background-color: var(--color-blue-3);
+    }
+
+    .button-black {
+        background-color: var(--color-black-0);
+    };
+
+    .button-white {
+        background-color: var(--color-white-0);
+        color: var(--color-black-0);
+    }
+
+    .button-green:hover {
+        background-color: var(--color-blue-3);
+    }
+
+    .button-blue:hover {
+        background-color: var(--color-green-0);
+    }
+
+    .button-black:hover, .button-white:hover {
+        background-color: var(--color-blue-0);
+        color: var(--color-white-0);
+    }
+}
+
+.horizontal {
+    flex-wrap: wrap;
+}
+
+.vertical {
+    flex-flow: column;
+}

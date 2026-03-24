@@ -1,1 +1,4 @@
-<mb-dropdown label="Location"></mb-dropdown>
+<div class="filters-wrapper" [class]="layout()">
+    <ng-content></ng-content>
+    <button class="mb-button-s mb-button-round apply-filters-button button-{{buttonColor()}}" (click)="submitFilters()">Apply Filters</button>
+</div>

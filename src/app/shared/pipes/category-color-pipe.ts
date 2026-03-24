@@ -15,7 +15,7 @@ export class CategoryColorPipe implements PipeTransform {
     }
 
     // 2. Green: General
-    if (this.contains(text, ['consultation','general'])) {
+    if (this.contains(text, ['consultation','general', 'check'])) {
       return 'background-green';
     }
 

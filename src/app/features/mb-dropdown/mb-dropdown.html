@@ -1,13 +1,13 @@
-<div class="dropdown-wrapper" (clickOutside)="hideDropdown()">
+<div class="dropdown-wrapper" (clickOutside)="toggleDropdown('off')">
     <button class="dropdown-toggle" (click)="toggleDropdown()">
-        <span class="text-description"> {{ selectedOption() }} </span>
-        <fa-icon [icon]="isOpen() ? angleUp : angleDown"></fa-icon>
+        <span class="text-description three-dots label"> {{ displayedLabel() }} </span>
+        <fa-icon [icon]="isOpen() ? this.icons['angleUp'] : this.icons['angleDown']"></fa-icon>
     </button>
     
     @if (isOpen()) {
         <div class="dropdown-menu" animate.enter="enter-dropdown">
-            @for (option of optionsList(); track option) {
-                <button class="dropdown-item" (click)="selectOption(option)">{{ option }}</button>
+            @for (option of displayedOptionsList(); track $index) {
+                <button class="dropdown-button" (click)="selectOption(option)">{{ option }}</button>
             }
         </div>
     }

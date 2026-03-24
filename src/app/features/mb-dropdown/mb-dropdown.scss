@@ -1,3 +1,5 @@
+@use '../../styles/layout.scss' as *;
+
 :host {
     display: contents;
 }
@@ -9,7 +11,7 @@
         background: transparent;
         color: var(--color-black-0);
         padding: 1.35rem 2rem;
-        min-width: 20rem;
+        width: 20rem;
         border: 1px solid var(--color-black-1);
         border-radius: var(--global-round-radius);
         display: flex;
@@ -17,6 +19,12 @@
         justify-content: space-between;
         transition: inherit;
         cursor: pointer;
+
+        .label {
+            @include three-dots();
+            white-space: nowrap;
+            max-width: 88%;
+        }
     }
 
     .dropdown-menu {
@@ -24,35 +32,41 @@
         display: flex;
         flex-direction: column;
         background-color: transparent;
-        min-width: 20rem;
+        width: 20rem;
+        max-height: 20rem;
+        overflow-y: auto;
         border-radius: var(--global-square-radius);
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        z-index: 1;
         transition: inherit;
         transform: translateY(5px);
         animation: slide-top 0.4s;
 
-        .dropdown-item {
+        .dropdown-button {
+            width: 100%;
             text-align: start;
             background-color: transparent;
-            border: none;
             padding: 1.6rem 2rem;
+            border: none;
+            @include three-dots();
+            white-space: nowrap;
             color: var(--color-blue-0);
             background-color: var(--color-white-0);
             border-bottom: 0.5px solid var(--color-black-1);
             transition: all var(--global-transition-duration) ease;
         }
 
-        .dropdown-item:nth-child(1) {
+        .dropdown-button:nth-child(1) {
             border-top-right-radius: var(--global-square-radius);
             border-top-left-radius: var(--global-square-radius);
         }
 
-        .dropdown-item:last-child {
+        .dropdown-button:last-child {
             border-bottom-right-radius: var(--global-square-radius);
             border-bottom-left-radius: var(--global-square-radius);
         }
 
-        .dropdown-item:hover {
+        .dropdown-button:hover {
             background-color: var(--color-blue-0);
             padding-left: 2.5rem;
             color: var(--color-white-0);

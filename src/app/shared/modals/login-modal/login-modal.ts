@@ -10,10 +10,11 @@ import { Loading } from '../../../features/loading/loading';
 import { finalize } from 'rxjs';
 import { ErrorService } from '../../../core/services/error.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { InitialFocusDirective } from '../../directives/initial-focus.directive';
 
 @Component({
   selector: 'login-modal',
-  imports: [MbCheckbox, MbInput, EffectDirective, Loading],
+  imports: [MbCheckbox, MbInput, EffectDirective, Loading, InitialFocusDirective],
   templateUrl: './login-modal.html',
   styleUrl: './login-modal.scss',
 })

@@ -2,13 +2,15 @@
     @if (data.results.length > 0) {
         <div class="procedures-component-wrapper">
 
-            <filters></filters>
+            <filters (filterChange)="onFiltersChange($event)">
+                    <mb-dropdown label="Location" [optionsList]="availableLocations()"></mb-dropdown>
+            </filters>
 
-            <div class="procedures-wrapper-grid">
+            <div class="procedures-wrapper">
                 @for (procedure of data.results; track procedure.id) {
                     <div class="procedure-wrapper">
                         <div class="image-wrapper">
-                            <img class="procedure-img" [src]="procedure.image" (error)="handleImageError($event)" alt="Procedure">
+                            <img src="images/" (error)="handleImageError($event)" class="procedure-img" alt="Procedure">
                             <div class="service-icon procedure-icon" [class]="procedure.title | categoryColor">
                                 <fa-icon [icon]="procedure.title | categoryIcon"></fa-icon>
                             </div>
@@ -25,6 +27,8 @@
             </div> 
         </div>
     }
+} @else {
+    <h1 class="heading-h1 no-results">No results</h1>
 }
 
 @if (isLoading()) {

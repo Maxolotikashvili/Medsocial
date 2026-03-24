@@ -3,7 +3,7 @@
 
     <form (submit)="loginUser($event)">
         <div class="input-wrapper">
-            <mb-input [required]="true" id="email" label="Email" type="email" [(value)]="emailValue"></mb-input>
+            <mb-input [required]="true" id="email" label="Email" type="email" [(value)]="emailValue" initialFocus></mb-input>
             <mb-input [required]="true" id="password" label="Password" type="password" [(value)]="passwordValue"></mb-input>
         </div>
 

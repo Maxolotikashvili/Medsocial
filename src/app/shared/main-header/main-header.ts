@@ -8,6 +8,7 @@ import { StorageService } from '../../core/services/storage.service';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AUTH_CONFIG } from '../../core/configs/auth.config';
 import { Authservice } from '../../core/services/auth.service';
+import { RegisterModal } from '../modals/register-modal/register-modal';
 
 @Component({
   selector: 'main-header',
@@ -36,5 +37,9 @@ export class MainHeader {
 
   public openLoginModal() {
     this.modalService.open(LoginModal);
+  }
+
+  public openRegisterModal() {
+    this.modalService.open(RegisterModal);
   }
 }

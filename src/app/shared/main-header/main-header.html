@@ -28,14 +28,15 @@
         </ul>
     </nav>
 
-    @if (isUserSignedIn()) {
-        <a class="mb-button-naked user-profile-link" routerLink="/dashboard/profile">
-            <fa-icon [icon]="faUser"></fa-icon>
-        </a>
-    } @else {
-        <div class="header-button-links-wrapper">
-            <a class="sign-in-link mb-link text-size-2" (click)="openLoginModal()">Sign In</a>
-            <a class="lets-talk-link mb-link text-size-2" [effect]="'arrow'">Appointment</a>
-        </div>
-    }
+    <div class="header-button-links-wrapper">
+        @if (isUserSignedIn()) {
+            <button class="lets-talk-button mb-button-s mb-button-round" [effect]="'arrow'">Appointment</button>
+            <a class="mb-button-naked user-profile-link" routerLink="/dashboard/profile">
+                <fa-icon [icon]="faUser"></fa-icon>
+            </a>
+        } @else {
+            <button class="mb-button-naked sign-in-button" (click)="openLoginModal()">Sign In</button>
+            <button class="mb-button-naked register-button" (click)="openRegisterModal()">Register</button>
+        }   
+    </div>
 </header>

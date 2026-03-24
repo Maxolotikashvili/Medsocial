@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, Signal, signal, WritableSignal } from '@angular/core';
-import { API_URL } from '../tokens/injection-token';
+import { API_URL } from '../tokens/api-injection-token';
 import {
   LoginRequest,
   LoginResponse,
