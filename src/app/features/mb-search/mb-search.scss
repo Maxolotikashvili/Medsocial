@@ -1,0 +1,59 @@
+@use '../../styles/layout.scss' as *;
+
+$search-button-size: 4rem;
+$search-input-size: 30.2rem;
+
+:host {
+    display: inline-block;
+    height: fit-content;
+}
+
+.search-input-wrapper {
+    display: inline-block;
+    width: $search-input-size;
+    position: relative;
+    height: fit-content;
+
+    .search-input {
+        width: 5rem;
+        height: 5rem;
+        font-size: 0;
+        border: 1px solid transparent;
+        border-radius: var(--global-round-radius);
+        color: var(--color-blue-0);
+        transition: all var(--global-transition-duration) ease;
+        pointer-events: none;
+    }
+
+    .search-input-open {
+        border: 1px solid var(--color-gray-0);
+        width: 100%;
+        padding-inline: 2rem;
+        font-size: 1.4rem;
+        pointer-events: all
+    }
+
+    .icon-button {
+        @include flex-center();
+        width: $search-button-size;
+        height: $search-button-size;
+        position: absolute;
+        top: 50%;
+        left: 0;
+        transform: translate(12%, -50%);
+        background-color: var(--color-blue-3);
+        border-radius: var(--global-round-radius);
+        z-index: 10;
+        transition: all var(--global-transition-duration) ease;
+
+        .icon {
+            font-size: 1.8rem;
+            color: var(--color-white-0);
+        }
+    }
+
+    .icon-button-open {
+        left: 90%;
+        transform: translate(-40%, -50%);
+    }
+}

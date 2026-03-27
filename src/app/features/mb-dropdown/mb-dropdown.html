@@ -1,13 +1,17 @@
-<div class="dropdown-wrapper" (clickOutside)="toggleDropdown('off')">
+<div class="dropdown-wrapper" (clickOutside)="toggleDropdown('off')" [class.dropdown-disabled]="disabled()">
     <button class="dropdown-toggle" (click)="toggleDropdown()">
         <span class="text-description three-dots label"> {{ displayedLabel() }} </span>
         <fa-icon [icon]="isOpen() ? this.icons['angleUp'] : this.icons['angleDown']"></fa-icon>
     </button>
-    
+
     @if (isOpen()) {
-        <div class="dropdown-menu" animate.enter="enter-dropdown">
+        <div scrollToBottom (bottomReached)="scrolledToBottom.emit()" class="dropdown-menu" animate.enter="enter-dropdown">
+            @if (isLoading()) {
+                <loading [local]="true"></loading>
+            }
+            <input #searchInput type="search" class="mb-search-input" [id]="label()" placeholder="search.." (input)="onSearch(searchInput.value)">
             @for (option of displayedOptionsList(); track $index) {
-                <button class="dropdown-button" (click)="selectOption(option)">{{ option }}</button>
+                <button class="dropdown-button" [class.label-option]="option === label()" (click)="selectOption(option)">{{ option }}</button>
             }
         </div>
     }

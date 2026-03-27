@@ -1,0 +1,14 @@
+<div class="search-input-wrapper" (clickOutside)="isOpen.set(false)">
+    <input #input type="search" [class.search-input-open]="isOpen()" class="search-input"
+    [value]="draftValue()"
+    [disabled]="disabled()"
+    (input)="onInput($event)"
+    (blur)="onBlur()"
+    (keydown)="onKeyDown($event)"
+    [id]="id()"
+    [placeholder]="placeholder()"/>
+
+    <button class="icon-button mb-button-naked" [class.icon-button-open]="isOpen()" (click)="onSearchClick('on', input)">
+        <fa-icon [icon]="faSearch" class="icon"></fa-icon>
+    </button>
+</div>

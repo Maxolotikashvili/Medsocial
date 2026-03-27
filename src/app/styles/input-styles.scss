@@ -59,3 +59,12 @@
 .mb-button-round {
     border-radius: 30px;
 }
+
+.mb-search-input {
+    border: none;
+    font-size: 1.4rem;
+    border: 1px solid var(--color-black-1);
+    border-radius: var(--global-round-radius);
+    margin: 0.4rem 1rem;
+    padding: 0.9rem;
+}

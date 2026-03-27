@@ -1,36 +1,42 @@
 @if (procedures(); as data) {
+  <div class="procedures-component-wrapper">
+    <div class="filters-wrapper">
+      <filters (filterChange)="onFiltersChange($event)">
+        <mb-dropdown label="Country" [optionsList]="countries.data()" (selectionChange)="onCountryDropdownChange($event)" [isLoading]="countries.loading()"></mb-dropdown>
+        <mb-dropdown label="City" [optionsList]="cities.data()" [disabled]="!cities.params()" (scrolledToBottom)="cities.nextPage()" [isLoading]="cities.loading()"></mb-dropdown>
+        <mb-dropdown label="Department" [optionsList]="categories()"></mb-dropdown>
+        <mb-dropdown label="Hospitals" [optionsList]="hospitals()"></mb-dropdown>
+        <mb-search label="Search" placeholder="Search..." id="search"></mb-search>
+      </filters>
+    </div>
     @if (data.results.length > 0) {
-        <div class="procedures-component-wrapper">
+      <div class="procedures-wrapper">
+        @for (procedure of data.results; track procedure.id) {
+          <div class="procedure-wrapper">
+            <div class="image-wrapper">
+              <img [src]="procedure.image" (error)="handleImageError($event)" class="procedure-img" alt="Procedure"/>
+              <div class="service-icon procedure-icon" [class]="procedure.title | categoryColor">
+                <fa-icon [icon]="procedure.title | categoryIcon"></fa-icon>
+              </div>
+            </div>
+            <a class="heading-h4 procedure-link procedure-title"> {{ procedure.title }} </a>
+            <p class="text-description procedure-text">{{ procedure.description }}</p>
+            <a class="mb-link text-size-2 read-more-link">Read More</a>
+          </div>
+        }
+      </div>
 
-            <filters (filterChange)="onFiltersChange($event)">
-                    <mb-dropdown label="Location" [optionsList]="availableLocations()"></mb-dropdown>
-            </filters>
-
-            <div class="procedures-wrapper">
-                @for (procedure of data.results; track procedure.id) {
-                    <div class="procedure-wrapper">
-                        <div class="image-wrapper">
-                            <img src="images/" (error)="handleImageError($event)" class="procedure-img" alt="Procedure">
-                            <div class="service-icon procedure-icon" [class]="procedure.title | categoryColor">
-                                <fa-icon [icon]="procedure.title | categoryIcon"></fa-icon>
-                            </div>
-                        </div>
-                        <a class="heading-h4 procedure-link procedure-title"> {{procedure.title}} </a>
-                        <p class="text-description procedure-text"> {{procedure.description}} </p>
-                        <a class="mb-link text-size-2 read-more-link">Read More</a>
-                    </div>
-                }
-            </div>  
-            
-            <div class="pagination-wrapper">
-                <pagination [maxDisplayedPages]="5" [totalPages]="totalPages()" (pageChange)="handlePageChange($event)"></pagination>
-            </div> 
+      <div class="pagination-wrapper">
+        <pagination [maxDisplayedPages]="5" [totalPages]="procedures()?.totalPages!" (pageChange)="handlePageChange($event)"></pagination>
+      </div>
+    } @else {
+        <div class="no-results-wrapper">
+            <h1 class="heading-h1 no-results">No results</h1>
         </div>
-    }
-} @else {
-    <h1 class="heading-h1 no-results">No results</h1>
+}
+  </div>
 }
 
 @if (isLoading()) {
-    <loading></loading>
+  <loading></loading>
 }

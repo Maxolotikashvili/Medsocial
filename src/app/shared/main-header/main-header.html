@@ -1,4 +1,4 @@
-<header [class.header-scrolled]="isScrolled" [class.header-not-home]="router.url !== '/' && router.url !== '/home'">
+<header scrollFromTop (isScrolledState)="changeIsScrolledState($event)" [class.header-scrolled]="isScrolled()" [class.header-not-home]="router.url !== '/' && router.url !== '/home'">
     <a routerLink="/home">
         <img src="images/company-logo.png" alt="Company Logo" class="company-logo">
     </a>

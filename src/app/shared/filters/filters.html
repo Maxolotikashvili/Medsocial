@@ -1,4 +1,11 @@
-<div class="filters-wrapper" [class]="layout()">
+<div class="filters-component-wrapper" [class]="layout()">
     <ng-content></ng-content>
-    <button class="mb-button-s mb-button-round apply-filters-button button-{{buttonColor()}}" (click)="submitFilters()">Apply Filters</button>
+    
+    @if (hasActiveFilters() && hasChangesSinceLastSubmit()) {   
+        <button class="mb-button-s mb-button-round apply-filters-button" (click)="submitFilters()">Apply</button>
+    }
+    
+    @if (isValueEmitted()) {
+        <button class="mb-button-s mb-button-round reset-filters-button" (click)="resetFilters()">Reset</button>
+    }
 </div>

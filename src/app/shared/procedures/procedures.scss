@@ -4,6 +4,14 @@
 .procedures-component-wrapper {
     padding: 10rem var(--global-side-padding) 0 var(--global-side-padding);
 
+    .filters-wrapper {
+        display: flex;
+        gap: 1rem;
+        box-shadow: var(--box-shadow);
+        border-radius: var(--global-round-radius);
+        padding: 2rem 3rem;
+    }
+
     .procedures-wrapper {
         display: flex;
         flex-wrap: wrap;
@@ -25,7 +33,7 @@
                 position: relative;
                 border-radius: inherit;
                 background-color: var(--color-white-0);
-                
+
                 .procedure-img {
                     width: 100%;
                     aspect-ratio: 1.3/1;
@@ -71,6 +79,13 @@
     }
 }
 
-.no-results {
-    color: var(--color-gray-0);
+.no-results-wrapper {
+    @include flex-center();
+    height: 50vh;
+
+    .no-results {
+        color: var(--color-gray-0);
+        margin-top: 4rem;
+        text-align: center;
+    }
 }

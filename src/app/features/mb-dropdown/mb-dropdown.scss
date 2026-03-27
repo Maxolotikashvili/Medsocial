@@ -1,17 +1,18 @@
 @use '../../styles/layout.scss' as *;
 
-:host {
-    display: contents;
-}
+$input-min-width: 30.2rem;
+$input-max-width: 40rem;
 
 .dropdown-wrapper {
     display: inline-block;
 
     .dropdown-toggle {
+        position: relative;
         background: transparent;
         color: var(--color-black-0);
         padding: 1.35rem 2rem;
-        width: 20rem;
+        min-width: $input-min-width;
+        max-width: $input-max-width;
         border: 1px solid var(--color-black-1);
         border-radius: var(--global-round-radius);
         display: flex;
@@ -31,13 +32,14 @@
         position: absolute;
         display: flex;
         flex-direction: column;
-        background-color: transparent;
-        width: 20rem;
-        max-height: 20rem;
+        background-color: var(--color-white-0);
+        min-width: $input-min-width;
+        max-width: $input-max-width;
+        max-height: 40rem;
         overflow-y: auto;
         border-radius: var(--global-square-radius);
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        z-index: 1;
+        z-index: 11;
         transition: inherit;
         transform: translateY(5px);
         animation: slide-top 0.4s;
@@ -56,6 +58,11 @@
             transition: all var(--global-transition-duration) ease;
         }
 
+        .label-option {
+            background-color: var(--color-blue-0);
+            color: var(--color-white-0);
+        }
+
         .dropdown-button:nth-child(1) {
             border-top-right-radius: var(--global-square-radius);
             border-top-left-radius: var(--global-square-radius);
@@ -70,6 +77,18 @@
             background-color: var(--color-blue-0);
             padding-left: 2.5rem;
             color: var(--color-white-0);
+        }
+    }
+}
+
+.dropdown-disabled {
+    .dropdown-toggle {
+        color: var(--color-black-1);
+        pointer-events: none;
+        color: var(--color-gray-0);
+
+        .label {
+            color: var(--color-black-1);
         }
     }
 }

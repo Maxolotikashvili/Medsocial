@@ -1,61 +1,51 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
-import { filter, Subscription } from 'rxjs';
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { faAngleRight, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { distinctUntilChanged, filter, map } from 'rxjs';
+import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'breadcrumb',
-  imports: [RouterModule, FaIconComponent],
+  standalone: true,
+  imports: [RouterModule, FontAwesomeModule],
   templateUrl: './breadcrumb.html',
-  styleUrl: './breadcrumb.scss',
+  styleUrl: './breadcrumb.scss'
 })
-export class Breadcrumb implements OnInit, OnDestroy {
+export class Breadcrumb {
   private router = inject(Router);
+  public separator = faAngleRight;
 
-  public crumbs: Array<{ label: string; url: string }> = [];
-  public isVisible: boolean = true;
-  private sub!: Subscription;
-
-  public separator: IconDefinition = faAngleRight;
-
-  constructor() {}
-
-  ngOnInit(): void {
-    this.listenToRouteChanges();
+  constructor() {
   }
 
-  private listenToRouteChanges() {
-    this.sub = this.router.events
-      .pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd))
-      .subscribe((navEnd) => this.buildCrumbs(navEnd.urlAfterRedirects));
-  }
+  private currentUrl = toSignal(
+    this.router.events.pipe(
+      filter((e): e is NavigationEnd => e instanceof NavigationEnd),
+      map(e => e.urlAfterRedirects),
+      distinctUntilChanged()
+    ),
+    { initialValue: this.router.url }
+  );
 
-  private buildCrumbs(url: string) {
-    this.isVisible = url !== '/home';
+  public isVisible = computed(() => this.currentUrl() !== '/home');
 
+  public crumbs = computed(() => {
+    const url = this.currentUrl();
     const parts = url.split('/').filter(Boolean);
 
     if (parts[0] === 'home' || parts[0] === 'dashboard') {
       parts.shift();
     }
 
-    const crumbs: Array<{ label: string; url: string }> = [];
     let builtUrl = '';
-
-    parts.forEach((part) => {
+    return parts.map(part => {
       builtUrl += `/${part}`;
-      crumbs.push({ label: this.formatLabel(part), url: builtUrl });
+      return { label: this.formatLabel(part), url: builtUrl };
     });
+  });
 
-    this.crumbs = crumbs;
-  }
-
-  private formatLabel(segment: string) {
+  private formatLabel(segment: string): string {
     return segment.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
-  }
-
-  ngOnDestroy() {
-    this.sub.unsubscribe();
   }
 }

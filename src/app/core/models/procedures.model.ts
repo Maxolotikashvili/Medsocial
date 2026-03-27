@@ -5,6 +5,7 @@ export interface ProceduresList {
   next: string;
   previous: string;
   results: Procedure[];
+  totalPages: number
 }
 
 export interface Procedure {
@@ -14,7 +15,8 @@ export interface Procedure {
   price: number;
   discounted_price: number;
   user: User;
-  address: Address;
+  address: ProcedureAddress;
+  category: ProcedureCategory;
   hospital: string;
   image: string;
   image_after: string;
@@ -23,7 +25,42 @@ export interface Procedure {
   created_at: Date;
 }
 
-export interface Address {
+export interface ProcedureCategory {
+  description: string | null;
+  id: string;
+  title: ProcedureCategoryTitle;
+}
+
+export type ProcedureCategoryTitle =
+  | 'Rhinoplasty (nose reshaping)'
+  | 'Mammoplasty'
+  | 'Breast augmentation'
+  | 'Breast reduction'
+  | 'Breast lift (mastopexy)'
+  | 'Liposuction'
+  | 'Abdominoplasty (tummy tuck)'
+  | 'Facelift (rhytidectomy)'
+  | 'Blepharoplasty (eyelid surgery)'
+  | 'Otoplasty (ear reshaping)'
+  | 'Chin augmentation (genioplasty)'
+  | 'Neck lift'
+  | 'Brazilian butt lift (BBL)'
+  | 'Dental implants'
+  | 'Veneers'
+  | 'Teeth whitening'
+  | 'Dental crowns'
+  | 'Bridges'
+  | 'Root canal treatment (endodontics)'
+  | 'Orthodontics (braces, aligners)'
+  | 'Gum grafting'
+  | 'Tooth extraction (including wisdom teeth removal)'
+  | 'Angioplasty (balloon dilation of arteries)'
+  | 'Coronary artery bypass grafting (CABG)'
+  | 'Pacemaker implantation'
+  | 'Heart valve repair/replacement'
+  | 'Cardiac catheterization';
+
+export interface ProcedureAddress {
   id: string;
   country: {
     id: number;
@@ -42,13 +79,15 @@ export interface Address {
 }
 
 export interface ProceduresQueryParams {
-  city?: string,
-  country?: string,
-  hospital?: string,
-  max_price?: number,
-  min_price?: number,
-  name?: string,
-  order?: 'title' | '-title' | 'price' | '-price',
-  page?: number,
-  title?: string
+  city?: string;
+  country?: string;
+  hospital?: string;
+  max_price?: number;
+  min_price?: number;
+  name?: string;
+  category_title?: ProcedureCategoryTitle,
+  order?: 'title' | '-title' | 'price' | '-price';
+  page?: number;
+  title?: string;
+  q?: string;
 }

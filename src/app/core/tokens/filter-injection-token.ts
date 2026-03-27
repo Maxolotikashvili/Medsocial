@@ -1,6 +1,6 @@
-import { Signal } from "@angular/core";
+import { Signal, WritableSignal } from "@angular/core";
 
 export abstract class FilterItem {
     abstract label: Signal<string>;
-    abstract inputValue: Signal<string | number>;
+    abstract inputValue: WritableSignal<string | number>;
 }
