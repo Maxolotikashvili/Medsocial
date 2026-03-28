@@ -1,17 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  contentChildren,
-  effect,
-  input,
-  InputSignal,
-  isDevMode,
-  output,
-  Signal,
-  signal,
-  WritableSignal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, contentChildren, effect, input, InputSignal, isDevMode, output, Signal, signal, WritableSignal } from '@angular/core';
 import { FilterItem } from '../../core/tokens/filter-injection-token';
 import { shallowEqual } from '../utilities/object-comparer-utility';
 
@@ -23,9 +10,7 @@ import { shallowEqual } from '../utilities/object-comparer-utility';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Filters {
-  public layout: InputSignal<'vertical' | 'horizontal'> = input<'vertical' | 'horizontal'>(
-    'horizontal',
-  );
+  public layout: InputSignal<'vertical' | 'horizontal'> = input<'vertical' | 'horizontal'>('horizontal');
   public filterChange = output<Record<string, string | number>>();
 
   private allFilters = contentChildren(FilterItem);
@@ -33,22 +18,25 @@ export class Filters {
   public hasActiveFilters: Signal<boolean> = computed(() => {
     return this.allFilters().some((filter) => {
       const label = filter.label().toString().toLowerCase();
-
       if (label.includes('search')) return false;
-
+      
       return filter.inputValue() !== '';
     });
   });
 
   public hasChangesSinceLastSubmit = computed(() => {
-    const current: Record<string, string | number> = {};
+  const current: Record<string, string | number> = {};
 
-    this.allFilters().forEach((item) => {
-      current[item.label()] = item.inputValue();
-    });
+  this.allFilters().forEach((item) => {
+    const inputValue = item.inputValue().toString().toLowerCase();
+    const label = item.label().toString().toLowerCase();
 
-    return !shallowEqual(current, this.lastEmittedValue());
+    current[item.label()] =
+      label === inputValue || inputValue === '' ? '' : inputValue;
   });
+
+  return !shallowEqual(current, this.lastEmittedValue());
+});
 
   public isValueEmitted: WritableSignal<boolean> = signal<boolean>(false);
   private lastEmittedValue: WritableSignal<Record<string, string | number>> = signal({});
@@ -96,7 +84,7 @@ export class Filters {
   }
 
   public submitFilters() {
-    if (!this.hasActiveFilters()) return;
+    if (!this.hasActiveFilters() || !this.hasChangesSinceLastSubmit()) return;
 
     const results: Record<string, string | number> = {};
 

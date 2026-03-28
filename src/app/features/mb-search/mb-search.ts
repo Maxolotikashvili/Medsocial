@@ -1,13 +1,4 @@
-import {
-  Component,
-  forwardRef,
-  input,
-  InputSignal,
-  model,
-  signal,
-  WritableSignal,
-} from '@angular/core';
-import { FilterItem } from '../../core/tokens/filter-injection-token';
+import { Component, forwardRef, input, InputSignal, output, signal, WritableSignal } from '@angular/core';
 import { faSearch, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -16,10 +7,7 @@ import { ClickOutsideDirective } from '../../shared/directives/click-outside.dir
 @Component({
   selector: 'mb-search',
   imports: [FaIconComponent, ClickOutsideDirective],
-  providers: [
-    { provide: FilterItem, useExisting: MbSearch },
-    { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => MbSearch), multi: true },
-  ],
+  providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => MbSearch), multi: true },],
   templateUrl: './mb-search.html',
   styleUrl: './mb-search.scss',
 })
@@ -27,24 +15,21 @@ export class MbSearch implements ControlValueAccessor {
   public id: InputSignal<string | number> = input<string | number>(0);
   public placeholder: InputSignal<string> = input<string>('Search..');
   public label: InputSignal<string> = input<string>('');
-  public inputValue: WritableSignal<string> = model<string>('');
   public disabled = signal(false);
   public isOpen: WritableSignal<boolean> = signal<boolean>(false);
+  public searchSubmit = output<string>();
 
   public draftValue = signal<string>('');
 
   public faSearch: IconDefinition = faSearch;
 
-  private onChange = (value: string) => {
-    this.inputValue.set(value);
-  };
+  private onChange = (value: string) => {};
   private onTouched = () => {};
 
   constructor() {}
 
   writeValue(value: string): void {
     const val = value || '';
-    this.inputValue.set(val);
     this.draftValue.set(val);
   }
 
@@ -72,9 +57,10 @@ export class MbSearch implements ControlValueAccessor {
   private commitValue() {
     const value = this.draftValue();
 
-    this.inputValue.set(value);
     this.onChange(value);
     this.onTouched();
+    
+    this.searchSubmit.emit(value);
   }
 
   public onKeyDown(event: KeyboardEvent) {
@@ -85,7 +71,6 @@ export class MbSearch implements ControlValueAccessor {
     }
 
     if (event.key === 'Escape') {
-      this.draftValue.set(this.inputValue());
     }
   }
   public onSearchClick(state?: 'on' | 'off', input?: HTMLInputElement) {

@@ -4,6 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CitiesQuery, CitiesResponse, CountriesQuery, CountriesResponse, LanguagesResponse, TimezonesResponse } from '../models/location.model';
 import { API_ENDPOINTS } from '../configs/api-endpoints.config';
+import { filterObjectWithValues } from '../../shared/utilities/value-filterer-object.utility';
 
 @Injectable({
   providedIn: 'root',
@@ -14,17 +15,29 @@ export class LocationService {
 
   constructor() {}
 
-  public getCountries(parameters?: CountriesQuery): Observable<CountriesResponse> {
-    let params = new HttpParams({
-      fromObject: parameters as Record<string, any>,
-    });
-    return this.http.get<CountriesResponse>(`${this.api_url}/${API_ENDPOINTS.ADDRESS.COUNTRIES}`, { params: params });
-  }
+  public getCountries(parameters: Partial<CountriesQuery>): Observable<CountriesResponse> {
+    const filteredParameters = filterObjectWithValues(parameters);
+    let params: HttpParams | undefined;
+    
+    if (Object.keys(filteredParameters).length > 0) { 
+      params = new HttpParams({
+        fromObject: filteredParameters as Record<string, string>,
+      });
+    }
 
-  public getCities(parameters?: CitiesQuery): Observable<CitiesResponse> {
-    let params = new HttpParams({
-      fromObject: parameters as Record<string, any>,
-    });
+  return this.http.get<CountriesResponse>(`${this.api_url}/${API_ENDPOINTS.ADDRESS.COUNTRIES}`, { params });
+}
+
+  public getCities(parameters: CitiesQuery): Observable<CitiesResponse> {
+    const filteredParameters = filterObjectWithValues(parameters);
+    let params: HttpParams | undefined;
+
+    if (Object.keys(filteredParameters).length > 0) { 
+      params = new HttpParams({
+        fromObject: filteredParameters as Record<string, any>,
+      });  
+    }
+
     return this.http.get<CitiesResponse>(`${this.api_url}/${API_ENDPOINTS.ADDRESS.CITIES}`, { params: params });
   }
   

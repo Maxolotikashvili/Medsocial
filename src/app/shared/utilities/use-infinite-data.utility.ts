@@ -22,11 +22,10 @@ export function useInfiniteData<T extends { name?: string }, P>(
   const params = signal<P>(initialParams);
   const loading = signal<boolean>(false);
   const hasNextPage = signal<boolean>(true);
-
   const data$ = toObservable(computed(() => ({ p: params(), pg: page() })), { injector }).pipe(
     filter(({ pg }) => pg === 1 || hasNextPage()),
     distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
-    tap(() => loading.set(true)),
+    tap(() => {loading.set(true)}),
     
     switchMap(({ p, pg }) => fetchFn(p, pg).pipe(
       map(res => {
@@ -50,16 +49,13 @@ export function useInfiniteData<T extends { name?: string }, P>(
 
   const data = toSignal(data$, { injector, initialValue: [] as any[] });
 
-  return { 
-    data, 
-    loading, 
-    params,
-    hasNextPage,
+  return { data, loading, params,hasNextPage,
     nextPage: () => {
       if (!loading() && hasNextPage()) {
         page.update(p => p + 1);
       }
     },
+    
     updateParams: (newParams: P) => {
       hasNextPage.set(true);
       params.set(newParams);

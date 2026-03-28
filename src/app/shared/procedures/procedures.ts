@@ -18,6 +18,9 @@ import { LocationService } from '../../core/services/location.service';
 import { ALL_PROCEDURE_CATEGORIES } from '../../core/configs/procedure.config';
 import { useInfiniteData } from '../utilities/use-infinite-data.utility';
 import { FormsModule } from "@angular/forms";
+import { shallowEqual } from '../utilities/object-comparer-utility';
+import { CitiesQuery, CountriesQuery } from '../../core/models/location.model';
+import { getObjectLengthBy } from '../utilities/detect-object-length.utility';
 
 @Component({
   selector: 'procedures',
@@ -32,7 +35,7 @@ export class Procedures {
   private errorService = inject(ErrorService);
 
   public isLoading: WritableSignal<boolean> = signal<boolean>(false);
-  public filters: WritableSignal<ProceduresQueryParams> = signal({ page: 1 });
+  public filters: WritableSignal<ProceduresQueryParams> = signal({ });
 
   public icons: { [key: string]: IconDefinition } = {
     eye: faEye,
@@ -55,9 +58,13 @@ export class Procedures {
 
   public readonly categories: WritableSignal<ProcedureCategoryTitle[]> = signal<ProcedureCategoryTitle[]>(ALL_PROCEDURE_CATEGORIES);
 
-  public cities = useInfiniteData((country: string | null, page: number) => this.locationService.getCities({country: country!, page: page}), null, true)
-  public countries = useInfiniteData((_: any, page: number) => this.locationService.getCountries({page: page}), null, true)
-  public searchFilterValue: string = '';
+  public cities = useInfiniteData((params: CitiesQuery) => this.locationService.getCities({
+    country: params.country,
+    page: params.page,
+    q: params.q
+  }), {}, true
+  )
+  public countries = useInfiniteData((_: CountriesQuery, page: number) => this.locationService.getCountries({page: page}), {}, true)
 
   constructor() {}
 
@@ -72,11 +79,38 @@ export class Procedures {
   }
 
   public onFiltersChange(value: Record<string, string | number>) {
+    if (shallowEqual(this.filters(), value)) {
+      return;
+    }
+
+    if (!getObjectLengthBy('keys', value)) {
+      this.countries.updateParams({});
+      this.cities.updateParams({});
+    }
+    
     const filters = this.proceduresService.mappedProceduresQueryParams(value);
     this.filters.set(filters);
   }
 
+  public onSearchChange(value: string) {
+    if (!getObjectLengthBy('values', this.filters()) && !value) {
+      return;
+    }
+
+    const searchFilter = this.proceduresService.mappedProceduresQueryParams({ search: value });
+    this.filters.set(searchFilter);
+  }
+
   public onCountryDropdownChange(value: string | number) {
-    this.cities.updateParams(value.toString().toLowerCase() as any);
+    this.cities.updateParams({country: value.toString().toLowerCase()});
+  }
+
+  public onCountrySearch(query: string) {
+    this.countries.updateParams({ q: query} as any);
+  }
+
+  public onCitySearch(query: string) {
+    const currentSelectedCountry = this.cities.params().country;
+    this.cities.updateParams({ country: currentSelectedCountry, q: query } as any);
   }
 }

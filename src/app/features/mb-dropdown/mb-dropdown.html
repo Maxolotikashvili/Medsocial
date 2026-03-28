@@ -13,6 +13,10 @@
             @for (option of displayedOptionsList(); track $index) {
                 <button class="dropdown-button" [class.label-option]="option === label()" (click)="selectOption(option)">{{ option }}</button>
             }
+
+            @if (showNoResults()) {
+                <p class="text-description no-results">No {{label() | lowercase}} found</p>
+            }
         </div>
     }
 </div>
