@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TransactionHistory } from './transaction-history';
+import { Rating } from './rating';
 
-describe('TransactionHistory', () => {
-  let component: TransactionHistory;
-  let fixture: ComponentFixture<TransactionHistory>;
+describe('Rating', () => {
+  let component: Rating;
+  let fixture: ComponentFixture<Rating>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TransactionHistory]
+      imports: [Rating]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(TransactionHistory);
+    fixture = TestBed.createComponent(Rating);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

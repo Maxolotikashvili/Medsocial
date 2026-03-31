@@ -16,6 +16,7 @@
         .profile-image {
             width: 11.6rem;
             height: 11.6rem;
+            padding: 0.5rem;
             border-radius: 50%;
             border: 2px solid var(--color-white-0);
         }
@@ -33,7 +34,7 @@
         ul {
             display: flex;
             flex-flow: column;
-            gap: 2.4rem;
+            gap: 1.8rem;
 
             li { 
                 .route-link, .logout-button {

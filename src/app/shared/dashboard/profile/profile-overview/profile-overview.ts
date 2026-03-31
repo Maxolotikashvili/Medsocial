@@ -1,10 +1,9 @@
-import { Component, input, InputSignal, signal, WritableSignal } from '@angular/core';
+import { Component, input, signal, WritableSignal } from '@angular/core';
 import { faFile, faHandshake, faSnowflake, faStar, IconDefinition } from '@fortawesome/free-regular-svg-icons';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { faCashApp } from '@fortawesome/free-brands-svg-icons'
 import { Statcard } from "../../../../features/statcard/statcard";
 import { StatCardData } from '../../../../core/models/statcard.model';
-import { User } from '../../../../core/models/user.model';
 
 @Component({
   selector: 'profile-overview',
@@ -14,6 +13,7 @@ import { User } from '../../../../core/models/user.model';
 })
 export class ProfileOverview {
   public user = input();
+  
   public readonly icons: {[key: string]: IconDefinition} = {
     handshake: faHandshake,
     check: faCheck,

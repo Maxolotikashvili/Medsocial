@@ -3,11 +3,17 @@ import { Home } from './shared/home/home';
 import { Dashboard } from './shared/dashboard/dashboard';
 import { authGuard } from './core/guards/auth.guard';
 import { Procedures } from './shared/procedures/procedures';
+import { ProcedureDetails } from './shared/procedure-details/procedure-details';
+import { Doctor } from './shared/doctor/doctor';
+import { Doctors } from './shared/doctors/doctors';
 
 export const routes: Routes = [
   { path: 'home', component: Home },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'procedures', component: Procedures, canActivate: [authGuard] },
+  { path: 'procedure-details/:id', component: ProcedureDetails , canActivate: [authGuard]},
+  { path: 'doctors', component: Doctors },
+  { path: 'doctor/:id', component: Doctor },
   {
     path: 'dashboard',
     component: Dashboard,
@@ -21,11 +27,6 @@ export const routes: Routes = [
       {
         path: 'appointments',
         loadComponent: () => import('./shared/dashboard/appointments/appointments').then((m) => m.Appointments)
-      },
-
-      {
-        path: 'transaction-history',
-        loadComponent: () => import('./shared/dashboard/transaction-history/transaction-history').then((m) => m.TransactionHistory)
       },
 
       {

@@ -11,7 +11,7 @@ import {
 import { EMPTY, Observable, switchMap, tap, timer } from 'rxjs';
 import { StorageService } from './storage.service';
 import { AUTH_CONFIG } from '../configs/auth.config';
-import { DecodedTokenType, User } from '../models/user.model';
+import { DecodedTokenType, ApiUser } from '../models/user.model';
 import { USER_INITIAL_VALUE } from '../configs/user.config';
 import { API_ENDPOINTS } from '../configs/api-endpoints.config';
 
@@ -29,7 +29,7 @@ export class Authservice {
   public refresh_token = this.refreshTokenSignal.asReadonly();
 
   public isLoggedIn: Signal<boolean> = computed(() => !!this.accessTokenSignal());
-  private currentUserSignal = signal<User>(USER_INITIAL_VALUE);
+  private currentUserSignal = signal<ApiUser>(USER_INITIAL_VALUE);
   public user = this.currentUserSignal.asReadonly();
 
   constructor() {}
@@ -108,14 +108,14 @@ export class Authservice {
     location.reload();
   }
 
-  public refreshUser(): Observable<User> {
+  public refreshUser(): Observable<ApiUser> {
     const access_token = this.access_token();
     if (!access_token) return EMPTY;
 
     const payload = this.decodeToken(access_token);
     const id = payload?.user_id!;
 
-    return this.http.get<User>(`${this.apiUrl}/${API_ENDPOINTS.USERS.USER(id)}`).pipe(tap((user) => this.currentUserSignal.set(user)));
+    return this.http.get<ApiUser>(`${this.apiUrl}/${API_ENDPOINTS.USERS.USER(id)}`).pipe(tap((user) => this.currentUserSignal.set(user)));
   }
 
   private decodeToken(token: string): DecodedTokenType | null {

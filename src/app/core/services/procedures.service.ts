@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable, signal, Signal, WritableSignal } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { Procedure, ProceduresList, ProceduresQueryParams } from '../models/procedures.model';
+import { PaginatedResponse, Procedure, ProceduresQueryParams } from '../models/procedures.model';
 import { API_URL } from '../tokens/api-injection-token';
 import { API_ENDPOINTS } from '../configs/api-endpoints.config';
 
@@ -12,18 +12,15 @@ export class ProceduresService {
   private http = inject(HttpClient);
   private apiUrl: string = inject(API_URL);
 
-  private isFetchingProceduresSignal: WritableSignal<boolean> = signal<boolean>(false);
-  public isFetchingProcedures: Signal<boolean> = this.isFetchingProceduresSignal.asReadonly();
-
   constructor() {}
 
-  public getProceduresList(parameters?: ProceduresQueryParams): Observable<ProceduresList> {
+  public getProceduresList(parameters?: ProceduresQueryParams): Observable<PaginatedResponse<Procedure>> {
     let params = new HttpParams();
 
     if (parameters) {
       params = this.setQueryParams(parameters);
     }
-    return this.http.get<ProceduresList>(`${this.apiUrl}/${API_ENDPOINTS.DOCTORS.PROCEDURES}`, { params }).pipe(
+    return this.http.get<PaginatedResponse<Procedure>>(`${this.apiUrl}/${API_ENDPOINTS.DOCTORS.PROCEDURES}`, { params }).pipe(
       map((data) => {
         return { ...data, totalPages: this.getTotalPages(data) };
       }),
@@ -53,7 +50,7 @@ export class ProceduresService {
     return procedures.map((procedure) => procedure.category.title);
   }
 
-  public mappedProceduresQueryParams(target: Record<string, string | number>): ProceduresQueryParams {
+  public mapProceduresQueryParams(target: Record<string, string | number>): ProceduresQueryParams {
     const acc: any = {};
     const searchTerms: string[] = [];
 
@@ -75,7 +72,11 @@ export class ProceduresService {
     return acc as ProceduresQueryParams;
   }
 
-  private getTotalPages(data: ProceduresList): number {
+  private getTotalPages(data: PaginatedResponse<Procedure>): number {
     return Math.ceil(data.count / (data.results.length || 1));
+  }
+
+  public getProcedureDetails(id: string): Observable<Procedure> {
+    return this.http.get<Procedure>(`${this.apiUrl}/${API_ENDPOINTS.DOCTORS.PROCEDURE(id)}`);
   }
 }

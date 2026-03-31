@@ -11,12 +11,13 @@ import { ControlValueAccessor, NgControl, FormsModule, Validators } from '@angul
 export class MbInput implements ControlValueAccessor {
   public readonly label = input<string>('');
   public readonly placeholder = input<string>('');
-  public readonly type = input<'text' | 'password' | 'email' | 'date'>('text');
+  public readonly type = input<'text' | 'password' | 'email' | 'date' | 'number'>('text');
   public readonly required = input<boolean>(false);
   public readonly errorMessage = input<string>('');
   public readonly id = input<string>(`mb-input-${Math.random().toString(36).substring(2, 9)}`);
   public readonly min = input<string | undefined>(undefined);
   public readonly max = input<string | undefined>(undefined);
+  public readonly appearance = input<'outline' | 'underlined'>('outline');
 
   public value = model<string>('');
   public isDisabled = signal<boolean>(false);

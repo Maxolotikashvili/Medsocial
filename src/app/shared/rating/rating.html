@@ -1,0 +1,18 @@
+<div class="rating-component-wrapper">
+  <div class="stars-list" (mouseleave)="handleHover(null)">
+    @for (icon of displayedIcons(); track $index) {
+      <button 
+        class="star-button" 
+        [class.readonly]="mode() === 'readonly'"
+        (mouseover)="handleHover($index)"
+        (click)="handleSelect($index + 1)">
+        
+        <fa-icon [icon]="icon" class="star"></fa-icon>
+      </button>
+    }
+  </div>
+
+  @if (mode() === 'write' && temporarySelection() !== null) {
+    <button class="submit-button mb-button-naked" (click)="emitFinalRating()">Submit</button>
+  }
+</div>

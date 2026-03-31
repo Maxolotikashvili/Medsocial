@@ -11,15 +11,22 @@
     @include flex-center();
     height: 5rem;
     transition: background-color var(--global-transition-duration) ease, color var(--global-transition-duration) ease;
+    cursor: pointer;
 }
 
 .mb-button-naked {
     @include button();
     background-color: transparent;
+    border: 1px solid var(--color-blue-3);
+    color: var(--color-blue-3);
+    padding: 0.8rem 1.2rem;
+    border-radius: var(--global-round-radius);
+    height: unset;
 }
 
 .mb-button-naked:hover {
-    color: var(--color-blue-1);
+    background-color: var(--color-blue-3);
+    color: var(--color-white-0)
 }
 
 .mb-button-xs {

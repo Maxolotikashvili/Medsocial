@@ -1,4 +1,4 @@
-import { CategoryColorPipe } from './category-color-pipe';
+import { CategoryColorPipe } from './category-color.pipe';
 
 describe('CategoryColorPipe', () => {
   it('create an instance', () => {

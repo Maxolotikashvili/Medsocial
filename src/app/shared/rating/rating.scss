@@ -1,0 +1,19 @@
+.rating-component-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    .star-button {
+        background-color: unset;
+        border: none;
+
+        .star {
+            color: var(--color-green-0);
+            font-size: 1.8rem;
+        }
+    }
+
+    .readonly {
+        cursor: default;
+    }
+}

@@ -1,0 +1,71 @@
+@use '../../styles/elements.scss' as *;
+
+.doctor-component-wrapper {
+    padding: 0 0 2rem;
+
+    .doctor-wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 45rem;
+        gap: 3rem;
+        padding: 0 var(--global-side-padding);
+        background: var(--color-gradient-0);
+
+
+        .description-wrapper {
+            display: flex;
+            flex-flow: column;
+            gap: 0.5rem;
+
+            .rating-wrapper {
+                display: flex;
+                gap: 1rem;
+
+                span {
+                    color: var(--color-blue-0);
+                }
+            }
+
+            .bio {
+                max-width: 100%;
+                @include three-dots();
+            }
+
+            .name {
+                margin-bottom: 1rem;
+            }
+        }
+
+        .doctor-image {
+            height: 100%;
+            object-fit: cover;
+            object-position: top;
+            border-radius: 20px;
+        }
+    }
+
+    .details-wrapper {
+        margin-top: 6rem;
+        padding: 0 var(--global-side-padding);
+
+        .education-heading {
+            margin: 6rem 0 4rem;
+        }
+
+        .education-wrapper {
+            display: flex;
+            flex-flow: column;
+            gap: 1rem;
+
+            .icon {
+                font-size: 1.8rem;
+            }
+
+        }
+
+        .education-wrapper:not(:last-child) {
+            margin-bottom: 4rem;
+        }
+    }
+}

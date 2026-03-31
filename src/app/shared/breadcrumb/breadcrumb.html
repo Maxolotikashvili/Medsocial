@@ -1,5 +1,5 @@
 @if (isVisible()) {
-  <div role="banner" class="breadcrumb-wrapper">
+<div role="banner" class="breadcrumb-wrapper" #breadcrumbWrapper>
     <h1 class="heading-h1 current-url">
       {{ crumbs().length ? crumbs()[crumbs().length - 1].label : 'Home' }}
     </h1>

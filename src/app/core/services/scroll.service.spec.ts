@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ProceduresFilter } from './procedures-filter.service';
+import { ScrollService } from './scroll.service';
 
-describe('ProceduresFilter', () => {
-  let service: ProceduresFilter;
+describe('ScrollService', () => {
+  let service: ScrollService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ProceduresFilter);
+    service = TestBed.inject(ScrollService);
   });
 
   it('should be created', () => {

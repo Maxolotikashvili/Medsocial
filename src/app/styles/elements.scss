@@ -1,5 +1,10 @@
 @use './layout.scss' as *;
 
+@mixin three-dots {
+    text-overflow: ellipsis;
+    overflow-x: clip;
+}
+
 .xmark {
     position: absolute;
     top: 15px;
@@ -32,4 +37,40 @@
     font-size: 2.4rem;
     color: var(--color-white-0);
     border-radius: var(--global-square-radius);
+}
+
+.checkmark {
+    position: relative;
+    width: 22px;
+    aspect-ratio: 1/1;
+    background-color: var(--color-blue-3);
+    border-radius: var(--global-round-radius);
+    font-size: 11px;
+}
+
+.checkmark::after {
+    content: "✔";
+    @include position-center();
+    font-weight: 600;
+    text-align: center;
+    color: var(--color-white-0);
+}
+
+.card {
+    display: flex;
+    flex-flow: column;
+    border-radius: var(--global-square-radius);
+    box-shadow: var(--box-shadow);
+}
+
+.block {
+    height: fit-content;
+    border-radius: var(--global-square-radius);
+    padding: 3rem;
+    border: 1px solid var(--color-black-1);
+}
+
+.no-data-text {
+    text-align: center;
+    color: var(--color-gray-0);
 }

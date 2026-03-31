@@ -13,35 +13,37 @@
     font-weight: 700;
     line-height: 1.2;
     @include default-heading();
-    color: var(--color-black-0);
 }
 
 .heading-h2 {
     font-size: 3.6rem;
     font-weight: 700;
     @include default-heading();
-    color: var(--color-black-0);
 }
 
 .heading-h3 {
     font-size: 2.4rem;
     font-weight: 600;
     @include default-heading();
-    color: var(--color-black-0);
 }
 
 .heading-h4 {
     font-size: 2rem;
     font-weight: 600;
     @include default-heading();
-    color: var(--color-black-0);
 }
 
 .heading-h5 {
     font-size: 1.8rem;
     font-weight: 700;
     @include default-heading();
-    color: var(--color-blue-2);
+}
+
+.heading-h6 {
+    font-size: 1.6rem;
+    font-weight: 600;
+    @include default-heading();
+    color: var(--color-blue-3);
 }
 
 .text-small {
@@ -70,6 +72,30 @@
     font-weight: 600;
     color: var(--color-black-0);
     font-family: var(--font-family-dm);
+}
+
+.text-weight-800 {
+    font-weight: 800;
+}
+
+.text-weight-700 {
+    font-weight: 700;
+}
+
+.text-weight-600 {
+    font-weight: 600;
+}
+
+.text-weight-500 {
+    font-weight: 500;
+}
+
+.text-weight-400 {
+    font-weight: 400;
+}
+
+.text-weight-300 {
+    font-weight: 300;
 }
 
 .text-size-1 {

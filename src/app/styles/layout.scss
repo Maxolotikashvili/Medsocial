@@ -15,8 +15,3 @@
     left: 50%;
     transform: translate(-50%, -50%);
 }
-
-@mixin three-dots {
-    text-overflow: ellipsis;
-    overflow-x: clip;
-}

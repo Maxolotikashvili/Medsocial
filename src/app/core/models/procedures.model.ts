@@ -1,20 +1,20 @@
-import { User } from './user.model';
+import { Doctor } from './doctor.model';
 
-export interface ProceduresList {
-  count: number;
-  next: string;
-  previous: string;
-  results: Procedure[];
-  totalPages: number
+export interface PaginatedResponse<T> {
+  count: number,
+  totalPages?: number,
+  next: string | null,
+  previous: string | null,
+  results: T[]
 }
 
 export interface Procedure {
   id: string;
   title: string;
   description: string;
-  price: number;
-  discounted_price: number;
-  user: User;
+  price: string;
+  discounted_price: string;
+  user: Doctor;
   address: ProcedureAddress;
   category: ProcedureCategory;
   hospital: string;

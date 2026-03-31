@@ -1,0 +1,144 @@
+@if (procedure(); as data) {
+  <div class="procedure-details-component-wrapper" scrollFromBreadcrumbDirective>
+
+    <div class="procedure-details-wrapper">
+      <div class="image-wrapper" animateOnScroll [delay]="100">
+        <img class="procedure-image" [src]="data.image_after" alt="Procedure" />
+        <div class="service-icon icon">
+          <fa-icon [icon]="icons['pulse']"></fa-icon>
+        </div>
+      </div>
+
+      <h3 class="heading-h3 procedure-title">{{ data.title }}</h3>
+
+      <p class="text-description" animateOnScroll [delay]="100">
+        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
+        been the industry's is a standard dummy text ever since the 1500s, when an unknown printer
+        took a galley of type and scrambled it to make a type specimen book Et harum quidem rerum
+        facilis est et expedita distinctio. Nam libero tempore, cum soluta nob is est eligendi optio
+        cumque nihil impedit quo minus.
+      </p>
+
+      <p class="text-description" animateOnScroll [delay]="100">
+        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
+        been the industry's is a standard dummy text ever since the 1500s, when an unknown printer
+        took a galley of type and scrambled it to make a type specimen book Et harum.
+      </p>
+
+      <ul class="procedure-list-wrapper">
+        <li animateOnScroll>
+            <div class="checkmark"></div>
+            <span class="text-description">Dramatically syndicate alternative infrastructures through backward-compatible.</span>
+        </li>
+        <li animateOnScroll [delay]="100">
+            <div class="checkmark"></div>
+            <span class="text-description">economically sound information without maintainable alignments.</span>
+        </li>
+        <li animateOnScroll [delay]="200">
+            <div class="checkmark"></div>
+            <span class="text-description">Collaboratively syndicate world-class information after principle- centered.</span>
+        </li>
+        <li animateOnScroll [delay]="300">
+            <div class="checkmark"></div>
+            <span class="text-description">Collaboratively network bricks-and-clicks best practices via economically sound.</span>
+        </li>
+        <li animateOnScroll [delay]="400">
+            <div class="checkmark"></div>
+            <span class="text-description">Compellingly generate resource maximizing imperatives through.</span>
+        </li>
+      </ul>
+
+      <p class="text-description" animateOnScroll>
+        Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+        Lorem Ipsum has been the industry's is a standard dummy text ever since the 1500s, 
+        when an unknown printer took a galley of type and scrambled it to make a type specimen book Et harum.
+      </p>
+
+      <h4 class="heading-h4" animateOnScroll>Capabilities</h4>
+
+      <p class="text-description" animateOnScroll [delay]="100">
+        Aorem Ipsum is simply dummy text of the printing anda
+        typesetting industry. Lorem Ipsum has been the indust
+        ry's is astandard dummy Lorem Ipsum is simply dummy
+        ypesetting industry.
+      </p>
+
+      <p class="text-description" animateOnScroll [delay]="100">
+        Aorem Ipsum is simply dummy text of the printing anda
+        typesetting industry. Lorem Ipsum has been the indust
+        ry's is astandard dummy Lorem Ipsum is simply dummy
+        ypesetting industry.
+      </p>
+
+      
+      <div class="doctor-wrapper" animateOnScroll>
+        <h3 class="heading-h3" animateOnScroll>Doctor</h3>
+        <div class="image-details-wrapper">
+          <div class="image-wrapper">
+            <img [src]="data.user.image" (error)="handleDoctorImageError($event)" alt="Doctor">
+            <div class="image-overlay">
+              <a class="visit-link mb-link" [routerLink]="['/doctor', data.user.id]">Visit</a>
+            </div>
+          </div>
+
+          <div class="details-wrapper">
+            <div class="rating-wrapper">
+              <rating mode="readonly" [rating]="+data.user.rating.point"></rating>
+              <span class="text-small">({{data.user.rating.reviews}} Reviews)</span>
+            </div>
+            <a class="heading-h4 name-link" [routerLink]="['/doctor', data.user.id]">Dr. {{data.user.first_name}} {{data.user.last_name}}</a>
+            <h6 class="heading-h6 title">Surgeon</h6>
+
+            <p class="text-description description-wrapper">
+              <strong>Bio:</strong> 
+              <span class="bio">{{data.user.bio}}</span>
+            </p>
+            @if (data.user.age_is_public) {
+              <p class="text-description description-wrapper">
+                <strong>Age:</strong>
+                <span> {{data.user.dob | dobToAge}} </span>
+              </p>
+            }
+            <p class="text-description description-wrapper">
+              <strong>Timezone:</strong>
+              <span> {{data.user.timezone}} </span>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="heading-h3">Location</h3>
+      <p class="text-description">
+        <strong>{{data.hospital}},</strong> 
+        <span> located in: </span>
+        <strong>{{data.address.country.name | titlecase}}, {{data.address.city.name | titlecase}}</strong>
+      </p>
+      <map [location]="data.hospital"></map>
+
+    </div>
+
+    <div class="block location-block">
+      <div class="text-wrapper">
+        <div class="title-wrapper">
+          <fa-icon [icon]="icons['locationDot']" class="icon"></fa-icon>
+          <h4 class="heading-h4 title">Location</h4>
+        </div>
+
+        <p class="text-description text"> {{data.address.city.name}}, {{data.address.country.name}} </p>      
+      </div>
+
+      <div class="text-wrapper">
+        <div class="title-wrapper">
+          <fa-icon [icon]="icons['hospital']" class="icon"></fa-icon>
+          <h4 class="heading-h4 title">Hospital</h4>
+        </div>
+
+        <p class="text-description text"> {{data.hospital}} </p>      
+      </div>
+    </div>
+
+  </div>
+
+} @else {
+  <h2 class="no-data-text heading-h2">Nothing to display</h2>
+}

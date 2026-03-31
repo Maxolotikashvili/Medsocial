@@ -4,6 +4,8 @@
     display: contents;
 }
 
+$margin-from-components: 11rem;
+
 .breadcrumb-wrapper {
     position: relative;
     display: flex;
@@ -16,6 +18,7 @@
     background-size: cover;
     height: 60vh;
     z-index: 10;
+    margin-bottom: $margin-from-components;
 
     .current-url {
         position: relative;
@@ -35,8 +38,6 @@
             font-weight: 800;
         }
     }
-
-    
 }
 
 .breadcrumb-wrapper::before {

@@ -1,0 +1,180 @@
+@use '../../styles/animations.scss' as *;
+@use '../../styles/elements.scss' as *;
+@use '../../styles/layout.scss' as *;
+
+.procedure-details-component-wrapper {
+    display: flex;
+    padding: 0 var(--global-side-padding) 5rem;
+    gap: 2.4rem;
+
+    .procedure-details-wrapper {
+        display: flex;
+        flex-flow: column;
+        width: 75%;
+        gap: 2.5rem;
+
+        .image-wrapper {
+            position: relative;
+            height: 500px;
+
+            .procedure-image {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: var(--global-square-radius);
+            }
+
+            .icon {
+                position: absolute;
+                bottom: -10px;
+                right: 5%;
+                width: 7rem;
+                aspect-ratio: 1/1;
+                background-color: var(--color-blue-3);
+                color: var(--color-white-0);
+                font-size: 3rem;
+            }
+        }
+
+        .procedure-title {
+            font-size: 2.8rem;
+            margin-top: 2.5rem;
+        }
+
+        .procedure-list-wrapper {
+            display: flex;
+            flex-flow: column;
+            gap: 1.5rem;
+
+            li {
+                display: flex;
+                gap: 1.2rem;
+            }
+        }
+
+        .doctor-wrapper {
+            display: flex;
+            flex-flow: column;
+            gap: 2rem;
+            margin: 4rem 0;
+
+            .image-details-wrapper {
+                display: flex;
+                gap: 1rem;
+
+                .image-wrapper {
+                    aspect-ratio: 1/1;
+                    position: relative;
+                    width: fit-content;
+                    height: 100%;
+
+                    .image-overlay {
+                        @include flex-center();
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        transition: all var(--global-transition-duration) ease;
+
+                        .visit-link {
+                            font-size: 2.6rem;
+                            font-weight: 600;
+                            color: var(--color-blue-3);
+                            opacity: 0;
+                            transform: translateY(100px);
+                            pointer-events: none;
+                            transition: transform var(--global-transition-duration) ease, opacity var(--global-transition-duration) ease;
+                        }
+                    }
+
+                    .image-overlay:hover {
+                        backdrop-filter: blur(5px);
+                        background-color: var(--color-black-1);
+
+                        .visit-link {
+                            pointer-events: all;
+                            opacity: 1;
+                            transform: translateY(0);
+                        }
+                    }
+
+                    img {
+                        width: 22rem;
+                        aspect-ratio: 1/1;
+                        object-fit: cover;
+                        object-position: top;
+                        border-radius: var(--global-square-radius);
+                    }
+                }
+
+                .details-wrapper {
+                    display: flex;
+                    flex-flow: column;
+                    padding: 0.5rem 0;
+
+                    .rating-wrapper {
+                        display: flex;
+                        align-items: center;
+                        gap: 0.5rem;
+
+                        span {
+                            color: var(--color-blue-0);
+                            margin-bottom: 0.3rem;
+                        }
+                    }
+
+                    .name-link:hover {
+                        color: var(--color-blue-3);
+                    }
+
+                    .title {
+                        margin-bottom: auto;
+                    }
+
+                    .description-wrapper {
+                        display: flex;
+                        align-items: baseline;
+                        gap: 0.5rem;
+
+                        .bio {
+                            display: inline-block;
+                            @include three-dots();
+                            max-width: 100%;
+                        }
+                    }
+
+                    .description-wrapper:not(:last-child) {
+                        margin-bottom: 0.5rem;
+                    }
+                }
+            }
+        }
+    }
+
+    .location-block {
+        @include flex-center();
+        flex-flow: column;
+        gap: 2rem;
+        width: 25%;
+
+        .text-wrapper {
+            .title-wrapper {
+                @include flex-center();
+                
+                .icon {
+                    font-size: 2rem;
+                    color: var(--color-blue-3);
+                }
+                
+                .title {
+                    color: var(--color-blue-3);
+                }
+            }
+
+            .text {
+                margin-top: 0.5rem;
+            }
+        }
+    }
+}

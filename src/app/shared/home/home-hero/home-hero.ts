@@ -9,5 +9,4 @@ import { TitleCasePipe } from '@angular/common';
   styleUrl: './home-hero.scss'
 })
 export class HomeHero {
-
 }

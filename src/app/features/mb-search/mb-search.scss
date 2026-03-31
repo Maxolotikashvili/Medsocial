@@ -39,7 +39,7 @@ $search-input-size: 30.2rem;
         height: $search-button-size;
         position: absolute;
         top: 50%;
-        left: 0;
+        left: -1%;
         transform: translate(12%, -50%);
         background-color: var(--color-blue-3);
         border-radius: var(--global-round-radius);
@@ -54,6 +54,6 @@ $search-input-size: 30.2rem;
 
     .icon-button-open {
         left: 90%;
-        transform: translate(-40%, -50%);
+        transform: translate(-35%, -50%);
     }
 }

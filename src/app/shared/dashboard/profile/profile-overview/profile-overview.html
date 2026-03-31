@@ -1,8 +1,8 @@
-<div class="profile-overview-wrapper">
+<div class="profile-overview-wrapper" animate.enter="enter-animation-bottom">
     <h5 class="heading-h5 overview-heading">Overview</h5>
     <div class="divider"></div>
 
-    <div class="stats-wrapper-grid" animate.enter="enter-animation-bottom">
+    <div class="stats-wrapper-grid">
         @for (card of statistics(); track $index) {
             <statcard [data]="card"></statcard>
         }

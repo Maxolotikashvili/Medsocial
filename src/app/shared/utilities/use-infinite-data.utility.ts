@@ -3,13 +3,8 @@ import { inject, signal, computed, Injector } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { Observable, switchMap, scan, tap, distinctUntilChanged, filter, catchError, EMPTY, map } from 'rxjs';
 import { ErrorService } from '../../core/services/error.service';
+import { PaginatedResponse } from '../../core/models/procedures.model';
 
-export interface PaginatedResponse<T> {
-  count: number;
-  next: string | null;
-  previous: string | null;
-  results: T[];
-}
 export function useInfiniteData<T extends { name?: string }, P>(
   fetchFn: (params: P, page: number) => Observable<PaginatedResponse<T>>,
   initialParams: P,

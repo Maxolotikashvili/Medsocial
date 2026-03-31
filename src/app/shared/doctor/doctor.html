@@ -1,0 +1,67 @@
+@if (doctor(); as data) {
+    <div class="doctor-component-wrapper" scrollFromBreadcrumbDirective>
+
+        <div class="doctor-wrapper">
+            <div class="description-wrapper" animate.enter="enter-animation-right">
+                <div class="rating-wrapper">
+                    <rating mode="readonly" [rating]="+data.rating.point"></rating>
+                    <span class="text-small">({{data.rating.reviews}}) Reviews</span>
+                </div>
+
+                <h2 class="heading-h2 name"> {{data.first_name}} {{data.last_name}} </h2>
+                <p class="text-description"> {{data.title}} </p>
+                <p class="text-description bio"> {{data.bio}} </p>
+                <p class="text-description"> {{data.timezone}} </p>
+                
+                @if (data.age_is_public) {
+                    <p class="text-description"> {{data.dob | dobToAge}} Years old </p>
+                }
+            </div>
+
+            <img class="doctor-image" [src]="data" (error)="handleImageError($event)" alt="Doctor" animate.enter="enter-animation-left">
+        </div>
+
+        <div class="details-wrapper">
+            <h2 class="heading-h2 text-weight-400">About {{data.first_name}}</h2>
+
+            @if (data.educations.length > 0) {
+                <h3 class="heading-h3 text-weight-400 education-heading">Education</h3>
+                
+                @for (education of data.educations; track $index) {
+                    <div class="education-wrapper">
+                        <h6 class="heading-h6">
+                            <fa-icon class="icon" [icon]="icons['university']"></fa-icon>
+                            {{education.university}} 
+                            </h6>
+                        <p class="text-description">
+                            <fa-icon class="icon" [icon]="icons['calendar']"></fa-icon>
+                            {{education.from_date | date: 'yyyy.MM'}} - {{education.till_date | date: 'yyyy.MM'}} 
+                            </p>
+                        <p class="text-description"> {{education.description}} </p>
+                    </div>
+                    
+                }
+
+                @if (data.experiences.length > 0) {
+                    <h3 class="heading-h3 text-weight-400 education-heading">Experience</h3>
+                    @for (experience of data.experiences; track $index) {
+                        <div class="education-wrapper">
+                            <h6 class="heading-h6">
+                                <fa-icon class="icon" [icon]="icons['briefcase']"></fa-icon>
+                                {{ experience.work_title }}
+                            </h6>
+                            <p class="text-description">
+                                <fa-icon class="icon" [icon]="icons['calendar']"></fa-icon>
+                                {{experience.from_date | date: 'yyyy.MM'}} - {{experience.till_date | date: 'yyyy.MM'}} 
+                            </p>
+                            <p class="text-description"> {{experience.description}} </p>
+                        </div>
+                    }
+                }
+            }
+        </div>
+    </div>
+    
+} @else {
+    <h1>Please provide id for doctor from Url</h1>
+}

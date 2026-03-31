@@ -1,5 +1,5 @@
 @if (procedures(); as data) {
-  <div class="procedures-component-wrapper">
+  <div class="procedures-component-wrapper" scrollFromBreadcrumbDirective>
     <div class="filters-wrapper">
       <filters (filterChange)="onFiltersChange($event)">
         <mb-dropdown label="Country" [params]="countries.params()" (searchValueChange)="onCountrySearch($event)" [optionsList]="countries.data()" (selectionChange)="onCountryDropdownChange($event)" [isLoading]="countries.loading()"></mb-dropdown>
@@ -12,16 +12,42 @@
     @if (data.results.length > 0) {
       <div class="procedures-wrapper">
         @for (procedure of data.results; track procedure.id) {
-          <div class="procedure-wrapper">
+          <div class="card procedure-wrapper" animate.enter="enter-animation-bottom">
             <div class="image-wrapper">
               <img [src]="procedure.image" (error)="handleImageError($event)" class="procedure-img" alt="Procedure"/>
               <div class="service-icon procedure-icon" [class]="procedure.title | categoryColor">
                 <fa-icon [icon]="procedure.title | categoryIcon"></fa-icon>
               </div>
             </div>
-            <a class="heading-h4 procedure-link procedure-title"> {{ procedure.title }} </a>
-            <p class="text-description procedure-text">{{ procedure.description }}</p>
-            <a class="mb-link text-size-2 read-more-link">Read More</a>
+
+            <div class="heading-wrapper">
+              <h4 class="heading-h4 procedure-title"> {{ procedure.title }} </h4>
+              <h6 class="heading-h6 procedure-description">{{ procedure.description }}</h6>
+            </div>
+
+            <ul class="details-list-wrapper">
+              
+              <li class="details-list">
+                <fa-icon [icon]="icons.location" class="detail-icon"></fa-icon>
+                <span class="text-description">{{procedure.address.city.name}}, {{procedure.address.country.name}}</span>
+              </li>
+              
+              <li class="details-list">
+                <fa-icon [icon]="icons.hospital" class="detail-icon"></fa-icon>
+                <span class="text-description hospital">{{procedure.hospital}}</span>
+              </li>
+              
+              <li class="details-list price-list"> 
+                <fa-icon [icon]="icons['price']" class="detail-icon"></fa-icon>
+  
+                @if (procedure.discounted_price && procedure.discounted_price < procedure.price) {
+                  <del class="text-description"> {{procedure.price}}$ </del>
+                }
+                <span class="text-description"> {{procedure.discounted_price}}$ </span>
+              </li>
+            </ul>
+
+            <a class="mb-link text-size-2 read-more-link" [routerLink]="['/procedure-details', procedure.id]">Read More</a>
           </div>
         }
       </div>

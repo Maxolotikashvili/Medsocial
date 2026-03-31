@@ -1,11 +1,11 @@
-import { User } from "../models/user.model";
+import { ApiUser } from "../models/user.model";
 
 export const USER_ROLES = {
     DOCTOR: 1,
     PATIENT: 2
 } as const;
 
-export const USER_INITIAL_VALUE: User = {
+export const USER_INITIAL_VALUE: ApiUser = {
     age_is_public: false,
     bio: '',
     dob: '',

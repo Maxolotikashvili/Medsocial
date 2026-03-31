@@ -6,6 +6,7 @@ import { DashboardNavLink } from '../../../core/models/navigation.model';
 import { faAngleRight, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
 import { Authservice } from '../../../core/services/auth.service';
+import { USER_ROLES } from '../../../core/configs/user.config';
 
 @Component({
   selector: 'dashboard-sidebar',
@@ -25,5 +26,15 @@ export class DashboardSidebar {
 
   public logOut() {
     this.authService.logOut();
+  }
+
+  public handleImageError(event: Event): void {
+    const image = event.target as HTMLImageElement;
+
+    if (this.user().role === USER_ROLES.PATIENT) {
+      image.src = 'images/user-placeholder.png';
+    } else if (this.user().role === USER_ROLES.DOCTOR) {
+      image.src = 'images/doctor-placeholder.png'
+    }
   }
 }
