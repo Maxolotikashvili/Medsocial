@@ -14,6 +14,7 @@ import { AUTH_CONFIG } from '../configs/auth.config';
 import { DecodedTokenType, ApiUser } from '../models/user.model';
 import { USER_INITIAL_VALUE } from '../configs/user.config';
 import { API_ENDPOINTS } from '../configs/api-endpoints.config';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +23,7 @@ export class Authservice {
   private readonly http = inject(HttpClient);
   private readonly apiUrl = inject(API_URL);
   private storageService = inject(StorageService);
+  private userService = inject(UserService);
 
   private accessTokenSignal: WritableSignal<string | null> = signal(this.storageService.get<string | null>(AUTH_CONFIG.STORAGE_KEYS.ACCESS_TOKEN));
   public access_token = this.accessTokenSignal.asReadonly();
@@ -29,8 +31,6 @@ export class Authservice {
   public refresh_token = this.refreshTokenSignal.asReadonly();
 
   public isLoggedIn: Signal<boolean> = computed(() => !!this.accessTokenSignal());
-  private currentUserSignal = signal<ApiUser>(USER_INITIAL_VALUE);
-  public user = this.currentUserSignal.asReadonly();
 
   constructor() {}
 
@@ -115,7 +115,7 @@ export class Authservice {
     const payload = this.decodeToken(access_token);
     const id = payload?.user_id!;
 
-    return this.http.get<ApiUser>(`${this.apiUrl}/${API_ENDPOINTS.USERS.USER(id)}`).pipe(tap((user) => this.currentUserSignal.set(user)));
+    return this.userService.getUserInfo(id).pipe(tap((user) => this.userService.currentUserSignal.set(user)));
   }
 
   private decodeToken(token: string): DecodedTokenType | null {

@@ -1,0 +1,20 @@
+<div class="register-modal-wrapper">
+    <img src="images/company-logo.png" class="company-logo" alt="Company-logo">
+
+    <form [formGroup]="registerForm" (ngSubmit)="submitRegisterForm()">
+        <div class="input-wrapper">
+            <mb-input appearance="underlined" type="text" label="First Name" formControlName="firstName" initialFocus></mb-input>
+            <mb-input appearance="underlined" type="text" label="Last Name" formControlName="lastName"></mb-input>
+            <mb-input appearance="underlined" type="text" label="Email" formControlName="email"></mb-input>
+            <mb-input appearance="underlined" type="date" id="dob" formControlName="dob" [label]="'Date of birth'" [min]="minBirthDate" [max]="maxBirthDate"></mb-input>
+            <mb-input appearance="underlined" type="password" label="Password" formControlName="password"></mb-input>
+            <mb-input appearance="underlined" type="password" label="Confirm Password" formControlName="confirmPassword"></mb-input>
+        </div>
+
+        <button type="submit" [effect]="'arrow'" class="mb-button-fullsize mb-button-round submit-button">Register</button>
+    </form>
+
+    @if (isRequestPending()) {
+        <loading></loading>
+    }
+</div>

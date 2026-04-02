@@ -1,0 +1,60 @@
+$margin-between-arrays: 10rem;
+$margin-between-components: 16rem;
+
+.heading-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .buttons-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+}
+
+.professional-details-form {
+    margin: 4rem 0 $margin-between-components;
+
+    .details-array-wrapper {
+        display: flex;
+        flex-flow: column;
+        gap: $margin-between-arrays;
+        
+        .item-card {
+            display: flex;
+            flex-flow: column;
+            gap: 2rem;
+            
+            .field-wrapper {
+                display: flex;
+                flex-flow: column;
+                gap: 2rem;
+
+                .field-list {
+                    display: flex;
+                    flex-flow: column;
+
+                    .label {
+                        padding-left: 4px;
+                    }
+
+                    .degree-dropdown {
+                        width: 25rem;
+                        height: 3.4rem;
+                    }
+                }
+
+                .field-list:not(:nth-child(1)) {
+                    gap: 1.2rem;
+                }
+            }
+
+            .update-button {
+                width: 50%;
+                padding: 1.2rem 0;
+                margin-inline: auto;
+            }
+        }
+    }
+}

@@ -17,9 +17,9 @@ export class MbInput implements ControlValueAccessor {
   public readonly id = input<string>(`mb-input-${Math.random().toString(36).substring(2, 9)}`);
   public readonly min = input<string | undefined>(undefined);
   public readonly max = input<string | undefined>(undefined);
-  public readonly appearance = input<'outline' | 'underlined'>('outline');
+  public readonly appearance = input<'outline' | 'underlined'>('underlined');
 
-  public value = model<string>('');
+  public value = model<string | number | boolean>('');
   public isDisabled = signal<boolean>(false);
 
   public get isInvalid(): boolean {
@@ -38,7 +38,8 @@ export class MbInput implements ControlValueAccessor {
     if (errors['futureDate']) return 'Are you from the future?';
     if (errors['unrealisticAge']) return 'Please enter a valid age';
     if (errors['invalidEmail']) return 'Please enter a valid email address (e.g. name@example.com)';
-
+    if (errors['incompleteDate']) return 'Please enter full date (YYYY-MM-DD)';
+    if (errors['invalidDate']) return 'Invalid date';
     if (errors['serverError']) {
       return errors['serverError'];
     }
@@ -65,11 +66,21 @@ export class MbInput implements ControlValueAccessor {
     return hasRequiredValidator || this.required();
   }
 
-  private onChange: (val: string) => void = () => {};
+  private onChange: (val: string | null) => void = () => {};
   private onTouched: () => void = () => {};
 
   public writeValue(val: string): void {
-    this.value.set(val || '');
+    let finalValue: any = val || '';
+
+    if (this.type() === 'date' && finalValue) {
+      if (typeof finalValue === 'string' && finalValue.includes('T')) {
+        finalValue = finalValue.split('T')[0];
+      } else if (finalValue instanceof Date) {
+        finalValue = finalValue.toISOString().split('T')[0];
+      }
+
+    } 
+    this.value.set(finalValue);
   }
 
   public registerOnChange(fn: any): void {
@@ -84,11 +95,18 @@ export class MbInput implements ControlValueAccessor {
     this.isDisabled.set(isDisabled);
   }
 
-  public handleInput(event: Event) {
-    const val = (event.target as HTMLInputElement).value;
-    this.value.set(val);
-    this.onChange(val);
+ public handleInput(event: Event) {
+  const inputEl = event.target as HTMLInputElement;
+  let val = inputEl.value;
+
+  if (this.type() === 'date' && val.length < 10) {
+    this.onChange(null);
+    return;
   }
+
+  this.value.set(val);
+  this.onChange(val);
+}
 
   public handleBlur() {
     this.onTouched();

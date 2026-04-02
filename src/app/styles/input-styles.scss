@@ -14,6 +14,16 @@
     cursor: pointer;
 }
 
+button:disabled {
+    color: var(--color-gray-0);
+    background-color: transparent;
+    border-color: var(--color-gray-0);
+}
+
+button:disabled:hover {
+    cursor: default
+}
+
 .mb-button-naked {
     @include button();
     background-color: transparent;
@@ -24,7 +34,7 @@
     height: unset;
 }
 
-.mb-button-naked:hover {
+.mb-button-naked:not(:disabled):hover {
     background-color: var(--color-blue-3);
     color: var(--color-white-0)
 }
@@ -67,6 +77,17 @@
     border-radius: 30px;
 }
 
+.mb-button-abort {
+    color: var(--color-error);
+    background-color: transparent;
+    border: 1px solid var(--color-error);
+}
+
+.mb-button-abort:not(:disabled):hover {
+    background-color: var(--color-error);
+    color: var(--color-white-0);
+}
+
 .mb-search-input {
     border: none;
     font-size: 1.4rem;
@@ -74,4 +95,11 @@
     border-radius: var(--global-round-radius);
     margin: 0.4rem 1rem;
     padding: 0.9rem;
+}
+
+.mb-textarea {
+    border: 1px solid var(--color-black-1);
+    resize: none;
+    height: 20rem;
+    padding: 0.4rem;
 }

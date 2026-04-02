@@ -1,0 +1,57 @@
+<div class="heading-wrapper">
+    <h3 class="heading-h3 text-weight-400"> {{type() | titlecase}} </h3>
+
+    <div class="buttons-wrapper">
+        <button type="button" class="mb-button-naked" (click)="addNewFormArray()">+ Add New</button>
+        <button class="mb-button-naked mb-button-abort" (click)="cancelEditMode.emit()">Cancel</button>
+    </div>
+
+</div>
+
+<form [formGroup]="form" class="professional-details-form">
+    <div formArrayName="items" class="details-array-wrapper">
+        @for (item of items.controls; track $index) {
+            <div [formGroupName]="$index" class="item-card">
+                <ul class="field-wrapper">
+                    @if (type() === 'education') {
+                        <li class="field-list">
+                            <span class="text-description label">University</span>
+                            <mb-input formControlName="university"></mb-input>
+                        </li>
+
+                        <li class="field-list">
+                            <span class="text-description label">Degree</span>
+                            <mb-dropdown class="degree-dropdown" [optionsList]="degreeOptionsList" label="Degree"></mb-dropdown>
+                        </li>
+                    }
+
+                    @if (type() === 'experience') {
+                        <li class="field-list">
+                            <span class="text-description label">Work Title</span>
+                            <mb-input formControlName="workTitle"></mb-input>
+                        </li>
+                    }
+
+                    <li class="field-list">
+                        <span class="text-description">From</span>
+                        <mb-input formControlName="from" type="date"></mb-input>
+                    </li>
+
+                    <li class="field-list">
+                        <span class="text-description">To</span>
+                    <mb-input formControlName="till" type="date"></mb-input>
+                    </li>
+
+                    <li class="field-list">
+                        <span class="text-description">Description</span>
+                        <textarea class="mb-textarea" formControlName="description"></textarea>
+                    </li>   
+                </ul>
+
+                <button class="mb-button-naked update-button" (click)="saveItem($index)" [disabled]="items.at($index).pristine">
+                    {{ items.at($index).value.id ? 'Update' : 'Save' }}
+                </button>
+            </div>
+        }
+    </div>
+</form>

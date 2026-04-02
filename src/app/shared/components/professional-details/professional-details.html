@@ -1,0 +1,5 @@
+@if (!isEditModeOn()) {
+    <professional-details-view [data]="data()" [type]="type()" [isEditable]="isEditable()" (editMode)="isEditModeOn.set(true)"></professional-details-view>   
+} @else {
+    <professional-details-edit [data]="data()" [type]="type()" (cancelEditMode)="isEditModeOn.set(false)"></professional-details-edit>
+}

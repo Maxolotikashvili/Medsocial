@@ -17,11 +17,14 @@ export interface Doctor extends BaseUser {
 export interface Education {
   id: string;
   university: string;
+  degree?: EducationDegree,
   from_date: string;
   till_date: string;
   description: string;
   image: string;
 }
+
+export type EducationDegree = "high school diploma" | "associate degree" | "bachelor's degree" | "master's degree" | "doctorate (Phd)" | "professional degree (Md, Jd, etc.)"
 
 export interface Experience {
   id: string;

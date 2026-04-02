@@ -1,0 +1,36 @@
+<div class="details-view-component-wrapper">
+    @if (data().length > 0) {
+        <div class="title-wrapper">
+            <h3 class="heading-h3 text-weight-400 heading">{{type() | titlecase}}</h3>
+            
+            @if (isEditable()) {
+                <button class="mb-button-naked mb-button-square edit-button" (click)="editMode.emit()">Edit</button>
+            }
+        </div>
+
+        @for (data of data(); track $index) {
+            <div class="details-wrapper">
+                <div class="details-heading-wrapper">
+                    @if ('university' in data) {
+                        <div class="details-title-wrapper">
+                            <fa-icon class="icon" [icon]="icons['university']"></fa-icon>
+                            <h6 class="heading-h6"> {{data.university}} </h6>
+                        </div>
+                    } @else if ('work_title' in data) {
+                        <div class="details-title-wrapper">
+                            <fa-icon class="icon" [icon]="icons['briefcase']"></fa-icon>
+                            <h6 class="heading-h6"> {{data.work_title}} </h6>
+                        </div>
+                    }
+                </div>
+                <p class="text-description">
+                    <fa-icon class="icon" [icon]="icons['calendar']"></fa-icon>
+                    {{ data.from_date | date: 'yyyy.MM' }} - {{ data.till_date | date: 'yyyy.MM' }}
+                </p>
+                <p class="text-description">{{ data.description }}</p>
+            </div>
+        }
+    } @else {
+        <h3 class="heading-h3 text-weight-400 no-heading">No {{type()}} info is shown at this moment</h3>
+    }
+</div>

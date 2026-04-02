@@ -1,0 +1,42 @@
+<div class="profile-information-wrapper" animate.enter="enter-animation-bottom">
+    <div class="heading-wrapper">
+        <h5 class="heading-h5 text-size-4">Profile Information</h5>
+        <button class="mb-button-xs edit-button" (click)="isEditModeOn.set(!isEditModeOn())">Edit</button>
+    </div>
+
+    <div class="divider"></div>
+
+    <ul class="info-list-wrapper">
+        @if (!isEditModeOn()) {
+            @for (info of userInfo(); track $index) {
+                <li class="info-list">
+                    <span class="text-description info-name"> {{info.key | titlecase}} </span>
+                    <span class="text-description info-value"> {{info.value.toString() | titlecase}} </span>
+                </li>
+            }
+        }
+    </ul>
+    
+    @if (isEditModeOn()) {
+        <form [formGroup]="userForm" (ngSubmit)="submitUserForm()">
+            <ul class="info-list-wrapper">
+                @for (field of formFields(); track $index) {
+                    @if (field.type !== 'checkbox') {
+                        <li class="field-list">
+                            <span class="text-description field-name"> {{field.label}} </span>
+                            <mb-input [min]="minBirthDate" [max]="maxBirthDate" [value]="field.value" [placeholder]="field.label" [type]="field.type" [formControlName]="field.controlName" ></mb-input>
+                        </li>
+                        
+                    } @else {
+                        <mb-checkbox [formControlName]="field.controlName" [label]="field.label"></mb-checkbox>
+                    }
+                }
+            </ul>
+
+            <div class="buttons-wrapper">
+                <button class="mb-button-s mb-button-round submit-button" type="submit" [disabled]="userForm.status !== 'VALID'">Submit</button>
+                <button class="mb-button-s mb-button-round abort-button" (click)="isEditModeOn.set(false)">Abort</button>
+            </div>
+        </form>
+    }
+</div>

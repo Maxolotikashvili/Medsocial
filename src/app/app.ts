@@ -1,9 +1,9 @@
 import { Component, inject, signal } from '@angular/core';
 import { PopupService } from './core/services/popup.service';
 import { PopupComponent } from './features/popup/popup';
-import { MainHeader } from './shared/main-header/main-header';
+import { MainHeader } from './shared/components/main-header/main-header';
 import { RouterOutlet } from '@angular/router';
-import { Breadcrumb } from "./shared/breadcrumb/breadcrumb";
+import { Breadcrumb } from "./shared/components/breadcrumb/breadcrumb";
 
 @Component({
   selector: 'app-root',

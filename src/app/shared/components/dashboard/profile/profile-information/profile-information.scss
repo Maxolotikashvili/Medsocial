@@ -1,0 +1,97 @@
+@use '../../../../../styles/elements.scss' as *;
+
+.profile-information-wrapper {
+    margin-top: 2.4rem;
+    padding-bottom: 4rem;
+
+    .heading-wrapper {
+        display: flex;
+        justify-content: space-between;
+
+        h5 {
+            color: var(--color-black-0);
+        }
+
+        .edit-button {
+            border-radius: var(--global-round-radius);
+            padding: 0.6rem;
+            height: unset;
+        }
+
+        .edit-button:hover {
+            background-color: var(--color-green-0);
+        }
+    }
+
+    .divider {
+        margin-top: 1rem;
+    }
+
+    .info-list-wrapper {
+        .info-list {
+            padding: 1.5rem 0;
+            border-bottom: 1px solid var(--color-black-1);
+
+            .info-name {
+                display: inline-block;
+                min-width: 15rem;
+                color: var(--color-black-0);
+            }
+
+            .info-value {
+                color: var(--color-blue-0);
+            }
+        }
+
+        .field-list {
+            padding: 1.5rem 0;
+            display: flex;
+            align-items: center;
+
+            .field-name {
+                min-width: 15rem;
+            }
+
+            mb-input {
+                width: 30rem;
+            }
+        }
+    }
+
+    mb-checkbox {
+        margin: 2rem 0;
+    }
+    
+    .buttons-wrapper {
+        display: flex;
+        gap: 1rem;
+
+        .submit-button {
+            background-color: transparent;
+            border: 2px solid var(--color-blue-3);
+            color: var(--color-blue-3);
+        }
+
+        .submit-button:not(:disabled):hover {
+            background-color: var(--color-blue-3);
+            color: var(--color-white-0);
+        }
+
+        .submit-button:disabled {
+            border-color: var(--color-gray-0);
+            color: var(--color-gray-0);
+            cursor: default;
+        }
+
+        .abort-button {
+            background-color: transparent;
+            border: 2px solid var(--color-error);
+            color: var(--color-error);
+        }
+
+        .abort-button:hover {
+            background-color: var(--color-error);
+            color: var(--color-white-0);
+        }
+    }
+}

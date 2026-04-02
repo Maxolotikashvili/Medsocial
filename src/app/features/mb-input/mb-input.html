@@ -1,5 +1,5 @@
 <!-- Text inputs -->
-<div class="group" [class.error-state]="isInvalid" [class.type-date]="type() === 'date'">
+<div class="group" [class.error-state]="isInvalid" [class.type-date]="type() === 'date'" [class]="'appearance-'+ appearance()">
   @if (type() !== 'date') {
     <input
       [type]="type()"
@@ -7,15 +7,18 @@
       [disabled]="isDisabled()"
       [id]="id()"
       [value]="value()"
-      [placeholder]="placeholder()"
+      [placeholder]="appearance() === 'underlined' ? placeholder() : label()"
       (input)="handleInput($event)"
       (blur)="handleBlur()"
       autocomplete="on"
       class="mb-input"
     />
-    <span class="highlight"></span>
-    <span class="bar"></span>
-    <label [for]="id()" class="text-size-2"> {{ label() }} </label>
+
+    @if (appearance() === 'underlined') {
+      <span class="highlight"></span>
+      <span class="bar"></span>
+      <label [for]="id()" class="label text-size-2"> {{ label() }} </label>
+    }
   }
   <!-- Date input -->
   @if (type() === 'date') {
@@ -28,6 +31,7 @@
       (blur)="handleBlur()"
       [min]="min()"
       [max]="max()"
+      [value]="value()"
       class="mb-input date-input"
     />
     <span class="bar"></span>

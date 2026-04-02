@@ -1,14 +1,15 @@
 <div class="container" [class]="containerClass()">
-    <input type="checkbox" 
-           [id]="id()" 
-           class="mb-checkbox" 
-           [checked]="checked()" 
-           [disabled]="disabled()" 
-           (change)="onCheckChange($event)"> <label [for]="id()" class="check text-description">
+    <input type="checkbox" class="mb-checkbox" [id]="id()"
+    [checked]="checked()"
+    [disabled]="disabled()"
+    (click)="toggle()"
+    />
+    <label [for]="id()" class="check text-description">
         <svg width="18px" height="18px" viewBox="0 0 18 18">
             <path d="M 1 9 L 1 9 c 0 -5 3 -8 8 -8 L 9 1 C 14 1 17 5 17 9 L 17 9 c 0 4 -4 8 -8 8 L 9 17 C 5 17 1 14 1 9 L 1 9 Z"></path>
             <polyline points="1 9 7 14 15 4"></polyline>
         </svg>
-        <span class="label-text"> {{label()}} </span>
+        
+        <span class="label-text"> {{ label() }} </span>
     </label>
 </div>

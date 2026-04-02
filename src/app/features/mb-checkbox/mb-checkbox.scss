@@ -1,81 +1,89 @@
 @use '../../styles/layout.scss' as *;
 
-mb-checkbox {
-    display: contents;
-}
-
 $check-color: var(--color-blue-1);
 
-.mb-checkbox {
-    display: none;
+:host {
+    display: block;
 }
 
-.mb-checkbox:checked+.check svg {
-    stroke: $check-color;
-}
-
-.mb-checkbox:checked+.check svg path {
-    stroke-dashoffset: 60;
-    transition: all 0.3s linear;
-}
-
-.mb-checkbox:checked+.check svg polyline {
-    stroke-dashoffset: 42;
-    transition: all 0.2s linear;
-    transition-delay: 0.15s;
-}
-
-.check {
-    @include flex-center();
-    gap: .8rem;
-    cursor: pointer;
+.container {
     position: relative;
-    -webkit-tap-highlight-color: transparent;
-}
+    display: inline-block;
 
-.check:before {
-    content: "";
-    position: absolute;
-    top: -9px;
-    left: -6px;
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background: rgba($check-color, 0.2);
-    opacity: 0;
-    transition: opacity 0.2s ease;
-}
+    .mb-checkbox {
+        width: 100%;
+        opacity: 0;
+        @include position-center();
+        z-index: 10;
+        cursor: pointer;
+    }
 
-.check svg {
-    position: relative;
-    z-index: 1;
-    fill: none;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    stroke: var(--color-black-0);
-    stroke-width: 1.5;
-    transform: translate3d(0, 0, 0);
-    transition: all 0.2s ease;
-}
+    .mb-checkbox:checked+.check svg {
+        stroke: $check-color;
+    }
 
-.check svg path {
-    stroke-dasharray: 60;
-    stroke-dashoffset: 0;
-}
+    .mb-checkbox:checked+.check svg path {
+        stroke-dashoffset: 60;
+        transition: all 0.3s linear;
+    }
 
-.check svg polyline {
-    stroke-dasharray: 22;
-    stroke-dashoffset: 66;
-}
+    .mb-checkbox:checked+.check svg polyline {
+        stroke-dashoffset: 42;
+        transition: all 0.2s linear;
+        transition-delay: 0.15s;
+    }
 
-.check:hover:before {
-    opacity: 1;
-}
+    .check {
+        @include flex-center();
+        gap: .8rem;
+        position: relative;
+        -webkit-tap-highlight-color: transparent;
+    }
 
-.check:hover svg {
-    stroke: $check-color;
-}
+    .check:before {
+        content: "";
+        position: absolute;
+        top: -9px;
+        left: -6px;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: rgba($check-color, 0.2);
+        opacity: 0;
+        transition: opacity 0.2s ease;
+    }
 
-.label-text {
-    color: var(--color-black-0);
+    .check svg {
+        position: relative;
+        z-index: 1;
+        fill: none;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke: var(--color-black-0);
+        stroke-width: 1.5;
+        transform: translate3d(0, 0, 0);
+        transition: all 0.2s ease;
+    }
+
+    .check svg path {
+        stroke-dasharray: 60;
+        stroke-dashoffset: 0;
+    }
+
+    .check svg polyline {
+        stroke-dasharray: 22;
+        stroke-dashoffset: 66;
+    }
+
+    .check:hover:before {
+        opacity: 1;
+    }
+
+    .check:hover svg {
+        stroke: $check-color;
+    }
+
+    .label-text {
+        color: var(--color-black-0);
+    }
 }

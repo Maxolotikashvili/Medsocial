@@ -1,0 +1,9 @@
+@use '../../../styles/elements.scss' as *;
+
+.doctor-component-wrapper {
+    padding: 2rem var(--global-side-padding);
+
+    .about-heading {
+        margin: 4rem 0;
+    }
+}

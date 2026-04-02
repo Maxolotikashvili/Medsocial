@@ -1,8 +1,9 @@
 import { ApiUser } from "../models/user.model";
 
 export const USER_ROLES = {
-    DOCTOR: 1,
-    PATIENT: 2
+    PATIENT: 1,
+    DOCTOR: 2,
+    ADMINISTRATOR: 3
 } as const;
 
 export const USER_INITIAL_VALUE: ApiUser = {

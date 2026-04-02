@@ -1,0 +1,22 @@
+@if (doctor(); as data) {
+    <div class="doctor-wrapper">
+        <div class="description-wrapper" animate.enter="enter-animation-right">
+            <div class="rating-wrapper">
+                <rating mode="readonly" [rating]="+data.rating.point"></rating>
+                <span class="text-small">({{ data.rating.reviews }}) Reviews</span>
+            </div>
+            
+            <h2 class="heading-h2 name">{{ data.first_name }} {{ data.last_name }}</h2>
+            <p class="text-description">{{ data.title }}</p>
+            <p class="text-description bio">{{ data.bio }}</p>
+            <p class="text-description">{{ data.timezone }}</p>
+            
+            @if (data.age_is_public) {
+                <p class="text-description">{{ data.dob | dobToAge }} Years old</p>
+            }
+        </div>
+        
+        <img class="doctor-image" [src]="data" (error)="handleImageError($event)" alt="Doctor" animate.enter="enter-animation-left"/>
+    </div>
+    
+}

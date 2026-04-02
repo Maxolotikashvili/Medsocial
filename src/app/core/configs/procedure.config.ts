@@ -1,3 +1,4 @@
+import { EducationDegree } from "../models/doctor.model";
 import { ProcedureCategoryTitle } from "../models/procedures.model";
 
 export const ALL_PROCEDURE_CATEGORIES: ProcedureCategoryTitle[] = [
@@ -29,3 +30,5 @@ export const ALL_PROCEDURE_CATEGORIES: ProcedureCategoryTitle[] = [
   'Heart valve repair/replacement',
   'Cardiac catheterization'
 ] as const;
+
+export const EDUCATION_DEGREES: EducationDegree[] = ["high school diploma", 'associate degree', "bachelor's degree", "master's degree", "doctorate (Phd)", "professional degree (Md, Jd, etc.)"] 

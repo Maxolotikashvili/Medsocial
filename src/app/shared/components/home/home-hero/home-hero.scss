@@ -1,0 +1,39 @@
+@use '../../../../styles/layout.scss' as *;
+
+.home-hero-section {
+    display: flex;
+    align-items: flex-end;
+    gap: 13rem;
+    background-image: url('/images/home-hero-background.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100vh;
+    padding: var(--global-header-size) var(--global-side-padding) 2rem var(--global-side-padding);
+    
+    .banner-text-wrapper {
+        max-width: 48rem;
+        display: flex;
+        flex-flow: column;
+        justify-content: flex-end;
+        gap: 4.5rem;
+
+        .appointment-link {
+            @include flex-center();
+            width: 21.2rem; 
+            color: var(--color-white-0);
+            background-color: var(--color-blue-2);
+            border-radius: var(--global-round-radius);
+            padding: 1.6rem 0;
+        }
+
+        .appointment-link:hover {
+            background-color: var(--color-green-0);
+        }
+    }
+
+    .home-banner {
+        width: 63.6rem;
+        height: 60rem;
+    }
+}

@@ -6,6 +6,19 @@ export interface DecodedTokenType {
   user_id: string;
 }
 
+export interface UserInfo {
+  first_name: string;
+  last_name: string;
+  phone: string;
+  email: string;
+  title: string;
+  dob: string;
+  timezone: string;
+  image: string;
+  bio: string;
+  age_is_public: boolean;
+}
+
 export interface BaseUser {
   id: string;
   first_name: string;

@@ -1,42 +1,84 @@
-:host {
-    display: contents;
-}
-
-.mb-input {
-    width: 100%;
-    padding: 1.2rem 0.4rem;
-    background: transparent;
-    outline: none;
-    resize: none;
-    font-weight: 400;
-    border: none;
-    font-family: var(--font-family-dm);
-    color: var(--color-blue-0);
-    font-size: 1.6rem;
-    border-bottom: 1px solid var(--color-blue-0);
-}
-
 .group {
     position: relative;
+    
+    .mb-input {
+        width: 100%;
+        padding: 1.2rem 0.4rem;
+        background: transparent;
+        outline: none;
+        resize: none;
+        font-weight: 400;
+        font-family: var(--font-family-dm);
+        color: var(--color-black-0);
+        font-size: 1.6rem;
+    }
+
+    .mb-input::placeholder {
+        color: var(--color-blue-0);
+    }
+
+    .label {
+        font-family: var(--font-family-dm);
+        color: var(--color-blue-0);
+        transition: var(--global-transition-duration) ease all;
+        -moz-transition: var(--global-transition-duration) ease all;
+        -webkit-transition: var(--global-transition-duration) ease all;
+    }
+
+    .date-input {
+        padding: 0;
+    }
 }
 
-label {
-    font-family: var(--font-family-dm);
-    position: absolute;
-    left: 5px;
-    top: 10px;
-    transition: var(--global-transition-duration) ease all;
-    -moz-transition: var(--global-transition-duration) ease all;
-    -webkit-transition: var(--global-transition-duration) ease all;
+// Underlined appearance styles
+.appearance-underlined {
+    .mb-input {
+        width: 100%;
+        border: none;
+        border-bottom: 1px solid var(--color-blue-0);
+    }
+
+    .label {
+        position: absolute;
+        left: 5px;
+        top: 10px;
+    }
+
+    input:focus~label,
+    input:not(:placeholder-shown)~label,
+    input.has-value~label {
+        top: -18px;
+        font-size: 1.4rem;
+        color: var(--color-blue-3);
+    }
+
 }
 
-input:focus~label,
-input:not(:placeholder-shown)~label,
-input.has-value ~ label
- {
-    top: -18px;
-    font-size: 1.4rem;
-    color: var(--color-blue-3);
+// Outline appearance styles
+.appearance-outline {
+    .mb-input {
+        border: 1px solid var(--color-blue-0);
+        border-radius: var(--global-round-radius);
+        padding: 1rem 1.4rem;
+        font-size: 1.4rem;
+        transition: border-color var(--global-transition-duration) ease;
+
+        &:focus-within {
+            border-color: var(--color-blue-3);
+        }
+    }
+
+    .date-input {
+        border-bottom: none;
+    }
+
+    &.error-state .group {
+        border-color: var(--color-error);
+
+        &:focus-within {
+            border-color: var(--color-error);
+        }
+    }
 }
 
 .date-input {
@@ -87,7 +129,7 @@ input:focus~.bar:after {
 
 .error-text {
     position: absolute;
-    bottom: 0;
+    bottom: -2px;
     transform: translateY(150%);
     opacity: 0;
     left: 5px;
@@ -104,7 +146,11 @@ input:focus~.bar:after {
 
 .group.error-state {
     input {
-        border-bottom-color: var(--color-error);
+        border-color: var(--color-error);
+    }
+
+    input:not(:focus)::placeholder {
+        color: var(--color-error);
     }
 
     .bar:before,
@@ -112,7 +158,7 @@ input:focus~.bar:after {
         background: var(--color-error);
     }
 
-    label {
-        color: var(--color-error)
+    .label {
+        color: var(--color-error);
     }
 }

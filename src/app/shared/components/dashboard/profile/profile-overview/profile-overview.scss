@@ -1,0 +1,19 @@
+@use '../../../../../styles/elements.scss' as *;
+
+.profile-overview-wrapper { 
+    width: 100%;
+
+    .overview-heading {
+        width: 100%;
+        font-size: 2.4rem;
+        color: var(--color-black-0);
+        margin-bottom: 0.96rem;
+    }
+
+    .stats-wrapper-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(0, 30.6rem));
+        margin-top: 4rem;
+        gap: 2.4rem;
+    }
+}

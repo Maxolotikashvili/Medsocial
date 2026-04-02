@@ -1,11 +1,11 @@
 import { Routes } from '@angular/router';
-import { Home } from './shared/home/home';
-import { Dashboard } from './shared/dashboard/dashboard';
+import { Dashboard } from './shared/components/dashboard/dashboard';
 import { authGuard } from './core/guards/auth.guard';
-import { Procedures } from './shared/procedures/procedures';
-import { ProcedureDetails } from './shared/procedure-details/procedure-details';
-import { Doctor } from './shared/doctor/doctor';
-import { Doctors } from './shared/doctors/doctors';
+import { Procedures } from './shared/components/procedures/procedures';
+import { ProcedureDetails } from './shared/components/procedure-details/procedure-details';
+import { Doctor } from './shared/components/doctor/doctor';
+import { Doctors } from './shared/components/doctors/doctors';
+import { Home } from './shared/components/home/home';
 
 export const routes: Routes = [
   { path: 'home', component: Home },
@@ -21,32 +21,37 @@ export const routes: Routes = [
     children: [
       {
         path: 'profile',
-        loadComponent: () => import('./shared/dashboard/profile/profile').then((m) => m.Profile)
+        loadComponent: () => import('./shared/components/dashboard/profile/profile').then((m) => m.Profile)
       },
 
       {
         path: 'appointments',
-        loadComponent: () => import('./shared/dashboard/appointments/appointments').then((m) => m.Appointments)
+        loadComponent: () => import('./shared/components/dashboard/appointments/appointments').then((m) => m.Appointments)
       },
 
       {
         path: 'meeting-history',
-        loadComponent: () => import('./shared/dashboard/meeting-history/meeting-history').then((m) => m.MeetingHistory)
+        loadComponent: () => import('./shared/components/dashboard/meeting-history/meeting-history').then((m) => m.MeetingHistory)
+      },
+
+      {
+        path: 'professional-info',
+        loadComponent: () => import('./shared/components/dashboard/professional-info/professional-info').then((m) => m.ProfessionalInfo)
       },
 
       {
         path: 'upcoming-meetings',
-        loadComponent: () => import('./shared/dashboard/upcoming-meetings/upcoming-meetings').then((m) => m.UpcomingMeetings)
+        loadComponent: () => import('./shared/components/dashboard/upcoming-meetings/upcoming-meetings').then((m) => m.UpcomingMeetings)
       },
 
       {
         path: 'requested-meetings',
-        loadComponent: () => import('./shared/dashboard/requested-meetings/requested-meetings').then((m) => m.RequestedMeetings)
+        loadComponent: () => import('./shared/components/dashboard/requested-meetings/requested-meetings').then((m) => m.RequestedMeetings)
       },
 
       {
         path: 'appointments',
-        loadComponent: () => import('./shared/dashboard/appointments/appointments').then((m) => m.Appointments)
+        loadComponent: () => import('./shared/components/dashboard/appointments/appointments').then((m) => m.Appointments)
       },
     ],
   },

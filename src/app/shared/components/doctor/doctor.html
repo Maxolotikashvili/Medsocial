@@ -1,0 +1,10 @@
+@if (doctor(); as data) {
+    <div class="doctor-component-wrapper" scrollFromBreadcrumbDirective>
+        <doctor-header [doctor]="data"></doctor-header>
+        <h2 class="heading-h2 text-weight-400 about-heading">About {{ data.first_name }}</h2>
+        <!-- <professional-details [educations]="data.educations" [experiences]="data.experiences"></professional-details> -->
+    </div>
+    
+} @else {
+    <h1>Please provide doctor id from Url</h1>
+}
