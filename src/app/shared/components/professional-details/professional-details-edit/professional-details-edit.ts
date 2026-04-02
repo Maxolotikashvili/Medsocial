@@ -6,6 +6,10 @@ import { MbDropdown } from "../../../../features/mb-dropdown/mb-dropdown";
 import { EDUCATION_DEGREES } from '../../../../core/configs/procedure.config';
 import { UserService } from '../../../../core/services/user.service';
 import { ageValidator } from '../../../validators/date-validator';
+import { createAgeValidator } from '../../../validators/experience-date.validator';
+import { PopupService } from '../../../../core/services/popup.service';
+import { ErrorService } from '../../../../core/services/error.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'professional-details-edit',
@@ -21,6 +25,8 @@ export class ProfessionalDetailsEdit implements OnInit {
   private fb = inject(FormBuilder);
   public form!: FormGroup;
   private userService = inject(UserService);
+  private popupService = inject(PopupService);
+  private errorService = inject(ErrorService);
 
   public degreeOptionsList = EDUCATION_DEGREES;
 
@@ -82,16 +88,22 @@ export class ProfessionalDetailsEdit implements OnInit {
       const user = this.userService.user();
 
       if (this.type() === 'education') {
-        console.log(payload)
         const educationRequestObj = {
           degree: payload.degree,
           university: payload.university,
           from_date: payload.from,
           till_date: payload.till,
           description: payload.description,
-          image: payload.image
+          ...(() => {if (payload.image) return payload.image})
         }
-        this.userService.updateEducation(user.id, payload.id, educationRequestObj).subscribe((data) => console.log(data));
+        this.userService.updateEducation(user.id, payload.id, educationRequestObj).subscribe({
+          next: () => {
+            this.popupService.show('Request has been sent', 'success');
+            this.cancelEditMode.emit();
+          },
+
+          error: (error: HttpErrorResponse) => {this.errorService.handleError(error)}
+        });
       }
     } else {
       console.log(`POST request to create new ${this.type()}`, payload);

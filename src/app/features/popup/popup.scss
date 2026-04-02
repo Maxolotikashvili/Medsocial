@@ -1,14 +1,16 @@
+@use '../../styles/elements.scss' as *;
+
 $popup-width: 320px;
 $popup-padding: 1.6rem 2.4rem;
 $popup-border-radius: 12px;
-$popup-box-shadow:  -5px 10px 30px rgba(0, 0, 0, 0.2);
+$popup-box-shadow: -5px 10px 30px rgba(0, 0, 0, 0.2);
 $popup-text-color: var(--color-white-0);
 
 :host {
     position: fixed;
     top: 3.2rem;
     right: 3.2rem;
-    z-index: 1000; 
+    z-index: 1000;
     pointer-events: none;
 }
 
@@ -22,27 +24,72 @@ $popup-text-color: var(--color-white-0);
     padding: $popup-padding;
     border-radius: $popup-border-radius;
     box-shadow: $popup-box-shadow;
-    font-family: var(--font-family-dm); 
+    font-family: var(--font-family-dm);
     color: $popup-text-color;
-    backdrop-filter: blur(8px); 
+    backdrop-filter: blur(8px);
 
-    &.success { background: var(--color-green-0); }
-    &.error   { background: var(--color-red-0) }
-    &.info    { background: var(--color-blue-3) }
+    .text {
+        font-weight: 300;
+        letter-spacing: 0.5px;
+        color: var(--color-white-0);
+    }
+
+    &.success {
+        background: var(--color-green-0);
+    }
+
+    &.error {
+        background: var(--color-red-0)
+    }
+
+    &.info {
+        background: var(--color-blue-3)
+    }
+
+    .close-btn {
+        position: unset;
+
+        .icon {
+            color: var(--color-white-0);
+        }
+    }
+
+    .close-btn:hover {
+        .icon {
+            color: var(--color-blue-0);
+        }
+    }
 }
 
-.close-btn {
-   position: unset;
-}
 
 @keyframes slideIn {
-    from { opacity: 0; transform: translateX(100%) scale(0.9); }
-    to { opacity: 1; transform: translateX(0) scale(1); }
-}
-@keyframes slideOut {
-    from { opacity: 1; transform: translateX(0); }
-    to { opacity: 0; transform: translateX(120%); }
+    from {
+        opacity: 0;
+        transform: translateX(100%) scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
 }
 
-.popup-in { animation: slideIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
-.popup-out { animation: slideOut 0.25s ease-in forwards; }
+@keyframes slideOut {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateX(120%);
+    }
+}
+
+.popup-in {
+    animation: slideIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.popup-out {
+    animation: slideOut 0.25s ease-in forwards;
+}

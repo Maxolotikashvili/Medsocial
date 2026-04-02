@@ -14,7 +14,7 @@ $dropdown-max-width: 30.2rem;
         color: var(--color-black-0);
         width: inherit;
         height: inherit;
-        padding: 3% 10%;
+        padding: 5px 15px;
         border: 1px solid var(--color-black-1);
         border-radius: var(--global-round-radius);
         display: flex;
@@ -36,8 +36,7 @@ $dropdown-max-width: 30.2rem;
         flex-direction: column;
         background-color: var(--color-white-0);
         width: inherit;
-        min-height: 34rem;
-        height: inherit;
+        max-height: 36rem;
         overflow-y: auto;
         border-radius: var(--global-square-radius);
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
@@ -47,17 +46,23 @@ $dropdown-max-width: 30.2rem;
         animation: slide-top 0.4s;
 
         .dropdown-button {
-            width: 100%;
             text-align: start;
             background-color: transparent;
             padding: 1.6rem 2rem;
             border: none;
-            @include three-dots();
-            white-space: nowrap;
             color: var(--color-blue-0);
             background-color: var(--color-white-0);
             border-bottom: 0.5px solid var(--color-black-1);
-            transition: all var(--global-transition-duration) ease;
+            transition: background-color var(--global-transition-duration) ease, color var(--global-transition-duration) ease;
+            
+            .button-text {
+                display: inline-block;
+                max-width: 95%;
+                white-space: nowrap;
+                @include three-dots();
+                transform: translateX(0);
+                transition: transform var(--global-transition-duration) ease;
+            }
         }
 
         .label-option {
@@ -77,8 +82,11 @@ $dropdown-max-width: 30.2rem;
 
         .dropdown-button:hover {
             background-color: var(--color-blue-0);
-            padding-left: 2.5rem;
-            color: var(--color-white-0);
+
+            .button-text {
+                color: var(--color-white-0);
+                transform: translateX(12px);
+            }
         }
 
         .no-results {

@@ -1,4 +1,4 @@
-<div class="dropdown-wrapper" (clickOutside)="toggleDropdown('off')" [class.dropdown-disabled]="disabled()">
+<div class="dropdown-wrapper" (clickOutside)="toggleDropdown('off')" [class.dropdown-disabled]="isComponentDisabled()">
     <button class="dropdown-toggle" (click)="toggleDropdown()">
         <span class="text-description three-dots label"> {{ displayedLabel() }} </span>
         <fa-icon [icon]="isOpen() ? this.icons['angleUp'] : this.icons['angleDown']"></fa-icon>
@@ -11,7 +11,9 @@
             }
             <input #searchInput type="search" class="mb-search-input" [id]="label()" placeholder="search.." (input)="onSearch(searchInput.value)">
             @for (option of displayedOptionsList(); track $index) {
-                <button class="dropdown-button" [class.label-option]="option === label()" (click)="selectOption(option)">{{ option }}</button>
+                <button class="dropdown-button" [class.label-option]="option === label()" (click)="selectOption(option)">
+                    <span class="button-text"> {{option}} </span>
+                </button>
             }
 
             @if (showNoResults()) {

@@ -1,4 +1,4 @@
-import { Component, input, output, signal, computed, model, WritableSignal, InputSignal, effect } from '@angular/core';
+import { Component, input, output, signal, computed, model, WritableSignal, InputSignal, effect, Self, Optional, viewChild, ElementRef } from '@angular/core';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faAngleDown, faAngleUp, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { ClickOutsideDirective } from '../../shared/directives/click-outside.directive';
@@ -7,6 +7,7 @@ import { detectValueMatch } from '../../shared/utilities/overlap-utility';
 import { ScrollToBottom } from "../../shared/directives/scroll-to-bottom.directive";
 import { Loading } from '../loading/loading';
 import { LowerCasePipe } from '@angular/common';
+import { ControlValueAccessor, NgControl } from '@angular/forms';
 
 @Component({
   selector: 'mb-dropdown',
@@ -15,11 +16,13 @@ import { LowerCasePipe } from '@angular/common';
   imports: [FaIconComponent, ClickOutsideDirective, ScrollToBottom, Loading, LowerCasePipe],
   providers: [{ provide: FilterItem, useExisting: MbDropdown }],
 })
-export class MbDropdown {
+export class MbDropdown implements ControlValueAccessor {
   public isLoading = input<boolean>();
   public label = input.required<string>();
   public optionsList = input.required<(string | number)[]>();
   public disabled: InputSignal<boolean> = input<boolean>(false);
+  private _isFormControlDisabled = signal(false)
+  public readonly isComponentDisabled = computed(() => this.disabled() || this._isFormControlDisabled())
   
   public selectionChange = output<string | number>();
   public scrolledToBottom = output<void>();
@@ -31,13 +34,44 @@ export class MbDropdown {
   public isResultFound: WritableSignal<boolean> = signal<boolean>(true);
   private searchInputValue: WritableSignal<string> = signal<string>('');
   private timeout: any;
+  private searchInputEl = viewChild<ElementRef<HTMLInputElement>>('searchInput');
 
   public icons: { [key: string]: IconDefinition } = {
     angleUp: faAngleUp,
     angleDown: faAngleDown,
   };
 
-  constructor() {}
+  constructor(@Self() @Optional() public ngControl: NgControl) {
+    if (this.ngControl) {
+      this.ngControl.valueAccessor = this;
+    }
+
+    effect(() => {
+      if (this.isOpen()) {
+        setTimeout(() => {
+          this.searchInputEl()?.nativeElement.focus();
+        }, 0);
+      }
+    })
+  }
+
+  private onChange: (val: any) => void = () => {};
+  private onTouched: () => void = () => {};
+  public writeValue(val: any): void {
+    this.inputValue.set(val || '');
+  }
+
+  registerOnChange(fn: any): void {
+    this.onChange = fn;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+      this._isFormControlDisabled.set(isDisabled);
+  }
+
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
+  }
 
   public displayedLabel = computed(() => {
     return this.inputValue() || this.label();
@@ -90,13 +124,13 @@ export class MbDropdown {
   }
 
   public selectOption(option: string | number): void {
-    if (option === this.label()) {
-      this.inputValue.set('');
-      this.selectionChange.emit('');
-    } else {
-      this.inputValue.set(option);
-      this.selectionChange.emit(option);
-    }
+    const valueSet = option === this.label() ? '' : option;
+
+    this.inputValue.set(valueSet)
+    this.selectionChange.emit(valueSet);
+
+    this.onChange(valueSet);
+    this.onTouched();
 
     this.isOpen.set(false);
   }

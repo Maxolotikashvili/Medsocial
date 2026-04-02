@@ -1,5 +1,10 @@
+:host {
+    width: 100%;
+}
+
 .professional-details-components-wrapper {
     display: flex;
     flex-flow: column;
     gap: 6rem;
+    padding-bottom: 10rem;
 }
