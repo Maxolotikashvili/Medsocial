@@ -1,9 +1,8 @@
 @use '../../../styles/elements.scss' as *;
 
 .doctor-component-wrapper {
+    display: flex;
+    flex-flow: column;
+    gap: 6rem;
     padding: 2rem var(--global-side-padding);
-
-    .about-heading {
-        margin: 4rem 0;
-    }
 }

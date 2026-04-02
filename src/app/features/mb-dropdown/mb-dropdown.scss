@@ -12,6 +12,7 @@ $dropdown-max-width: 30.2rem;
         position: relative;
         background: transparent;
         color: var(--color-black-0);
+        min-width: fit-content;
         width: inherit;
         height: inherit;
         padding: 5px 15px;

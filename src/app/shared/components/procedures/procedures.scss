@@ -10,6 +10,11 @@
         box-shadow: var(--box-shadow);
         border-radius: var(--global-round-radius);
         padding: 2rem 3rem;
+
+        mb-dropdown {
+            width: 15.272vw;
+            height: 5rem;
+        }
     }
 
     .procedures-wrapper {

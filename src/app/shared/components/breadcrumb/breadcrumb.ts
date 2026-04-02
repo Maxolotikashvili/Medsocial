@@ -20,11 +20,10 @@ export class Breadcrumb implements AfterViewInit {
   private router = inject(Router);
   public separator = faAngleRight;
 
-  constructor() {
-  }
+  constructor() {}
 
   ngAfterViewInit(): void {
-    this.scrollService.registerBreadcrumb(this.breadcrumbWrapper.nativeElement);
+    this.scrollService.updateHeight(this.breadcrumbWrapper.nativeElement.offsetHeight);
   }
 
   private currentUrl = toSignal(

@@ -9,10 +9,6 @@ export class ScrollFromBreadcrumbDirective implements AfterViewInit {
   constructor() {}
 
   ngAfterViewInit(): void {
-    requestAnimationFrame(() => {
-      this.scrollService.scrollFromBreadcrumb();
-    });
+    this.scrollService.scrollFromBreadcrumb();
   }
-
-  
 }

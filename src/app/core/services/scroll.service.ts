@@ -1,23 +1,21 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ScrollService {
-  private breadcrumbEl?: HTMLElement;
+  private breadcrumbHeight = signal<number>(0);
 
   constructor() {}
 
-  public registerBreadcrumb(element: HTMLElement) {
-    this.breadcrumbEl = element;
+  public updateHeight(height: number) {
+    this.breadcrumbHeight.set(height);
   }
 
   public scrollFromBreadcrumb() {
     requestAnimationFrame(() => {
-      if (!this.breadcrumbEl) return;
-
-      const height: number = this.breadcrumbEl.offsetHeight;
-
+      const height: number = this.breadcrumbHeight();
+      
       window.scrollTo({
         top: height,
         behavior: 'smooth',
