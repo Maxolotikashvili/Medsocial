@@ -20,6 +20,7 @@ export class DashboardSidebar {
   private authService = inject(Authservice);
   
   public readonly user = this.userService.user;
+  public readonly userRoles = USER_ROLES;
   public readonly allRoutes: DashboardNavLink[] = DASHBOARD_SIDEBAR_ROUTES;
   
   public arrowRight: IconDefinition = faAngleRight;
@@ -33,9 +34,9 @@ export class DashboardSidebar {
   public handleImageError(event: Event): void {
     const image = event.target as HTMLImageElement;
 
-    if (this.user().role === USER_ROLES.PATIENT) {
+    if (this.user().role === this.userRoles.PATIENT) {
       image.src = 'images/user-placeholder.png';
-    } else if (this.user().role === USER_ROLES.DOCTOR) {
+    } else if (this.user().role === this.userRoles.DOCTOR) {
       image.src = 'images/doctor-placeholder.png'
     }
   }

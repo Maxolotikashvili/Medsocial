@@ -1,16 +1,16 @@
-<div class="heading-wrapper">
+<div class="heading-wrapper" animate.enter="enter-animation-bottom">
     <h3 class="heading-h3 text-weight-400"> {{type() | titlecase}} </h3>
 
     <div class="buttons-wrapper">
-        <button type="button" class="mb-button-naked" (click)="addNewFormArray()">+ Add New</button>
-        <button class="mb-button-naked mb-button-abort" (click)="cancelEditMode.emit()">Cancel</button>
+        <button type="button" class="mb-button-naked mb-button-square" (click)="addNewFormArray()">+ Add New</button>
+        <button type="button" class="mb-button-naked mb-button-square mb-button-abort" (click)="cancelEditMode.emit()">Cancel</button>
     </div>
 
 </div>
 
-<form [formGroup]="form" class="professional-details-form">
+<form [formGroup]="form" class="professional-details-form" animate.enter="enter-animation-bottom">
     <div formArrayName="items" class="details-array-wrapper">
-        @for (item of items.controls; track $index) {
+        @for (item of formItems.controls; track $index) {
             <div [formGroupName]="$index" class="item-card">
                 <ul class="field-wrapper">
                     @if (type() === 'education') {
@@ -48,8 +48,8 @@
                     </li>   
                 </ul>
 
-                <button class="mb-button-naked update-button" (click)="saveItem($index)" [disabled]="items.at($index).pristine">
-                    {{ items.at($index).value.id ? 'Update' : 'Save' }}
+                <button class="mb-button-naked update-button" (click)="submitForm($index)" [disabled]="formItems.at($index).pristine" type="submit">
+                    {{ formItems.at($index).value.id ? 'Update' : 'Save' }}
                 </button>
             </div>
         }

@@ -13,8 +13,8 @@
         }
 
         .edit-button {
-            border-radius: var(--global-round-radius);
-            padding: 0.6rem;
+            border-radius: 4px;
+            padding: 0.4rem 2rem;
             height: unset;
         }
 
@@ -53,7 +53,7 @@
             }
 
             mb-input {
-                width: 30rem;
+                width: 60%;
             }
         }
     }

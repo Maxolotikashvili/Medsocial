@@ -1,22 +1,15 @@
-import {
-  Component,
-  computed,
-  inject,
-  input,
-  InputSignal,
-  OnInit,
-  Signal,
-  signal,
-  WritableSignal,
-} from '@angular/core';
+import { Component, computed, inject, input, InputSignal, OnInit, Signal, signal, WritableSignal } from '@angular/core';
 import { ApiUser, UserInfo } from '../../../../../core/models/user.model';
 import { formatDate, TitleCasePipe } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MbInput } from '../../../../../features/mb-input/mb-input';
 import { UserService } from '../../../../../core/services/user.service';
 import { USER_ROLES } from '../../../../../core/configs/user.config';
 import { MbCheckbox } from '../../../../../features/mb-checkbox/mb-checkbox';
 import { ageValidator } from '../../../../validators/date-validator';
+import { PopupService } from '../../../../../core/services/popup.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ErrorService } from '../../../../../core/services/error.service';
 
 @Component({
   selector: 'profile-information',
@@ -29,12 +22,10 @@ export class ProfileInformation implements OnInit {
 
   private formBuilder = inject(FormBuilder);
   private userService = inject(UserService);
+  private popupService = inject(PopupService);
+  private errorService = inject(ErrorService);
 
-  public readonly minBirthDate: string = formatDate(
-    new Date().setFullYear(new Date().getFullYear() - 140),
-    'yyyy-MM-dd',
-    'en-US',
-  );
+  public readonly minBirthDate: string = formatDate(new Date().setFullYear(new Date().getFullYear() - 140), 'yyyy-MM-dd', 'en-US');
   public readonly maxBirthDate: string = formatDate(new Date(), 'yyyy-MM-dd', 'en-us');
   public userForm!: FormGroup;
   public isEditModeOn: WritableSignal<boolean> = signal<boolean>(false);
@@ -56,14 +47,15 @@ export class ProfileInformation implements OnInit {
     const baseInfo: { key: string; value: string | number }[] = [
       { key: 'First name', value: user.first_name },
       { key: 'Last name', value: user.last_name },
-      { key: 'Age', value: new Date().getFullYear() - new Date(user.dob).getFullYear() },
+      { key: 'Age', value: user.age_is_public ? new Date().getFullYear() - new Date(user.dob).getFullYear() : 0 },
       { key: 'City', value: user.timezone },
       { key: 'Email', value: user.email },
       { key: 'Phone', value: user.phone },
     ].filter((item) => item.value);
 
     if (user.role === USER_ROLES.DOCTOR) {
-      baseInfo.push({ key: 'Title', value: user.title || '' });
+      baseInfo.splice(2, 0, { key: 'Title', value: user.title || '' });
+      baseInfo.splice(3, 0, { key: 'Bio', value: user.bio || '' });
     }
 
     return baseInfo;
@@ -75,8 +67,7 @@ export class ProfileInformation implements OnInit {
       label: string;
       type: 'text' | 'date' | 'checkbox' | 'number';
       value: string | number | boolean;
-    }[]
-  > = computed(() => {
+    }[]> = computed(() => {
     const base: {
       controlName: string;
       label: string;
@@ -114,12 +105,19 @@ export class ProfileInformation implements OnInit {
     ];
 
     if (this.user()?.role === USER_ROLES.DOCTOR) {
-      base.push({
+      base.splice(2, 0, {
         controlName: 'title',
         label: 'Title',
         type: 'text',
         value: this.user()?.title || '',
       });
+
+      base.splice(3, 0, {
+        controlName: 'bio',
+        label: 'Bio',
+        type: 'text',
+        value: this.user()?.bio || ''
+      })
     }
 
     return base;
@@ -137,6 +135,9 @@ export class ProfileInformation implements OnInit {
     this.userForm = this.formBuilder.group({
       firstName: [user?.first_name || ''],
       lastName: [user?.last_name || ''],
+      ...(this.user()?.role === USER_ROLES.DOCTOR && {
+        bio: [user?.bio || ''],
+      }),
       phone: [user?.phone || 0],
       email: [user?.email || ''],
       dob: [user?.dob || '', ageValidator],
@@ -144,7 +145,7 @@ export class ProfileInformation implements OnInit {
       image: [user?.image || ''],
       isAgePublic: [user?.age_is_public || false],
       ...(this.user()?.role === USER_ROLES.DOCTOR && {
-        title: [''],
+        title: [user?.title || ''],
       }),
     });
   }
@@ -179,7 +180,12 @@ export class ProfileInformation implements OnInit {
     if (user && Object.values(payload).length > 0) {
       this.userService.updateUserInfo(user.id, payload).subscribe({
         next: (newUser: UserInfo) => {
-          this.userService.updateUser(newUser)
+          this.userService.updateUser(newUser);
+          this.popupService.show({message: 'Profile information is now updated', type: 'success'})
+        },
+
+        error: (error: HttpErrorResponse) => {
+          this.errorService.handleError(error);
         }
       });
     }

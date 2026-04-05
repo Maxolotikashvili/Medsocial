@@ -55,9 +55,15 @@ export const API_ENDPOINTS = {
         CONSULTATIONS: (id: string) => `users/${id}/consultations/`,
         CONSULTATION: (id: string, consultation_id: string) => `users/${id}/consultations/${consultation_id}/`,
         EDUCATIONS: (id: string) => `users/${id}/educations/`,
-        EDUCATION: (id: string, education_id: string) => `users/${id}/educations/${education_id}/`,
+        EDUCATION: {
+            create: (id: string) => `users/${id}/educations/`,
+            update: (id: string, education_id: string) => `users/${id}/educations/${education_id}/`
+        },
         EXPERIENCES: (id: string) => `users/${id}/experiences/`,
-        EXPERIENCE: (id: string, experience_id: string) => `users/${id}/experiences/${experience_id}/`,
+        EXPERIENCE: {
+            create: (id: string) => `users/${id}/experiences/`,
+            update: (id: string, experience_id: string) => `users/${id}/experiences/${experience_id}/`
+        },
         INTRODUCTIONS: (id: string) => `users/${id}/introductions/`,
         INTRODUCTION: (id: string, introduction_id: string) => `users/${id}/introductions/${introduction_id}/`,
         LANGUAGES: (id: string) => `users/${id}/languages/`,

@@ -1,14 +1,15 @@
 <div class="sidebar-wrapper" animate.enter="enter-animation-right">
     <div class="image-wrapper">
     <img class="profile-image" [src]="user().image" (error)="handleImageError($event)" alt="User image" />
-    <h4 class="heading-h3 name">{{ user().first_name | titlecase }} {{ user().last_name | titlecase }}</h4>
-    <p class="text-small title">
-        @if (user().title) {
-        <ng-container>{{ user().title }}</ng-container>
-        } @else {
-            <ng-container>Patient</ng-container>
+    <h4 class="heading-h3 text-weight-400 name">{{ user().first_name | titlecase }} {{ user().last_name | titlecase }}</h4>
+    <p class="text-description text-weight-500">
+        @if (user().role === userRoles.PATIENT) {
+            Patient
+        } @else if (user().role === userRoles.DOCTOR) {
+            Doctor
         }
     </p>
+    <p class="text-small text-weight-500 title">{{user().title}}</p>
   </div>
 
   <nav class="sidebar-links-nav">
@@ -24,7 +25,7 @@
             }
         }
         <li>
-            <button class="mb-link text-size-2 logout-button" (click)="logOut()"> 
+            <button class="text-size-2 logout-button" (click)="logOut()"> 
                 <span>Logout</span>
                 <fa-icon [icon]="arrowRight"></fa-icon>
             </button>

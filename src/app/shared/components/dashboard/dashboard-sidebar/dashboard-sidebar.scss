@@ -63,7 +63,14 @@
                 }
 
                 .logout-button {
-                    background-color: var(--color-green-0);
+                    background-color: transparent;
+                    border: 1px solid var(--color-error);
+                    color: var(--color-error);
+                    transition: background-color var(--global-transition-duration) ease, color var(--global-transition-duration) ease;
+                }
+
+                .logout-button:hover {
+                    background-color: var(--color-error);
                     color: var(--color-white-0);
                 }
             }

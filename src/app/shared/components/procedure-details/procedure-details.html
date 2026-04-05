@@ -89,10 +89,6 @@
             <a class="heading-h4 name-link" [routerLink]="['/doctor', data.user.id]">Dr. {{data.user.first_name}} {{data.user.last_name}}</a>
             <h6 class="heading-h6 title">Surgeon</h6>
 
-            <p class="text-description description-wrapper">
-              <strong>Bio:</strong> 
-              <span class="bio">{{data.user.bio}}</span>
-            </p>
             @if (data.user.age_is_public) {
               <p class="text-description description-wrapper">
                 <strong>Age:</strong>

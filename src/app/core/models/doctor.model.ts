@@ -24,6 +24,10 @@ export interface Education {
   image: string;
 }
 
+export type EducationPayload = Omit<Education, 'id' | 'image'> & {
+  image?: string
+}
+
 export type EducationDegree = "high school diploma" | "associate degree" | "bachelor's degree" | "master's degree" | "doctorate (Phd)" | "professional degree (Md, Jd, etc.)"
 
 export interface Experience {
@@ -33,6 +37,10 @@ export interface Experience {
   till_date: string;
   image: string;
   description: string;
+}
+
+export type ExperiencePayload = Omit<Experience, 'id' | 'image'> & {
+  image?: string
 }
 
 export interface Certifications {

@@ -10,30 +10,12 @@ import { ProfessionalDetailsEdit } from './professional-details-edit/professiona
   styleUrl: './professional-details.scss',
 })
 export class ProfessionalDetails {
-  public readonly educations: InputSignal<Doctor['educations']> = input<Doctor['educations']>([]);
-  public readonly experiences: InputSignal<Doctor['experiences']> = input<Doctor['experiences']>([]);
+  public readonly educations: InputSignal<Doctor['educations'] | null> = input<Doctor['educations'] | null>(null);
+  public readonly experiences: InputSignal<Doctor['experiences'] | null> = input<Doctor['experiences'] | null>(null);
   public readonly isEditable: InputSignal<boolean> = input<boolean>(false);
-
+  
   public isEditModeOn: WritableSignal<boolean> = signal<boolean>(false);
 
-  public readonly data: Signal<Doctor['educations'] | Doctor['experiences']> = computed(() => {
-   if (this.educations().length > 0) {
-      return this.educations();
-    } else if (this.experiences().length > 0) {
-      return this.experiences();
-    }
-    return [];
-  });
-
-  public readonly type = computed(() => {
-    if (this.educations().length > 0) {
-      return 'education';
-    } else if (this.experiences().length > 0) {
-      return 'experience';
-    }
-
-    return '';
-  })
-
-  constructor() {}
+  public readonly data: Signal<Doctor['educations'] | Doctor['experiences']> = computed(() => this.educations() ?? this.experiences() ?? []);
+  public readonly type: Signal<'education' | 'experience'> = computed(() => this.educations() ? 'education' : 'experience');
 }

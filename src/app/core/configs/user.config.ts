@@ -21,7 +21,7 @@ export const USER_INITIAL_VALUE: ApiUser = {
     last_name: '',
     phone: '',
     phone_verified: false,
-    role: 2,
+    role: 1,
     slug: '',
     timezone: '',
     title: '',

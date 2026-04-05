@@ -1,7 +1,7 @@
 @use '../../styles/elements.scss' as *;
 
-$popup-width: 320px;
-$popup-padding: 1.6rem 2.4rem;
+$popup-width: 32rem;
+$popup-padding: 2rem 2.4rem;
 $popup-border-radius: 12px;
 $popup-box-shadow: -5px 10px 30px rgba(0, 0, 0, 0.2);
 $popup-text-color: var(--color-white-0);
@@ -32,6 +32,7 @@ $popup-text-color: var(--color-white-0);
         font-weight: 300;
         letter-spacing: 0.5px;
         color: var(--color-white-0);
+        margin-right: 2.2rem;
     }
 
     &.success {

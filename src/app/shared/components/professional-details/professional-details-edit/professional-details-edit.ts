@@ -1,15 +1,17 @@
-import { Component, inject, input, OnInit, output } from '@angular/core';
+import { Component, DestroyRef, inject, input, OnInit, output } from '@angular/core';
 import { FormBuilder, FormGroup, ɵInternalFormsSharedModule, ReactiveFormsModule, FormArray, Validators } from '@angular/forms';
 import { TitleCasePipe } from '@angular/common';
 import { MbInput } from '../../../../features/mb-input/mb-input';
-import { MbDropdown } from "../../../../features/mb-dropdown/mb-dropdown";
+import { MbDropdown } from '../../../../features/mb-dropdown/mb-dropdown';
 import { EDUCATION_DEGREES } from '../../../../core/configs/procedure.config';
 import { UserService } from '../../../../core/services/user.service';
 import { ageValidator } from '../../../validators/date-validator';
-import { createAgeValidator } from '../../../validators/experience-date.validator';
 import { PopupService } from '../../../../core/services/popup.service';
 import { ErrorService } from '../../../../core/services/error.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Education, EducationPayload, Experience, ExperiencePayload } from '../../../../core/models/doctor.model';
+import { EMPTY, Observable } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'professional-details-edit',
@@ -27,10 +29,11 @@ export class ProfessionalDetailsEdit implements OnInit {
   private userService = inject(UserService);
   private popupService = inject(PopupService);
   private errorService = inject(ErrorService);
+  private destroyRef = inject(DestroyRef);
 
   public degreeOptionsList = EDUCATION_DEGREES;
 
-  get items() {
+  get formItems() {
     return this.form.get('items') as FormArray;
   }
 
@@ -49,7 +52,7 @@ export class ProfessionalDetailsEdit implements OnInit {
 
   private patchExistingData() {
     this.data().forEach((item) => {
-      this.items.push(this.createGroup(item));
+      this.formItems.push(this.createGroup(item));
     });
   }
 
@@ -62,51 +65,122 @@ export class ProfessionalDetailsEdit implements OnInit {
         from: [item?.from_date || ''],
         till: [item?.till_date || ''],
         description: [item?.description || ''],
-        image: [item?.image || '']
+        image: [item?.image || ''],
       });
     } else {
       return this.fb.group({
         id: [item?.id || null],
-        workTitle: [item?.workTitle || '', Validators.required],
+        workTitle: [item?.work_title || '', Validators.required],
         from: [item?.from_date || null, [Validators.required, ageValidator]],
         till: [item?.till_date || null, [Validators.required, ageValidator]],
         description: [item?.description || '', Validators.required],
-        image: [item?.image || null]
+        image: [item?.image || null],
       });
     }
   }
 
   public addNewFormArray() {
-    this.items.push(this.createGroup());
+    this.formItems.push(this.createGroup());
   }
 
-  public saveItem(index: number) {
-    const group = this.items.at(index) as FormGroup;
+  public submitForm(index: number) {
+    const group = this.formItems.at(index) as FormGroup;
     const payload = group.value;
 
-    if (payload.id) {
-      const user = this.userService.user();
+    if (payload.id && this.type()) {
+      this.updateExisting(payload).subscribe({
+        next: () => {
+          this.popupService.show({message: 'Request has been sent', type: 'success'});
+          this.cancelEditMode.emit();
+        },
 
-      if (this.type() === 'education') {
-        const educationRequestObj = {
-          degree: payload.degree,
-          university: payload.university,
-          from_date: payload.from,
-          till_date: payload.till,
-          description: payload.description,
-          ...(() => {if (payload.image) return payload.image})
-        }
-        this.userService.updateEducation(user.id, payload.id, educationRequestObj).subscribe({
-          next: () => {
-            this.popupService.show('Request has been sent', 'success');
-            this.cancelEditMode.emit();
-          },
+        error: (error: HttpErrorResponse) => this.errorService.handleError(error)
+      });
 
-          error: (error: HttpErrorResponse) => {this.errorService.handleError(error)}
-        });
-      }
     } else {
-      console.log(`POST request to create new ${this.type()}`, payload);
+      this.addNew(payload).subscribe({
+        next: () => {
+          this.cancelEditMode.emit();
+          this.popupService.show({message: 'Request has been sent', type: 'success'})
+        }, 
+
+        error: (error: HttpErrorResponse) => {
+          this.errorService.handleError(error);
+          console.log('rato')
+        }
+      });
     }
+  }
+
+  private updateExisting(payload: any): Observable<Education | Experience> {
+    const user = this.userService.user();
+
+    let requestPayload: Partial<ExperiencePayload | EducationPayload> = {
+      from_date: payload.from,
+      till_date: payload.till,
+      description: payload.description,
+    };
+
+    if (payload.image) {
+      requestPayload = {
+        ...requestPayload,
+        image: payload.image,
+      } as Partial<ExperiencePayload| EducationPayload>;
+    }
+
+    if ('university' in payload) {
+      requestPayload = {
+        ...requestPayload,
+        university: payload.university,
+        degree: payload.degree,
+      } as Partial<EducationPayload>;
+
+      return this.userService.updateEducation({userId: user.id, educationId: payload.id, body: requestPayload}).pipe(takeUntilDestroyed(this.destroyRef));
+    } else if ('workTitle' in payload) {
+      requestPayload = {
+        ...requestPayload,
+        work_title: payload.workTitle,
+      } as Partial<ExperiencePayload>;
+
+      return this.userService.updateExperience({userId: user.id, experienceId: payload.id, body: requestPayload}).pipe(takeUntilDestroyed(this.destroyRef));
+    }
+
+    return EMPTY;
+  }
+
+  private addNew(payload: any): Observable<Education | Experience> {
+    const user = this.userService.user();
+
+    let requestPayload = {
+      from_date: payload.from,
+      till_date: payload.till,
+      description: payload.description
+    } 
+
+    if (payload.image) {
+      requestPayload = {
+        ...requestPayload,
+        image: payload.image
+      } as EducationPayload | ExperiencePayload
+    }
+
+    if ('university' in payload) {
+      requestPayload = {
+        ...requestPayload,
+        university: payload.university,
+        degree: payload.degree,
+      } as EducationPayload
+
+      return this.userService.addNewEducation({userId: user.id, body: requestPayload as EducationPayload})
+    } else if ('workTitle' in payload) {
+      requestPayload = {
+        ...requestPayload,
+        work_title: payload.workTitle
+      } as ExperiencePayload
+
+      return this.userService.addNewExperience({userId: user.id, body: requestPayload as ExperiencePayload});
+    }
+
+    return EMPTY;
   }
 }

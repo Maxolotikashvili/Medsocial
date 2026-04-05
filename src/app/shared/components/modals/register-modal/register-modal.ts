@@ -67,10 +67,9 @@ export class RegisterModal {
 
       this.authService
         .register(newUser).pipe(finalize(() => this.isRequestPending.set(false))).subscribe({
-          next: (response) => {
-            console.log(response);
+          next: () => {
             this.modalService.close();
-            this.popupService.show('Registration successful', 'success');
+            this.popupService.show({message: 'Registration successful', type: 'success'});
           },
 
           error: (err: HttpErrorResponse) => {

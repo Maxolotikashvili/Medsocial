@@ -1,4 +1,4 @@
-<div class="professional-details-components-wrapper">
-    <professional-details [isEditable]="true" [educations]="doctor()?.educations || []"></professional-details>
-    <professional-details [isEditable]="true" [experiences]="doctor()?.experiences || []"></professional-details>
+<div class="professional-details-components-wrapper" scrollFromBreadcrumbDirective>
+    <professional-details [isEditable]="true" [educations]="doctor()?.educations || null"></professional-details>
+    <professional-details [isEditable]="true" [experiences]="doctor()?.experiences || null"></professional-details>
 </div>

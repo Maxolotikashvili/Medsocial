@@ -7,12 +7,14 @@ export class PopupService {
   public message = signal('');
   public type = signal<PopupType>('info');
 
-  public show(message: string, type: PopupType = 'info') {
-    this.message.set(message);
-    this.type.set(type);
+  public show(params: {message: string, type: PopupType, timer?: number}) {
+    this.message.set(params.message);
+    this.type.set(params.type);
     this.isOpen.set(true);
 
-    setTimeout(() => this.close(), 4000);
+    const timer = params.timer || 4000;
+
+    setTimeout(() => {this.close()}, timer); 
   }
 
   public close() {

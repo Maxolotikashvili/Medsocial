@@ -6,6 +6,7 @@ import { ProcedureDetails } from './shared/components/procedure-details/procedur
 import { Doctor } from './shared/components/doctor/doctor';
 import { Doctors } from './shared/components/doctors/doctors';
 import { Home } from './shared/components/home/home';
+import { doctorGuard } from './core/guards/doctor.guard';
 
 export const routes: Routes = [
   { path: 'home', component: Home },
@@ -36,7 +37,8 @@ export const routes: Routes = [
 
       {
         path: 'professional-info',
-        loadComponent: () => import('./shared/components/dashboard/professional-info/professional-info').then((m) => m.ProfessionalInfo)
+        loadComponent: () => import('./shared/components/dashboard/professional-info/professional-info').then((m) => m.ProfessionalInfo),
+        canActivate: [doctorGuard]
       },
 
       {
