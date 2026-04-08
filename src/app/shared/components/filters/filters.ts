@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, contentChildren, effect, input, InputSignal, isDevMode, output, Signal, signal, WritableSignal } from '@angular/core';
 import { FilterItem } from '../../../core/tokens/filter-injection-token';
 import { shallowEqual } from '../../utilities/object-comparer-utility';
+import { Filter } from '../../../core/models/filter.model';
+import { DropdownOption } from '../../../core/models/dropdown.model';
 
 @Component({
   selector: 'filters',
@@ -11,7 +13,7 @@ import { shallowEqual } from '../../utilities/object-comparer-utility';
 })
 export class Filters {
   public layout: InputSignal<'vertical' | 'horizontal'> = input<'vertical' | 'horizontal'>('horizontal');
-  public filterChange = output<Record<string, string | number>>();
+  public filterChange = output<Partial<Filter>>();
 
   private allFilters = contentChildren(FilterItem);
 
@@ -20,26 +22,30 @@ export class Filters {
       const label = filter.label().toString().toLowerCase();
       if (label.includes('search')) return false;
       
-      return filter.inputValue() !== '';
+      return filter.inputValue().value !== '';
     });
   });
 
   public hasChangesSinceLastSubmit = computed(() => {
-  const current: Record<string, string | number> = {};
-
+  // const current: Record<string, string | number> = {};
+  const current: Partial<Filter> = {};
+ 
   this.allFilters().forEach((item) => {
-    const inputValue = item.inputValue().toString().toLowerCase();
-    const label = item.label().toString().toLowerCase();
+  //   const inputValue = item.inputValue().toString().toLowerCase();
+  //   const label = item.label().toString().toLowerCase();
 
-    current[item.label()] =
-      label === inputValue || inputValue === '' ? '' : inputValue;
-  });
-
+  //   current[item.label()] =
+  //     label === inputValue || inputValue === '' ? '' : inputValue;
+  
+  const input = item.inputValue() as DropdownOption;
+  current[item.label() as keyof Filter] = input;
+});
+  
   return !shallowEqual(current, this.lastEmittedValue());
 });
 
   public isValueEmitted: WritableSignal<boolean> = signal<boolean>(false);
-  private lastEmittedValue: WritableSignal<Record<string, string | number>> = signal({});
+  private lastEmittedValue: WritableSignal<Partial<Filter>> = signal({});
   
   constructor() {
     effect(() => {
@@ -52,15 +58,15 @@ export class Filters {
   private resetCityDropdown() {
     const countryFilter = this.allFilters().find((f) => f.label().toString().toLowerCase() === 'country');
     const cityFilter = this.allFilters().find((f) => f.label().toString().toLowerCase() === 'city');
-    
+
     if (!countryFilter || !cityFilter) return;
-    if (countryFilter.inputValue() === '') {
-      cityFilter.inputValue.set('');
+    if (countryFilter.inputValue().value === '') {
+      cityFilter.inputValue.set({value: ''});
     }
   }
 
   private resetFiltersOnDefaultInput() {
-    if (this.allFilters().some((filter) => filter.inputValue() !== '')) {
+    if (this.allFilters().some((filter) => filter.inputValue().value !== '')) {
       return;
     } else {
       this.isValueEmitted.set(false);
@@ -86,13 +92,17 @@ export class Filters {
   public submitFilters() {
     if (!this.hasActiveFilters() || !this.hasChangesSinceLastSubmit()) return;
 
-    const results: Record<string, string | number> = {};
+    const results: Partial<Filter> = {};
 
     this.allFilters().forEach((item) => {
-      const inputValue = item.inputValue().toString().toLowerCase();
-      const label = item.label().toString().toLowerCase();
+      const input = item.inputValue() as DropdownOption;
+      const isResetState = input.value === '' || input.value === item.label();
+      results[item.label() as keyof Filter] = isResetState ? {value: ''} : input;
 
-      results[item.label()] = label === inputValue || inputValue === '' ? '' : inputValue;
+      // const inputValue = item.inputValue() as DropdownOption;
+      // const label = item.label().toString().toLowerCase() as keyof Filter;
+
+      // results[item.label()] = label === inputValue.value || inputValue.value === '' ? '' : inputValue;
     });
     this.filterChange.emit(results);
     this.isValueEmitted.set(true);
@@ -103,7 +113,7 @@ export class Filters {
     if (!this.isValueEmitted()) return;
 
     this.allFilters().forEach((filter) => {
-      filter.inputValue.set('');
+      filter.inputValue.set({value: ''});
     });
 
     this.filterChange.emit({});

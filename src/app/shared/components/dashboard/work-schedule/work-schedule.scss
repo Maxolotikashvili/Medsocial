@@ -1,0 +1,50 @@
+$weekday-wrapper-padding: 2rem;
+$border-color: var(--color-gray-0);
+
+:host {
+    width: 100%;
+}
+
+.schedule-form {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+
+    .schedule-weekday-wrapper {
+        display: flex;
+        flex-flow: column;
+        border: 1px solid $border-color;
+        border-radius: var(--global-square-radius);
+
+        .schedule-weekday-heading-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: $weekday-wrapper-padding;
+            border-bottom: 1px solid $border-color;
+        }
+
+        .schedule-weekday-body {
+            display: flex;
+            flex-flow: column;
+            gap: 1rem;
+            padding: $weekday-wrapper-padding;
+
+            .formfield-wrapper {
+                display: flex;
+                align-items: center;
+                gap: 2rem;
+                width: 100%;
+
+                .label {
+                    width: 5rem;
+                }
+
+                mb-dropdown {
+                    width: 100%;
+                }
+            }
+        }
+    }
+}

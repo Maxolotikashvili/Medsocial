@@ -1,6 +1,5 @@
 .dashboard-content-wrapper {
     display: flex;    
     gap: 2.4rem;
-    padding-inline: var(--global-side-padding);
-    margin-top: 9.6rem;
+    padding: 0 var(--global-side-padding) 4rem;
 }

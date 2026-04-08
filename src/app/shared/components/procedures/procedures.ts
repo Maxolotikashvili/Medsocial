@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, Signal, signal, WritableSignal } from '@angular/core';
 import { ProceduresService } from '../../../core/services/procedures.service';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { PaginatedResponse, Procedure, ProcedureCategoryTitle, ProceduresQueryParams } from '../../../core/models/procedures.model';
+import { PaginatedResponse, Procedure, ProceduresQueryParams } from '../../../core/models/procedures.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Pagination } from '../../../features/pagination/pagination';
 import { Filters } from '../filters/filters';
@@ -25,6 +25,8 @@ import { RouterLink } from "@angular/router";
 import { faCashApp } from '@fortawesome/free-brands-svg-icons';
 import { ScrollFromBreadcrumbDirective } from "../../directives/scroll-from-breadcrumb.directive";
 import { ScrollService } from '../../../core/services/scroll.service';
+import { DropdownOption } from '../../../core/models/dropdown.model';
+import { Filter } from '../../../core/models/filter.model';
 
 interface iconMap {
   eye: IconDefinition,
@@ -73,15 +75,25 @@ export class Procedures {
     return this.proceduresService.getHospitals(results);
   })
 
-  public readonly categories: WritableSignal<ProcedureCategoryTitle[]> = signal<ProcedureCategoryTitle[]>(ALL_PROCEDURE_CATEGORIES);
+  public readonly categories = computed<DropdownOption[]>(() => {
+    let procedureCategoriesList: DropdownOption[] = [];
+
+    procedureCategoriesList = ALL_PROCEDURE_CATEGORIES.map((items, index) => {
+      return {
+        id: index,
+        value: items
+      }
+    })
+
+    return procedureCategoriesList;
+  })
 
   public cities = useInfiniteData((params: CitiesQuery) => this.locationService.getCities({
     country: params.country,
     page: params.page,
     q: params.q
-  }), {}, true
-  )
-  public countries = useInfiniteData((_: CountriesQuery, page: number) => this.locationService.getCountries({page: page}), {}, true)
+  }), {returnFormat: 'valueId'})
+  public countries = useInfiniteData((_: CountriesQuery, page: number) => this.locationService.getCountries({page: page}), {returnFormat: 'valueId'})
 
   constructor() {}
 
@@ -96,7 +108,7 @@ export class Procedures {
     this.scrollService.scrollFromBreadcrumb();
   }
 
-  public onFiltersChange(value: Record<string, string | number>) {
+  public onFiltersChange(value: Partial<Filter>) {
     if (shallowEqual(this.filters(), value)) {
       return;
     }
@@ -105,7 +117,7 @@ export class Procedures {
       this.countries.updateParams({});
       this.cities.updateParams({});
     }
-    
+
     const filters = this.proceduresService.mapProceduresQueryParams(value);
     this.filters.set(filters);
     this.scrollService.scrollFromBreadcrumb();
@@ -120,12 +132,12 @@ export class Procedures {
     this.filters.set(searchFilter);
   }
 
-  public onCountryDropdownChange(value: string | number) {
-    this.cities.updateParams({country: value.toString().toLowerCase()});
+  public onCountryDropdownChange(country: DropdownOption) {
+    this.cities.updateParams({country: country.value.toString().toLowerCase()});
   }
 
   public onCountrySearch(query: string) {
-    this.countries.updateParams({ q: query} as any);
+    this.countries.updateParams({ q: query } as any);
   }
 
   public onCitySearch(query: string) {

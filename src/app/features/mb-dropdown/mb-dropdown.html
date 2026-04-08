@@ -1,23 +1,28 @@
 <div class="dropdown-wrapper" (clickOutside)="toggleDropdown('off')" [class.dropdown-disabled]="isComponentDisabled()">
-    <button class="dropdown-toggle" (click)="toggleDropdown()">
+    <button class="dropdown-toggle" (click)="toggleDropdown()" type="button">
         <span class="text-description three-dots label"> {{ displayedLabel() }} </span>
-        <fa-icon [icon]="isOpen() ? this.icons['angleUp'] : this.icons['angleDown']"></fa-icon>
+        <fa-icon [icon]="isOpen() ? icons['angleUp'] : icons['angleDown']"></fa-icon>
     </button>
 
     @if (isOpen()) {
-        <div scrollToBottom (bottomReached)="scrolledToBottom.emit()" class="dropdown-menu" animate.enter="enter-dropdown">
+        <div scrollToBottom (bottomReached)="scrolledToBottom.emit()" class="dropdown-menu">
             @if (isLoading()) {
                 <loading [local]="true"></loading>
             }
-            <input #searchInput type="search" class="mb-search-input" [id]="label()" placeholder="search.." (input)="onSearch(searchInput.value)">
-            @for (option of displayedOptionsList(); track $index) {
-                <button class="dropdown-button" [class.label-option]="option === label()" (click)="selectOption(option)">
-                    <span class="button-text"> {{option}} </span>
+
+            @if (!disableSearch()) {
+                <input #searchInput type="search" class="mb-search-input" [id]="label()" placeholder="search.." 
+                (input)="onSearch(searchInput.value)">
+            }
+
+            @for (option of displayedOptionsList(); track option.id || $index) {
+                <button type="button" class="dropdown-button" [class.label-option]="option.value === label()" (click)="selectOption(option)">
+                    <span class="button-text"> {{ option.value }} </span>
                 </button>
             }
 
             @if (showNoResults()) {
-                <p class="text-description no-results">No {{label() | lowercase}} found</p>
+                <p class="text-description no-results">No {{ label() | lowercase }} found</p>
             }
         </div>
     }

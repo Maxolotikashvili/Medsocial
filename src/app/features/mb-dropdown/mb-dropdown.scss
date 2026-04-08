@@ -5,6 +5,7 @@ $dropdown-max-width: 30.2rem;
 
 .dropdown-wrapper {
     display: inline-block;
+    position: relative;
     width: inherit;
     height: inherit;
 
@@ -12,7 +13,6 @@ $dropdown-max-width: 30.2rem;
         position: relative;
         background: transparent;
         color: var(--color-black-0);
-        min-width: fit-content;
         width: inherit;
         height: inherit;
         padding: 5px 15px;

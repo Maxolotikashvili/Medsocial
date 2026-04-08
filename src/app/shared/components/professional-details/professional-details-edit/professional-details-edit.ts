@@ -89,8 +89,9 @@ export class ProfessionalDetailsEdit implements OnInit {
 
     if (payload.id && this.type()) {
       this.updateExisting(payload).subscribe({
-        next: () => {
-          this.popupService.show({message: 'Request has been sent', type: 'success'});
+        next: (res) => {
+          console.log(res)
+          this.popupService.show({message: 'Changes have been applied', type: 'success'});
           this.cancelEditMode.emit();
         },
 
@@ -101,7 +102,7 @@ export class ProfessionalDetailsEdit implements OnInit {
       this.addNew(payload).subscribe({
         next: () => {
           this.cancelEditMode.emit();
-          this.popupService.show({message: 'Request has been sent', type: 'success'})
+          this.popupService.show({message: 'Update request has been sent', type: 'success'})
         }, 
 
         error: (error: HttpErrorResponse) => {

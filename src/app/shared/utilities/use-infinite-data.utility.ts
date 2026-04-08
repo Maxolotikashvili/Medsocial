@@ -6,15 +6,17 @@ import { ErrorService } from '../../core/services/error.service';
 import { PaginatedResponse } from '../../core/models/procedures.model';
 
 export function useInfiniteData<T extends { name?: string }, P>(
-  fetchFn: (params: P, page: number) => Observable<PaginatedResponse<T>>,
-  initialParams: P,
-  returnNames: boolean = false
+  fetchFn: (params: P, page: number) => Observable<PaginatedResponse<T | any>>,
+  parameters: {
+    initialParams?: P,
+    returnFormat: 'onlyNames' | 'valueId' | '',
+  } = { initialParams: {} as P, returnFormat: '' }
 ) {
   const errorService = inject(ErrorService);
   const injector = inject(Injector);
   
   const page = signal<number>(1);
-  const params = signal<P>(initialParams);
+  const params = signal<P>(parameters.initialParams || {} as P);
   const loading = signal<boolean>(false);
   const hasNextPage = signal<boolean>(true);
   const data$ = toObservable(computed(() => ({ p: params(), pg: page() })), { injector }).pipe(
@@ -26,11 +28,20 @@ export function useInfiniteData<T extends { name?: string }, P>(
       map(res => {
         hasNextPage.set(res.next !== null);
         
-        const items = returnNames 
-          ? res.results.map(item => item.name as string) 
-          : res.results;
-          
-        return items;
+        if (parameters.returnFormat === 'onlyNames') {
+          return res.results.map(items => items.name)
+        } 
+
+        if (parameters.returnFormat === 'valueId') {
+          return res.results.map((items) => {
+            return {
+              id: items.id,
+              value: items.name
+            }
+          })
+        }
+
+        return res.results;
       }),
       catchError((error: HttpErrorResponse) => {
         errorService.handleError(error);

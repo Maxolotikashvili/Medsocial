@@ -66,8 +66,14 @@ header {
         display: flex;
         gap: $gap-size-between-buttons;
 
-        .sign-in-button {
-            color: var(--color-blue-2);
+        .register-button {
+            border-color: var(--color-green-0);
+            color: var(--color-green-0);
+        }
+
+        .register-button:hover {
+            background-color: var(--color-green-0);
+            color: var(--color-white-0);
         }
     }
 
@@ -88,12 +94,6 @@ header {
 
 .header-scrolled {
     background-color: var(--color-white-1);
-
-    .header-button-links-wrapper {
-        .register-button {
-            color: var(--color-black-0);
-        }
-    }
 }
 
 .header-not-home {

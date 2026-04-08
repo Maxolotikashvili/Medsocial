@@ -1,14 +1,18 @@
 <div [class]="switchClass()">
-<span class="side-label" [class.active]="!checked()" (click)="setToggle(false)">{{label1()}}</span>
-
+  @if (reversedLabels()) {
+    <span class="side-label text-description" [class.active]="checked" (click)="setToggle(true)">{{onLabel()}}</span>
+  } @else {
+    <span class="side-label text-description" [class.active]="!checked" (click)="setToggle(false)">{{offLabel()}}</span>
+  }
+  
   <label class="switch">
-    <input type="checkbox" 
-           [id]="id()" 
-           [checked]="checked()" 
-           [disabled]="disabled()" 
-           (change)="onToggle($event)">
+    <input type="checkbox" [id]="id()" [checked]="checked" [disabled]="disabled" (change)="onToggle($event)">
     <span class="slider"></span>
   </label>
-
-  <span class="side-label" [class.active]="checked()" (click)="setToggle(true)">{{label2()}}</span>
+  
+  @if (reversedLabels()) {
+    <span class="side-label text-description" [class.active]="!checked" (click)="setToggle(false)">{{offLabel()}}</span>
+  } @else {
+    <span class="side-label text-description" [class.active]="checked" (click)="setToggle(true)">{{onLabel()}}</span>
+  }
 </div>

@@ -1,4 +1,5 @@
 import { Doctor } from './doctor.model';
+import { DropdownOption } from './dropdown.model';
 
 export interface PaginatedResponse<T> {
   count: number,

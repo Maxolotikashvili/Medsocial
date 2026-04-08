@@ -5,7 +5,7 @@
         <mb-dropdown label="Country" [params]="countries.params()" (searchValueChange)="onCountrySearch($event)" [optionsList]="countries.data()" (selectionChange)="onCountryDropdownChange($event)" [isLoading]="countries.loading()"></mb-dropdown>
         <mb-dropdown label="City" [params]="cities.params()" (searchValueChange)="onCitySearch($event)" [optionsList]="cities.data()" [disabled]="!cities.params().country" (scrolledToBottom)="cities.nextPage()" [isLoading]="cities.loading()"></mb-dropdown>
         <mb-dropdown label="Department" [optionsList]="categories()"></mb-dropdown>
-        <mb-dropdown label="Hospitals" [optionsList]="hospitals()"></mb-dropdown>
+        <!-- <mb-dropdown label="Hospitals" [optionsList]="hospitals()"></mb-dropdown> -->
       </filters>
       <mb-search label="Search" placeholder="Search..." id="search" (searchSubmit)="onSearchChange($event)"></mb-search>
     </div>

@@ -1,11 +1,15 @@
 <div class="filters-component-wrapper" [class]="layout()">
-    <ng-content></ng-content>
+    <div class="dropdown-wrapper">    
+        <ng-content></ng-content>
+    </div>
     
-    @if (hasActiveFilters() && hasChangesSinceLastSubmit()) {   
-        <button class="mb-button-s mb-button-round apply-filters-button" (click)="submitFilters()">Apply</button>
-    }
-    
-    @if (isValueEmitted()) {
-        <button class="mb-button-s mb-button-round reset-filters-button" (click)="resetFilters()">Reset</button>
-    }
+    <div class="buttons-wrapper">
+        @if (hasActiveFilters() && hasChangesSinceLastSubmit()) {   
+            <button class="mb-button-s mb-button-round apply-filters-button" (click)="submitFilters()">Apply</button>
+        }
+        
+        @if (isValueEmitted()) {
+            <button class="mb-button-s mb-button-round reset-filters-button" (click)="resetFilters()">Reset</button>
+        }
+    </div>
 </div>

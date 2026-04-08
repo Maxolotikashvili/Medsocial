@@ -1,5 +1,6 @@
 @use '../../styles/layout.scss' as *;
 @use '../../styles/elements.scss' as *;
+@use '../../styles/animations.scss' as *;
 
 $modal-min-width: 36vw;
 $modal-bg-color: var(--color-white-0);
@@ -24,13 +25,13 @@ dialog {
     max-width: 90vw;
     max-height: 95vh;
     overflow-y: hidden;
+    transition: opacity $animation-time ease, transform $animation-time ease;
 }
 
 dialog[open] {
     opacity: 1;
     transform: scaleY(1) translate(-50%, -50%);
-    transition: opacity $animation-time ease, transform $animation-time ease;
-    
+
     @starting-style {
         opacity: 0;
         transform: scaleY(0.95) translate(-50%, -30%);
@@ -49,16 +50,17 @@ dialog::backdrop {
 }
 
 .modal-swapping {
-  animation: swap-in 0.3s ease;
+    animation: swap-in 0.3s ease;
 }
 
 @keyframes swap-in {
-  from {
-    opacity: 0;
-    transform: translateY(20%);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+    from {
+        opacity: 0;
+        transform: translateY(20%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

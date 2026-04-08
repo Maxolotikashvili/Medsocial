@@ -1,37 +1,40 @@
-import { Component, input, output, signal, computed, model, WritableSignal, InputSignal, effect, Self, Optional, viewChild, ElementRef } from '@angular/core';
+import { Component, input, output, signal, computed, model, WritableSignal, effect, Self, Optional, viewChild, ElementRef } from '@angular/core';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faAngleDown, faAngleUp, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { ClickOutsideDirective } from '../../shared/directives/click-outside.directive';
-import { FilterItem } from '../../core/tokens/filter-injection-token';
-import { detectValueMatch } from '../../shared/utilities/overlap-utility';
 import { ScrollToBottom } from "../../shared/directives/scroll-to-bottom.directive";
 import { Loading } from '../loading/loading';
 import { LowerCasePipe } from '@angular/common';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
+import { DropdownOption } from '../../core/models/dropdown.model';
+import { detectValueMatch } from '../../shared/utilities/overlap-utility';
+import { FilterItem } from '../../core/tokens/filter-injection-token';
 
 @Component({
   selector: 'mb-dropdown',
   templateUrl: './mb-dropdown.html',
   styleUrl: './mb-dropdown.scss',
+  standalone: true,
+  providers: [{provide: FilterItem, useExisting: MbDropdown}],
   imports: [FaIconComponent, ClickOutsideDirective, ScrollToBottom, Loading, LowerCasePipe],
-  providers: [{ provide: FilterItem, useExisting: MbDropdown }],
 })
 export class MbDropdown implements ControlValueAccessor {
   public isLoading = input<boolean>();
   public label = input.required<string>();
-  public optionsList = input.required<(string | number)[]>();
-  public disabled: InputSignal<boolean> = input<boolean>(false);
-  private _isFormControlDisabled = signal(false)
-  public readonly isComponentDisabled = computed(() => this.disabled() || this._isFormControlDisabled())
+  public optionsList = input.required<DropdownOption[]>(); 
+  public disabled = input<boolean>(false);
+  public disableSearch = input<boolean>(false);
   
-  public selectionChange = output<string | number>();
+  public selectionChange = output<any>();
   public scrolledToBottom = output<void>();
   public searchValueChange = output<string>();
-  public inputValue = model<string | number>('');
+  public inputValue = model<DropdownOption>({value: ''}); 
   public params = model<{ q?: string } & Record<string, any>>({});
   
   public isOpen = signal(false);
-  public isResultFound: WritableSignal<boolean> = signal<boolean>(true);
+  private _isFormControlDisabled = signal(false);
+  public readonly isComponentDisabled = computed(() => this.disabled() || this._isFormControlDisabled());
+  
   private searchInputValue: WritableSignal<string> = signal<string>('');
   private timeout: any;
   private searchInputEl = viewChild<ElementRef<HTMLInputElement>>('searchInput');
@@ -48,46 +51,46 @@ export class MbDropdown implements ControlValueAccessor {
 
     effect(() => {
       if (this.isOpen()) {
-        setTimeout(() => {
+        requestAnimationFrame(() => {
           this.searchInputEl()?.nativeElement.focus();
-        }, 0);
+        });
       }
-    })
+    });
   }
 
   private onChange: (val: any) => void = () => {};
   private onTouched: () => void = () => {};
-  public writeValue(val: any): void {
-    this.inputValue.set(val || '');
+
+  public writeValue(val: DropdownOption): void {
+    this.inputValue.set(val ?? {id: '', value: ''});
   }
 
-  registerOnChange(fn: any): void {
-    this.onChange = fn;
-  }
-
-  setDisabledState(isDisabled: boolean): void {
-      this._isFormControlDisabled.set(isDisabled);
-  }
-
-  registerOnTouched(fn: any): void {
-    this.onTouched = fn;
-  }
+  registerOnChange(fn: any): void { this.onChange = fn; }
+  registerOnTouched(fn: any): void { this.onTouched = fn; }
+  setDisabledState(isDisabled: boolean): void { this._isFormControlDisabled.set(isDisabled); }
 
   public displayedLabel = computed(() => {
-    return this.inputValue() || this.label();
+    const currentVal = this.inputValue()?.value;
+    const selectedOption = this.optionsList().find(opt => opt.value === currentVal);
+    return selectedOption ? selectedOption.value : this.label();
   });
 
   public displayedOptionsList = computed(() => {
-    const selected = this.inputValue();
-    const label = this.label();
-    const search = this.searchInputValue().toLowerCase();
+    const selectedValue = this.inputValue()?.value;
+    const placeholderLabel = this.label();
+    const search = this.searchInputValue();
 
-    let options = this.optionsList().filter((opt) => opt !== selected && opt !== label);
+    let options = this.optionsList().filter((opt) => 
+      opt.value !== selectedValue && opt.value !== placeholderLabel
+    );
 
-    const filtered = options.filter((option) => detectValueMatch(option, search));
-
-    if (selected && selected !== label) {
-      return [...filtered, label];
+    const filtered = options.filter((option) => detectValueMatch(option.value, search))
+    if (selectedValue !== '') {
+      const resetOption: DropdownOption = { 
+        value: this.label(),
+        id: 'reset-option' 
+      };
+      return [...filtered, resetOption];
     }
 
     return filtered;
@@ -96,18 +99,13 @@ export class MbDropdown implements ControlValueAccessor {
   public showNoResults = computed(() => {
     const search = this.searchInputValue();
     const loading = this.isLoading();
-    const options = this.optionsList();
-    return !!search && !loading && options.length === 0;
+    return !!search && !loading && this.displayedOptionsList().length === 0;
   });
 
   public toggleDropdown(state?: 'on' | 'off'): void {
-    if (this.disabled()) {
-      return;
-    }
+    if (this.isComponentDisabled()) return;
 
-    if (state === 'on') {
-      return this.isOpen.set(true);
-    }
+    if (state === 'on') return this.isOpen.set(true);
     if (state === 'off') {
       this.searchInputValue.set('');
       return this.isOpen.set(false);
@@ -123,36 +121,32 @@ export class MbDropdown implements ControlValueAccessor {
     });
   }
 
-  public selectOption(option: string | number): void {
-    const valueSet = option === this.label() ? '' : option;
+  public selectOption(option: DropdownOption): void {
+    const valueSet = option.value === this.label() ? {id: option.id, value: ''} : option;
 
-    this.inputValue.set(valueSet)
+    this.inputValue.set(valueSet);
     this.selectionChange.emit(valueSet);
-
     this.onChange(valueSet);
     this.onTouched();
-
     this.isOpen.set(false);
   }
 
   public onSearch(value: string): void {
+    if (this.disableSearch()) return;
+    
     this.searchInputValue.set(value);
-    const hasLocalMatch = this.optionsList().some((option) => detectValueMatch(option, value));
+    
+    const hasLocalMatch = this.optionsList().some((option) => detectValueMatch(option.value, value));
 
-    if (value === '') {
+    if (value === '' || !hasLocalMatch) {
       this.emiteSearchValueChangeWithDebounce(value);
-    } else if (hasLocalMatch) {
-      return;
     }
-
-    this.emiteSearchValueChangeWithDebounce(value);
   }
 
   private emiteSearchValueChangeWithDebounce(value: string) {
     const debounceTime: number = 300;
 
     clearTimeout(this.timeout);
-
     this.timeout = setTimeout(() => {
       this.searchValueChange.emit(value);
     }, debounceTime); 

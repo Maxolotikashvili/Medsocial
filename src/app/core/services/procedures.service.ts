@@ -4,6 +4,7 @@ import { map, Observable } from 'rxjs';
 import { PaginatedResponse, Procedure, ProceduresQueryParams } from '../models/procedures.model';
 import { API_URL } from '../tokens/api-injection-token';
 import { API_ENDPOINTS } from '../configs/api-endpoints.config';
+import { Filter } from '../models/filter.model';
 
 @Injectable({
   providedIn: 'root',
@@ -50,16 +51,26 @@ export class ProceduresService {
     return procedures.map((procedure) => procedure.category.title);
   }
 
-  public mapProceduresQueryParams(target: Record<string, string | number>): ProceduresQueryParams {
+  public mapProceduresQueryParams(target: Partial<Filter> | {search: string}): ProceduresQueryParams {
     const acc: any = {};
     const searchTerms: string[] = [];
 
-    for (const [key, val] of Object.entries(target)) {
-      const valueStr = val.toString().trim();
+    for (const [key, obj] of Object.entries(target)) {
+      let valueStr;
+      
+      if ('search' in target) {
+        valueStr = obj.toString().trim();
+      } else {
+        valueStr = obj.value.toString().trim();
+      }
       if (!valueStr) continue;
 
       if (key === 'Department') {
         acc['category_title'] = valueStr;
+      } else if (key === 'City') {
+        acc['city'] = obj.id;
+      } else if (key === 'Country') {
+        acc['country'] = obj.id;
       } else {
         searchTerms.push(valueStr);
       }
@@ -68,7 +79,6 @@ export class ProceduresService {
     if (searchTerms.length > 0) {
       acc['q'] = searchTerms;
     }
-
     return acc as ProceduresQueryParams;
   }
 

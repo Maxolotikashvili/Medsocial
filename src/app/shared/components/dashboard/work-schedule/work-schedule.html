@@ -1,0 +1,22 @@
+<form [formGroup]="scheduleGroup" class="schedule-form">
+    @for (weekDay of weekDays; track $index) {
+        <div class="schedule-weekday-wrapper">
+            <div class="schedule-weekday-heading-wrapper">
+                <div class="text-description week-day">{{weekDay.label}}</div>
+                <mb-switch onLabel="Available" [reversedLabels]="true"></mb-switch>
+            </div>
+            
+            <div class="schedule-weekday-body">
+                <div class="formfield-wrapper">
+                    <span class="text-description label">From:</span>
+                    <mb-dropdown [disableSearch]="true" label="Start time" [optionsList]="[]"></mb-dropdown>
+                </div>
+                
+                <div class="formfield-wrapper">
+                    <span class="text-description label">To:</span>
+                    <mb-dropdown [disableSearch]="true" label="End time" [optionsList]="[]"></mb-dropdown>
+                </div>
+            </div>
+        </div>
+    }
+</form>

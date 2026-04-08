@@ -31,29 +31,19 @@ export const routes: Routes = [
       },
 
       {
-        path: 'meeting-history',
-        loadComponent: () => import('./shared/components/dashboard/meeting-history/meeting-history').then((m) => m.MeetingHistory)
-      },
-
-      {
         path: 'professional-info',
         loadComponent: () => import('./shared/components/dashboard/professional-info/professional-info').then((m) => m.ProfessionalInfo),
         canActivate: [doctorGuard]
       },
 
       {
-        path: 'upcoming-meetings',
-        loadComponent: () => import('./shared/components/dashboard/upcoming-meetings/upcoming-meetings').then((m) => m.UpcomingMeetings)
-      },
-
-      {
-        path: 'requested-meetings',
-        loadComponent: () => import('./shared/components/dashboard/requested-meetings/requested-meetings').then((m) => m.RequestedMeetings)
-      },
-
-      {
         path: 'appointments',
         loadComponent: () => import('./shared/components/dashboard/appointments/appointments').then((m) => m.Appointments)
+      },
+
+      {
+        path: 'work-schedule',
+        loadComponent: () => import('./shared/components/dashboard/work-schedule/work-schedule').then((m) => m.WorkSchedule)
       },
     ],
   },

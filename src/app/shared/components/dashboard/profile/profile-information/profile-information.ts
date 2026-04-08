@@ -38,7 +38,7 @@ export class ProfileInformation implements OnInit {
         { key: 'First name', value: '' },
         { key: 'Last name', value: '' },
         { key: 'Age', value: 0 },
-        { key: 'City', value: '' },
+        { key: 'Timezone', value: '' },
         { key: 'Email', value: '' },
         { key: 'Phone', value: '' },
       ];
@@ -48,7 +48,7 @@ export class ProfileInformation implements OnInit {
       { key: 'First name', value: user.first_name },
       { key: 'Last name', value: user.last_name },
       { key: 'Age', value: user.age_is_public ? new Date().getFullYear() - new Date(user.dob).getFullYear() : 0 },
-      { key: 'City', value: user.timezone },
+      { key: 'Timezone', value: user.timezone },
       { key: 'Email', value: user.email },
       { key: 'Phone', value: user.phone },
     ].filter((item) => item.value);
@@ -91,7 +91,7 @@ export class ProfileInformation implements OnInit {
       { controlName: 'dob', label: 'Date of Birth', type: 'date', value: this.user()?.dob || '' },
       {
         controlName: 'timezone',
-        label: 'Current City',
+        label: 'Timezone',
         type: 'text',
         value: this.user()?.timezone || '',
       },

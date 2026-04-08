@@ -1,7 +1,7 @@
 @use '../../../../../styles/elements.scss' as *;
 
 .profile-information-wrapper {
-    margin-top: 2.4rem;
+    margin-top: 4rem;
     padding-bottom: 4rem;
 
     .heading-wrapper {
@@ -14,12 +14,7 @@
 
         .edit-button {
             border-radius: 4px;
-            padding: 0.4rem 2rem;
-            height: unset;
-        }
-
-        .edit-button:hover {
-            background-color: var(--color-green-0);
+            padding: 0.5rem 2.2rem;
         }
     }
 

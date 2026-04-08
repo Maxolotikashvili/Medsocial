@@ -1,4 +1,4 @@
-import { Component, effect, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ProfileOverview } from "./profile-overview/profile-overview";
 import { ProfileInformation } from "./profile-information/profile-information";
 import { UserService } from '../../../../core/services/user.service';
@@ -13,7 +13,6 @@ import { ScrollFromBreadcrumbDirective } from "../../../directives/scroll-from-b
 export class Profile {
   private userService = inject(UserService);
   public user = this.userService.user;
-  constructor() {
-    effect(() => console.log(this.user()))
-  }
+
+  constructor() {}
 }
