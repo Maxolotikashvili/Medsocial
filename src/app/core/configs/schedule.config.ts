@@ -1,3 +1,5 @@
+import { ScheduleSettings } from "../models/schedule.model";
+
 export const WEEK_DAYS = [
   { key: 'MO', label: 'Monday' },
   { key: 'TU', label: 'Tuesday' },
@@ -11,5 +13,10 @@ export const WEEK_DAYS = [
 export const AVAILABILITY = {
     AVAILABLE: 'AVAILABLE',
     UNAVAILABLE: 'UNAVAILABLE'
-}
+} as const;
 
+export const SCHEDULE_SETTINGS: ScheduleSettings = {
+  interval: 1,
+  workDays: 7,
+  format: "12h"
+};

@@ -4,11 +4,11 @@
     display: flex;
     flex-flow: column;
     align-items: center;
-    width: 550px;
+    width: 100%;
     height: 100%;
     gap: 2rem;
     background: var(--color-gradient-0);
-    padding: 5rem 4rem 2rem 4rem;
+    padding: 5rem 4rem 2.5rem 4rem;
 
     img {
         width: 18rem;
@@ -65,9 +65,10 @@
         align-items: center;
         
         .signup-link {
+            border: none;
+            background-color: transparent;
             margin-left: 0.64rem;
             color: var(--color-blue-2);
-            font-size: 1.4rem;
         }
     
         .signup-link:hover {

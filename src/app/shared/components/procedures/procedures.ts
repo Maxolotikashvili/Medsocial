@@ -51,7 +51,7 @@ export class Procedures {
   private scrollService = inject(ScrollService);
 
   public isLoading: WritableSignal<boolean> = signal<boolean>(false);
-  public filters: WritableSignal<ProceduresQueryParams> = signal({ });
+  public filters: WritableSignal<ProceduresQueryParams> = signal({});
 
   public icons: iconMap = {
     eye: faEye,
@@ -92,8 +92,21 @@ export class Procedures {
     country: params.country,
     page: params.page,
     q: params.q
-  }), {returnFormat: 'valueId'})
-  public countries = useInfiniteData((_: CountriesQuery, page: number) => this.locationService.getCountries({page: page}), {returnFormat: 'valueId'})
+  }), {
+    transform: {
+      transformKey: [
+        {from: 'name', to: 'value'},
+      ]
+    }
+  })
+  public countries = useInfiniteData((_: CountriesQuery, page: number) => this.locationService.getCountries({page: page}), {
+    transform: {
+      transformKey: [
+        { from: 'name', to: 'value' },
+      ],
+      remove: ['code', 'phone_code']
+    }
+  })
 
   constructor() {}
 

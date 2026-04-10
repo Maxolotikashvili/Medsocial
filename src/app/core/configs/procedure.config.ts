@@ -31,4 +31,4 @@ export const ALL_PROCEDURE_CATEGORIES: ProcedureCategoryTitle[] = [
   'Cardiac catheterization'
 ] as const;
 
-export const EDUCATION_DEGREES: EducationDegree[] = ["high school diploma", 'associate degree', "bachelor's degree", "master's degree", "doctorate (Phd)", "professional degree (Md, Jd, etc.)"] 
+export const EDUCATION_DEGREES: EducationDegree[] = ["high school diploma", 'associate degree', "bachelor's degree", "master's degree", "doctorate (Phd)", "professional degree (Md, Jd, etc.)"] as const;

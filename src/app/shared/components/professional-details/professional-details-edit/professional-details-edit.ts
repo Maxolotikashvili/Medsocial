@@ -31,7 +31,12 @@ export class ProfessionalDetailsEdit implements OnInit {
   private errorService = inject(ErrorService);
   private destroyRef = inject(DestroyRef);
 
-  public degreeOptionsList = EDUCATION_DEGREES;
+  public degreeOptionsList = Array.from(EDUCATION_DEGREES).map((degree, index) => {
+    return {
+      id: index,
+      value: degree
+    }
+  });
 
   get formItems() {
     return this.form.get('items') as FormArray;
@@ -107,7 +112,6 @@ export class ProfessionalDetailsEdit implements OnInit {
 
         error: (error: HttpErrorResponse) => {
           this.errorService.handleError(error);
-          console.log('rato')
         }
       });
     }
@@ -133,9 +137,9 @@ export class ProfessionalDetailsEdit implements OnInit {
       requestPayload = {
         ...requestPayload,
         university: payload.university,
-        degree: payload.degree,
+        degree: payload.degree.value,
       } as Partial<EducationPayload>;
-
+      console.log(requestPayload)
       return this.userService.updateEducation({userId: user.id, educationId: payload.id, body: requestPayload}).pipe(takeUntilDestroyed(this.destroyRef));
     } else if ('workTitle' in payload) {
       requestPayload = {
@@ -169,7 +173,7 @@ export class ProfessionalDetailsEdit implements OnInit {
       requestPayload = {
         ...requestPayload,
         university: payload.university,
-        degree: payload.degree,
+        degree: payload.degree.value,
       } as EducationPayload
 
       return this.userService.addNewEducation({userId: user.id, body: requestPayload as EducationPayload})

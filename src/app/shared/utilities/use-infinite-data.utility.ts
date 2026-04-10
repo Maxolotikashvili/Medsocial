@@ -4,21 +4,24 @@ import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { Observable, switchMap, scan, tap, distinctUntilChanged, filter, catchError, EMPTY, map } from 'rxjs';
 import { ErrorService } from '../../core/services/error.service';
 import { PaginatedResponse } from '../../core/models/procedures.model';
+import { TransformConfig } from '../../core/models/utility.model';
+import { transformObject } from './object-transformer.utility';
 
-export function useInfiniteData<T extends { name?: string }, P>(
-  fetchFn: (params: P, page: number) => Observable<PaginatedResponse<T | any>>,
-  parameters: {
+export function useInfiniteData<T extends object, P>(
+  fetchFn: (params: P, page: number) => Observable<PaginatedResponse<T>>,
+  options: {
     initialParams?: P,
-    returnFormat: 'onlyNames' | 'valueId' | '',
-  } = { initialParams: {} as P, returnFormat: '' }
+    transform?: TransformConfig<T> 
+  } = {}
 ) {
   const errorService = inject(ErrorService);
   const injector = inject(Injector);
   
   const page = signal<number>(1);
-  const params = signal<P>(parameters.initialParams || {} as P);
+  const params = signal<P>(options.initialParams || {} as P);
   const loading = signal<boolean>(false);
   const hasNextPage = signal<boolean>(true);
+
   const data$ = toObservable(computed(() => ({ p: params(), pg: page() })), { injector }).pipe(
     filter(({ pg }) => pg === 1 || hasNextPage()),
     distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
@@ -28,17 +31,8 @@ export function useInfiniteData<T extends { name?: string }, P>(
       map(res => {
         hasNextPage.set(res.next !== null);
         
-        if (parameters.returnFormat === 'onlyNames') {
-          return res.results.map(items => items.name)
-        } 
-
-        if (parameters.returnFormat === 'valueId') {
-          return res.results.map((items) => {
-            return {
-              id: items.id,
-              value: items.name
-            }
-          })
+        if (options.transform) {
+          return transformObject(res.results, options.transform);
         }
 
         return res.results;

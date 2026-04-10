@@ -1,33 +1,84 @@
 export function shallowEqual(obj1: Record<string, any>, obj2: Record<string, any>): boolean {
-    const keys1 = Object.keys(obj1);
-    const keys2 = Object.keys(obj2);
-
-    if (keys1.length !== keys2.length) {
-        return false
-    };
-
-    for (let key of keys1) {
-        if (obj1[key] !== obj2[key]) return false; 
-    }
-
-    return true;
-}
-
-export function deepEqual(obj1: Record<string, any>, obj2: Record<string, any>) {
-  if (obj1 === obj2) return true;
-
-  if (typeof obj1 !== 'object' || obj1 === null || 
-      typeof obj2 !== 'object' || obj2 === null) {
-    return false;
-  }
-
   const keys1 = Object.keys(obj1);
   const keys2 = Object.keys(obj2);
 
-  if (keys1.length !== keys2.length) return false;
+  if (keys1.length !== keys2.length) {
+    return false;
+  }
 
   for (let key of keys1) {
-    if (!keys2.includes(key) || !deepEqual(obj1[key], obj2[key])) return false;
+    if (obj1[key] !== obj2[key]) return false;
   }
+
+  return true;
+}
+
+export function deepEqual(a: any, b: any, visited = new WeakMap()): boolean {
+  // Handle strict equality and NaN
+  if (Object.is(a, b)) return true;
+
+  // Handle null or non-object values
+  if (typeof a !== 'object' || a === null ||
+      typeof b !== 'object' || b === null) {
+    return false;
+  }
+
+  // Prevent circular reference issues
+  if (visited.has(a)) {
+    return visited.get(a) === b;
+  }
+  visited.set(a, b);
+
+  // Handle Date
+  if (a instanceof Date && b instanceof Date) {
+    return a.getTime() === b.getTime();
+  }
+
+  // Handle RegExp
+  if (a instanceof RegExp && b instanceof RegExp) {
+    return a.toString() === b.toString();
+  }
+
+  // Handle Arrays
+  if (Array.isArray(a)) {
+    if (!Array.isArray(b) || a.length !== b.length) return false;
+    for (let i = 0; i < a.length; i++) {
+      if (!deepEqual(a[i], b[i], visited)) return false;
+    }
+    return true;
+  }
+
+  // Handle Map
+  if (a instanceof Map && b instanceof Map) {
+    if (a.size !== b.size) return false;
+    for (const [key, value] of a) {
+      if (!b.has(key) || !deepEqual(value, b.get(key), visited)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  // Handle Set
+  if (a instanceof Set && b instanceof Set) {
+    if (a.size !== b.size) return false;
+    for (const value of a) {
+      if (!b.has(value)) return false;
+    }
+    return true;
+  }
+
+  // Handle plain objects
+  const keysA = Object.keys(a);
+  const keysB = Object.keys(b);
+
+  if (keysA.length !== keysB.length) return false;
+
+  const keysBSet = new Set(keysB);
+  for (const key of keysA) {
+    if (!keysBSet.has(key)) return false;
+    if (!deepEqual(a[key], b[key], visited)) return false;
+  }
+
   return true;
 }

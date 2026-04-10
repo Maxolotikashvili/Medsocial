@@ -1,4 +1,4 @@
-import { WEEK_DAYS } from "../configs/schedule.config";
+import { WEEK_DAYS } from '../configs/schedule.config';
 
 export interface Appointment {
   id: string;
@@ -15,10 +15,29 @@ export type AppointmentPayload = Omit<Appointment, 'id' | 'image'> & {
 export interface WorkSchedule {
   id: string;
   week_day: WeekDayKey;
-  start_time: Date;
-  end_time: Date
+  start_time: string;
+  end_time: string;
 }
 
-export type WeekDay = typeof WEEK_DAYS[number];
+export interface WorkScheduleForm {
+  weekDay: WeekDayKey;
+  isActive: boolean;
+  startTime: WorkScheduleFormTime;
+  endTime: WorkScheduleFormTime;
+}
+
+export interface WorkScheduleFormTime {
+  id: string | number;
+  value: string;
+}
+
+export type WorkSchedulePayload = Omit<WorkSchedule, 'id'>;
+export type WeekDay = (typeof WEEK_DAYS)[number];
 export type WeekDayKey = WeekDay['key'];
 export type WeekDayValue = WeekDay['label'];
+
+export interface ScheduleSettings {
+  interval: 1 | 0.5;
+  workDays: 1 | 2 | 3 | 4 | 5 | 6 | 7;
+  format: '12h' | '24h';
+}

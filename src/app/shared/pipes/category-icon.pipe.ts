@@ -1,13 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { IconDefinition } from '@fortawesome/angular-fontawesome';
-import {
-  faCapsules,
-  faCircleInfo,
-  faEye,
-  faFlask,
-  faHeartPulse,
-  faStethoscope,
-} from '@fortawesome/free-solid-svg-icons';
+import { faCapsules, faCircleInfo, faEye, faFlask, faHeartPulse, faStethoscope } from '@fortawesome/free-solid-svg-icons';
 
 @Pipe({
   name: 'categoryIcon',

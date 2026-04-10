@@ -1,22 +1,31 @@
-<form [formGroup]="scheduleGroup" class="schedule-form">
-    @for (weekDay of weekDays; track $index) {
-        <div class="schedule-weekday-wrapper">
-            <div class="schedule-weekday-heading-wrapper">
-                <div class="text-description week-day">{{weekDay.label}}</div>
-                <mb-switch onLabel="Available" [reversedLabels]="true"></mb-switch>
-            </div>
-            
-            <div class="schedule-weekday-body">
-                <div class="formfield-wrapper">
-                    <span class="text-description label">From:</span>
-                    <mb-dropdown [disableSearch]="true" label="Start time" [optionsList]="[]"></mb-dropdown>
+<form [formGroup]="scheduleGroup" class="schedule-form" (ngSubmit)="submitScheduleForm()" animate.enter="enter-animation-left">
+    <div class="grid-wrapper">
+        @for (weekDay of weekDays; track $index) {
+            <div class="schedule-weekday-wrapper">
+                <div class="schedule-weekday-heading-wrapper" [formGroupName]="weekDay.key">
+                    <div class="text-description week-day">{{weekDay.label}}</div>
+                    <mb-switch onLabel="Available" formControlName="isActive" [reversedLabels]="true"></mb-switch>
                 </div>
                 
-                <div class="formfield-wrapper">
-                    <span class="text-description label">To:</span>
-                    <mb-dropdown [disableSearch]="true" label="End time" [optionsList]="[]"></mb-dropdown>
+                <div class="schedule-weekday-body" [formGroupName]="weekDay.key">
+                    <div class="formfield-wrapper">
+                        <span class="text-description label">From:</span>
+                        <mb-dropdown formControlName="startTime" [disableSearch]="true" label="Start time" [optionsList]="workingHours()"></mb-dropdown>
+                    </div>
+                    
+                    <div class="formfield-wrapper">
+                        <span class="text-description label">To:</span>
+                        <mb-dropdown formControlName="endTime" [disableSearch]="true" label="End time" [optionsList]="workingHours()"></mb-dropdown>
+                    </div>
                 </div>
             </div>
+        }
+    </div>
+
+    @if (isFormChanged) {
+        <div class="buttons-wrapper" animate.enter="enter-animation-bottom" animate.leave="leave-animation">
+            <button class="mb-button-naked submit-button" type="submit">Save changes</button>
+            <button class="mb-button-naked mb-button-abort reset-button" type="button" (click)="revertChanges()">Revert</button>
         </div>
     }
 </form>

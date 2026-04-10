@@ -1,4 +1,4 @@
-import { Component, input, model, Self, Optional, signal } from '@angular/core';
+import { Component, input, model, Self, Optional, signal, computed, ChangeDetectionStrategy } from '@angular/core';
 import { ControlValueAccessor, NgControl, FormsModule, Validators } from '@angular/forms';
 
 @Component({
@@ -7,6 +7,7 @@ import { ControlValueAccessor, NgControl, FormsModule, Validators } from '@angul
   imports: [FormsModule],
   templateUrl: './mb-input.html',
   styleUrl: './mb-input.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MbInput implements ControlValueAccessor {
   public readonly label = input<string>('');
@@ -22,11 +23,11 @@ export class MbInput implements ControlValueAccessor {
   public value = model<string | number | boolean>('');
   public isDisabled = signal<boolean>(false);
 
-  public get isInvalid(): boolean {
+  public readonly isInvalid = computed(() => {
     return !!(this.ngControl?.invalid && this.ngControl?.touched);
-  }
+  })
 
-  public get currentErrorMessage(): string {
+  public readonly currentErrorMessage = computed(() => {
     const errors = this.ngControl?.errors;
     if (!errors || !this.isInvalid) return '';
 
@@ -45,7 +46,7 @@ export class MbInput implements ControlValueAccessor {
     }
 
     return 'Invalid input';
-  }
+  }) 
 
   constructor(@Self() @Optional() public ngControl: NgControl) {
     if (this.ngControl) {

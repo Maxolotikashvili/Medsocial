@@ -1,4 +1,4 @@
-import { Component, computed, forwardRef, input, model } from '@angular/core';
+import { Component, computed, forwardRef, input, model, signal, WritableSignal } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
@@ -21,14 +21,9 @@ export class MbSwitch implements ControlValueAccessor {
   public readonly id = input<string>('');
   public readonly reversedLabels = input<boolean>(false);
 
-  private _checked = false;
+  public checked: WritableSignal<boolean> = signal<boolean>(false);
   public disabled: boolean = false;
 
-  public get checked() {
-    return this._checked;
-  }
-
-  // public readonly checked = model<boolean>(false);
   public readonly switchClass = computed(() => `mb-switch-container ${this.color()} ${this.disabled ? 'disabled' : ''}`);
 
   constructor() {}
@@ -37,7 +32,7 @@ export class MbSwitch implements ControlValueAccessor {
   private onTouched: () => void = () => {};
 
   writeValue(value: boolean): void {
-
+    this.checked.set(!!value);
   }
 
   registerOnChange(fn: any): void {
@@ -55,8 +50,8 @@ export class MbSwitch implements ControlValueAccessor {
   public setToggle(value: boolean) {
     if (this.disabled) return;
 
-    this._checked = value;
-    this.onChange(this._checked);
+    this.checked.set(value);
+    this.onChange(value);
     this.onTouched();
   }
 
@@ -65,7 +60,7 @@ export class MbSwitch implements ControlValueAccessor {
 
     const value = (event.target as HTMLInputElement).checked;
     
-    this._checked = value;
+    this.checked.set(value);
     this.onChange(value);
     this.onTouched();
   }

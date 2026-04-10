@@ -21,7 +21,7 @@ import { FilterItem } from '../../core/tokens/filter-injection-token';
 export class MbDropdown implements ControlValueAccessor {
   public isLoading = input<boolean>();
   public label = input.required<string>();
-  public optionsList = input.required<DropdownOption[]>(); 
+  public optionsList = input.required<DropdownOption[]>();
   public disabled = input<boolean>(false);
   public disableSearch = input<boolean>(false);
   
@@ -61,8 +61,12 @@ export class MbDropdown implements ControlValueAccessor {
   private onChange: (val: any) => void = () => {};
   private onTouched: () => void = () => {};
 
-  public writeValue(val: DropdownOption): void {
-    this.inputValue.set(val ?? {id: '', value: ''});
+  public writeValue(val: string | DropdownOption): void {
+    if (typeof val === 'object'){
+      this.inputValue.set(val);
+    } else {
+      this.inputValue.set({value: val});
+    }
   }
 
   registerOnChange(fn: any): void { this.onChange = fn; }
@@ -72,6 +76,7 @@ export class MbDropdown implements ControlValueAccessor {
   public displayedLabel = computed(() => {
     const currentVal = this.inputValue()?.value;
     const selectedOption = this.optionsList().find(opt => opt.value === currentVal);
+
     return selectedOption ? selectedOption.value : this.label();
   });
 
@@ -123,7 +128,6 @@ export class MbDropdown implements ControlValueAccessor {
 
   public selectOption(option: DropdownOption): void {
     const valueSet = option.value === this.label() ? {id: option.id, value: ''} : option;
-
     this.inputValue.set(valueSet);
     this.selectionChange.emit(valueSet);
     this.onChange(valueSet);

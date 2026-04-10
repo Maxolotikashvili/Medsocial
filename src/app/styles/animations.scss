@@ -1,3 +1,6 @@
+$animation-duration: 0.3s;
+$animation-distance: 60px;
+
 // Effect arrow
 .effect-host-arrow {
   display: inline-flex;
@@ -35,8 +38,6 @@
 }
 
 // Enter effect
-$animation-duration: 0.5s;
-$animation-distance: 60px;
 
 .enter-animation-top {
   animation: slide-top $animation-duration;
