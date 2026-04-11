@@ -8,6 +8,7 @@ import { Breadcrumb } from "./shared/components/breadcrumb/breadcrumb";
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet, MainHeader, PopupComponent, Breadcrumb],
+  schemas: [],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
