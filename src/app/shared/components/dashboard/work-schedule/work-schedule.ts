@@ -12,16 +12,19 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorService } from '../../../../core/services/error.service';
 import { deepEqual } from '../../../utilities/object-comparer-utility';
 import { transformDate } from '../../../utilities/date-transformer.utility';
+import { UserService } from '../../../../core/services/user.service';
+import { ScrollFromBreadcrumbDirective } from "../../../directives/scroll-from-breadcrumb.directive";
 
 @Component({
   selector: 'work-schedule',
-  imports: [ReactiveFormsModule, MbSwitch, MbDropdown],
+  imports: [ReactiveFormsModule, MbSwitch, MbDropdown, ScrollFromBreadcrumbDirective],
   templateUrl: './work-schedule.html',
   styleUrl: './work-schedule.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WorkSchedule implements OnInit {
   private fb = inject(FormBuilder);
+  private userService = inject(UserService);
   private scheduleService = inject(ScheduleService);
   private popupService = inject(PopupService);
   private errorService = inject(ErrorService);
@@ -44,7 +47,8 @@ export class WorkSchedule implements OnInit {
   }
 
   private loadSchedule() {
-    this.scheduleService.getWorkingSchedule().pipe(take(1)).subscribe({
+    const user = this.userService.user();
+    this.scheduleService.getWorkingSchedule(user.id).pipe(take(1)).subscribe({
       next: (data) => {
         this.data = data;
         this.applyExistingScheduleToForm();
@@ -123,7 +127,6 @@ export class WorkSchedule implements OnInit {
             start_time: `${currentVal.startTime.id.toString().padStart(2, '0')}:00`,
             end_time: `${currentVal.endTime.id.toString().padStart(2, '0')}:00`,
           };
-
           return this.scheduleService.updateWorkSchedule(payload);
         }
 
@@ -158,9 +161,6 @@ export class WorkSchedule implements OnInit {
     return !deepEqual(currentValues, this.originalSchedule());
   }
 
-  test(ss: any) {
-    console.log(ss)
-  }
   public revertChanges() {
     this.applyExistingScheduleToForm();
     this.scheduleGroup.markAsPristine();

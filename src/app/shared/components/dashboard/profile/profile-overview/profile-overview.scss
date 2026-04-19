@@ -12,7 +12,7 @@
 
     .stats-wrapper-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(0, 30.6rem));
+        grid-template-columns: repeat(3, minmax(0, 1fr));
         margin-top: 1rem;
         gap: 2.4rem;
     }

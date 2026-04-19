@@ -1,4 +1,5 @@
 @use '../../../../styles/layout.scss' as *;
+@use '../../../../styles/elements.scss' as *;
 
 .sidebar-wrapper {
     display: flex;
@@ -39,6 +40,9 @@
             gap: 1.8rem;
 
             li {
+                .route-link {
+                    position: relative;
+                }
 
                 .route-link,
                 .logout-button {

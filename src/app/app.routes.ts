@@ -7,12 +7,15 @@ import { Doctor } from './shared/components/doctor/doctor';
 import { Doctors } from './shared/components/doctors/doctors';
 import { Home } from './shared/components/home/home';
 import { doctorGuard } from './core/guards/doctor.guard';
+import { ScheduleAppointment } from './shared/components/schedule-appointment/schedule-appointment';
+import { patientGuard } from './core/guards/patient.guard';
 
 export const routes: Routes = [
   { path: 'home', component: Home },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'procedures', component: Procedures, canActivate: [authGuard] },
   { path: 'procedure-details/:id', component: ProcedureDetails , canActivate: [authGuard]},
+  { path: 'schedule-appointment/:id', component: ScheduleAppointment, canActivate: [patientGuard] },
   { path: 'doctors', component: Doctors },
   { path: 'doctor/:id', component: Doctor },
   {
@@ -26,11 +29,6 @@ export const routes: Routes = [
       },
 
       {
-        path: 'appointments',
-        loadComponent: () => import('./shared/components/dashboard/appointments/appointments').then((m) => m.Appointments)
-      },
-
-      {
         path: 'professional-info',
         loadComponent: () => import('./shared/components/dashboard/professional-info/professional-info').then((m) => m.ProfessionalInfo),
         canActivate: [doctorGuard]
@@ -39,6 +37,11 @@ export const routes: Routes = [
       {
         path: 'appointments',
         loadComponent: () => import('./shared/components/dashboard/appointments/appointments').then((m) => m.Appointments)
+      },
+
+      {
+        path: 'notifications',
+        loadComponent: () => import('./shared/components/dashboard/notifications/notifications').then((m) => m.Notifications)
       },
 
       {

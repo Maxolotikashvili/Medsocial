@@ -1,0 +1,74 @@
+.request-appointment-modal-wrapper {
+    width: 65rem;
+    background-color: var(--color-white-0);
+    padding: 2rem 4rem;
+
+    .appointment-heading {
+        text-align: center;
+    }
+
+    .appointment-block-wrapper {
+        display: flex;
+        flex-flow: column;
+        gap: 2rem;
+        padding: 4rem 0;
+
+        .appointment-block {
+            display: flex;
+            flex-flow: column;
+            gap: 0.4rem;
+
+            .appointment-block-heading-wrapper {
+                display: flex;
+                align-items: center;
+                gap: 0.4rem;
+
+                .icon {
+                    font-size: 1.2rem;
+                }
+                
+                .appointment-block-heading {
+                    color: var(--color-blue-1);
+                }
+            }
+
+            .appointment-block-value-wrapper {
+                .icon {
+                    font-size: 1.4rem;
+                }
+
+                .time {
+                    letter-spacing: 0.5px;
+                }
+            }
+
+            .image-text-wrapper {
+                display: flex;
+                align-items: center;
+                gap: 2rem;
+                margin-top: 1rem;
+
+                .doctor-image {
+                    width: 72px;
+                    object-fit: cover;
+                    object-position: top;
+                    aspect-ratio: 1/1;
+                    border-radius: var(--global-square-radius);
+                }
+
+                .text-wrapper {
+                    display: flex;
+                    flex-flow: column;
+                }
+            }
+
+            .textarea {
+                height: 6rem;
+            }
+        }
+    }
+
+    .request-button:hover {
+        background-color: var(--color-blue-0);
+    }
+}

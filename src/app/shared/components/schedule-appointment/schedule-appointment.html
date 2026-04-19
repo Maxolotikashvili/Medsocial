@@ -1,0 +1,8 @@
+@if (isLoading()) {
+    <loading></loading>
+} @else {   
+    <div class="schedule-appointment-component-wrapper" animate.enter="enter-animation-bottom" scrollFromBreadcrumbDirective>
+        <h4 class="heading-h4 select-heading">Select available date:</h4>
+        <availability-dates [eventsInput]="availabilityList()" (availableDateClicked)="openRequestAppointmentModal($event)"></availability-dates>
+    </div>
+}

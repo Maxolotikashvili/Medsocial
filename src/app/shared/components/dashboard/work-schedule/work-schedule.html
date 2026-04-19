@@ -1,4 +1,4 @@
-<form [formGroup]="scheduleGroup" class="schedule-form" (ngSubmit)="submitScheduleForm()" animate.enter="enter-animation-left">
+<form [formGroup]="scheduleGroup" class="schedule-form" (ngSubmit)="submitScheduleForm()" animate.enter="enter-animation-left" scrollFromBreadcrumbDirective>
     <div class="grid-wrapper">
         @for (weekDay of weekDays; track $index) {
             <div class="schedule-weekday-wrapper">

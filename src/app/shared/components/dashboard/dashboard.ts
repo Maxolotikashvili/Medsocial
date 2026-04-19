@@ -10,4 +10,5 @@ import { ScrollFromBreadcrumbDirective } from "../../directives/scroll-from-brea
   styleUrl: './dashboard.scss',
 })
 export class Dashboard {
+  constructor() {}
 }

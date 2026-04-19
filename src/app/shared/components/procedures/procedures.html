@@ -41,9 +41,9 @@
                 <fa-icon [icon]="icons['price']" class="detail-icon"></fa-icon>
   
                 @if (procedure.discounted_price && procedure.discounted_price < procedure.price) {
-                  <del class="text-description"> {{procedure.price}}$ </del>
+                  <del class="text-description"> {{procedure.price}}{{currency().symbol}} </del>
                 }
-                <span class="text-description"> {{procedure.discounted_price}}$ </span>
+                <span class="text-description"> {{procedure.discounted_price}}{{currency().symbol}} </span>
               </li>
             </ul>
 

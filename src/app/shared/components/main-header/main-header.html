@@ -29,9 +29,12 @@
     </nav>
 
     <div class="header-button-links-wrapper">
-        @if (isUserSignedIn()) {
+        @if (isUserLoggedIn()) {
             <button class="lets-talk-button mb-button-s mb-button-round" [effect]="'arrow'">Appointment</button>
             <a class="mb-button-naked user-profile-link" routerLink="/dashboard/profile">
+                @if (notificationsLength()) {
+                    <div class="notification-circle">{{notificationsLength()}}</div>
+                }
                 <fa-icon [icon]="faUser"></fa-icon>
             </a>
         } @else {

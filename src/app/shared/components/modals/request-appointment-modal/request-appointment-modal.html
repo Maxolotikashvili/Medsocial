@@ -1,0 +1,77 @@
+@if (procedure && date && doctor) {
+    <div class="request-appointment-modal-wrapper">
+        <h3 class="heading-h3 text-weight-500 appointment-heading">Appointment details</h3>
+        
+        <div class="appointment-block-wrapper">
+            <div class="appointment-block">
+                <h6 class="heading-h6 text-weight-500 appointment-block-heading">Doctor</h6>
+
+                <div class="image-text-wrapper">
+                    <img class="doctor-image" [src]="doctor.image" (error)="handleImageError($event)" alt="Doctor">
+                    <div class="text-wrapper">
+                        <span class="text-description text-size-2 text-weight-700"> {{doctor.first_name}} {{doctor.last_name}} </span>
+                        <span class="text-description text-size-1 text-weight-500"> {{doctor.title}} </span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="appointment-block">
+                <div class="appointment-block-heading-wrapper">
+                    <fa-icon class="icon" [icon]="icons['date']"></fa-icon>
+                    <h6 class="heading-h6 text-weight-500 appointment-block-heading">Appointment time</h6>
+                </div>
+
+                <div class="appointment-block-value-wrapper">
+                    <span class="text-description"> {{date.start | date: 'fullDate'}}, </span>
+                    <fa-icon class="icon" [icon]="icons['time']"></fa-icon>
+                    <span class="text-description time"> {{date.start | date: 'HH:mm'}} - {{date.end | date: 'HH:mm'}}</span>
+                </div>
+            </div>
+
+            @if (user(); as user) {
+                <div class="appointment-block">
+                    <div class="appointment-block-heading-wrapper">
+                        <fa-icon class="icon" [icon]="icons['age']"></fa-icon>
+                        <h6 class="heading-h6 text-weight-500 appointment-block-heading">Patient</h6>
+                    </div>
+                    
+                    <span class="text-description text-weight-500"> {{user.first_name}} {{user.last_name}} </span>
+                    <span class="text-description text-weight-500"> {{user.dob | dobToAge}} Years old</span>
+                </div>
+            }
+            
+            <div class="appointment-block">
+                <div  class="appointment-block-heading-wrapper">
+                    <fa-icon class="icon" [icon]="icons['service']"></fa-icon>
+                    <h6 class="heading-h6 text-weight-500 appointment-block-heading">Service</h6>
+                </div>
+                
+                <span class="text-description text-weight-500"> {{procedure.title}} </span>
+            </div>
+
+            <div class="appointment-block">
+                <div  class="appointment-block-heading-wrapper">
+                    <h6 class="heading-h6 text-weight-500 appointment-block-heading">Additional information for doctor</h6>
+                </div>
+                
+                <textarea [(ngModel)]="description" class="mb-textarea textarea" id="info" placeholder="Information, symptoms, questions, etc."></textarea>
+            </div>
+
+            <div class="appointment-block">
+                <div  class="appointment-block-heading-wrapper">
+                    <h6 class="heading-h6 text-weight-500 appointment-block-heading">Upload image</h6>
+                </div>
+                
+                <input type="file" id="imageUpload" accept="image/*" (change)="onImageSelected($event)" #imageInput>
+            </div>
+        </div>
+
+        <button class="mb-button-fullsize mb-button-square request-button" (click)="sendAppointmentRequest()">Send appointment request</button>
+    </div>
+} @else {
+    Nothing to show
+}
+
+@if (isLoading()) {
+    <loading></loading>
+}

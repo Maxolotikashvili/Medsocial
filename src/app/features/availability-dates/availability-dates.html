@@ -1,0 +1,61 @@
+<div class="calendar-controls-wrapper" animate.enter="enter-animation-right">
+    <div class="calendar-view-wrapper">
+        <button class="calendar-view" (click)="setView(CalendarView.Month)"
+            [class.active]="view === CalendarView.Month">Month</button>
+        <button class="calendar-view" (click)="setView(CalendarView.Week)"
+            [class.active]="view === CalendarView.Week">Week</button>
+        <button class="calendar-view" (click)="setView(CalendarView.Day)"
+            [class.active]="view === CalendarView.Day">Day</button>
+    </div>
+    
+    <div class="calendar-date-wrapper">
+        <h3 class="heading-h3">{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
+    </div>
+    
+    <div class="calendar-day-wrapper">
+        <button class="time-button" [disabled]="viewDate.getMonth() <= minMonth.getMonth()" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()">Previous</button>
+        <button class="time-button" [disabled]="isToday(viewDate)" mwlCalendarToday [(viewDate)]="viewDate">Today</button>
+        <button class="time-button" [disabled]="viewDate.getMonth() >= maxMonth.getMonth()" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()">Next</button>
+    </div>
+</div>
+
+<div class="calendar-wrapper" animate.enter="enter-animation-left">
+    @switch (view) { @case (CalendarView.Month) {
+        <mwl-calendar-month-view [viewDate]="viewDate" [refresh]="refresh" [cellTemplate]="customMonthCell"
+        [events]="events" (dayClicked)="dayClicked($event.day)" (beforeViewRender)="beforeMonthViewRender($event)"/>
+    } @case (CalendarView.Week) {
+        <mwl-calendar-week-view (eventClicked)="handleEvent($event.event)" [tooltipTemplate]="customTooltipTemplate" [hourSegments]="1" [viewDate]="viewDate" [events]="events" [refresh]="refresh"/>
+    } @case (CalendarView.Day) {
+        <mwl-calendar-day-view [tooltipTemplate]="customTooltipTemplate" (eventClicked)="handleEvent($event.event)" [hourSegments]="1" [viewDate]="viewDate" [events]="events" [refresh]="refresh"/>
+    } }
+
+    <ng-template #customMonthCell let-day="day">
+        <div class="cal-cell-top">
+            @if (hasFullDayBlock(day.events)) {
+                <span class="text-small availability-text not-available">Not available</span>
+            }
+            
+            @else if (hasAvailability(day.events)) {
+                <span class="text-small availability-text available">Available</span>
+            }
+            <span class="cal-day-number month-day-number">{{ day.date | calendarDate:'monthViewDayNumber' }}</span>
+        </div>
+    </ng-template>
+
+    <ng-template #customTooltipTemplate let-event="event">
+        <div class="custom-tooltip-wrapper">
+            <p class="tooltip-text-1">
+                <strong>Status:</strong> {{ event.meta?.availability | titlecase }}
+            </p>
+            
+            <p class="tooltip-text-2">
+                <strong>Time:</strong> 
+                @if (event.allDay) {
+                    Entire day
+                } @else {
+                    {{ event.start | date: 'shortTime' }} - {{event.end | date: 'shortTime'}}
+                }
+            </p>
+        </div>
+    </ng-template>
+</div>

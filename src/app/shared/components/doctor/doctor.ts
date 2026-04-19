@@ -21,7 +21,6 @@ export class Doctor implements OnInit {
 
   private id: WritableSignal<string> = signal<string>('');
   public doctor!: Signal<DoctorType | undefined>;
-
   constructor() {}
 
   ngOnInit(): void {

@@ -1,0 +1,108 @@
+import { ChangeDetectionStrategy, Component, inject, OnInit, Signal, signal, WritableSignal } from '@angular/core';
+import { Procedure } from '../../../../core/models/procedures.model';
+import { CalendarEvent } from 'calendar-utils';
+import { DatePipe } from '@angular/common';
+import { faGear, faUserDoctor, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { UserService } from '../../../../core/services/user.service';
+import { ApiUser } from '../../../../core/models/user.model';
+import { DobToAgePipePipe } from '../../../pipes/dob-to-age.pipe';
+import { faCalendar, faClock, faUser } from '@fortawesome/free-regular-svg-icons';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { ScheduleService } from '../../../../core/services/schedule.service';
+import { FormsModule } from '@angular/forms';
+import { Loading } from '../../../../features/loading/loading';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ErrorService } from '../../../../core/services/error.service';
+import { PopupService } from '../../../../core/services/popup.service';
+import { ModalService } from '../../../../core/services/modal.service';
+
+@Component({
+  selector: 'app-request-appointment-modal',
+  imports: [DatePipe, DobToAgePipePipe, FaIconComponent, FormsModule, Loading],
+  templateUrl: './request-appointment-modal.html',
+  styleUrl: './request-appointment-modal.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class RequestAppointmentModal implements OnInit {
+  private userService = inject(UserService);
+  private scheduleService = inject(ScheduleService);
+  private errorService = inject(ErrorService);
+  private popupService = inject(PopupService);
+  private modalService = inject(ModalService);
+
+  public modalData!: { procedure: Procedure; date: CalendarEvent };
+  public user: Signal<ApiUser | null> = signal(null);
+  public selectedImage!: File;
+  public description: string = '';
+  public isLoading: WritableSignal<boolean> = signal<boolean>(false);
+
+  public get procedure(): Procedure {
+    return this.modalData.procedure;
+  }
+
+  public get doctor(): Procedure['user'] {
+    return this.modalData.procedure.user;
+  }
+
+  public get date(): CalendarEvent {
+    return this.modalData.date;
+  }
+
+  public icons: Record<string, IconDefinition> = {
+    doctor: faUserDoctor,
+    age: faUser,
+    service: faGear,
+    date: faCalendar,
+    time: faClock,
+  };
+
+  constructor() {}
+
+  ngOnInit(): void {
+    this.getUser();
+  }
+
+  private getUser() {
+    this.user = this.userService.user;
+  }
+
+  public handleImageError(event: Event) {
+    const imgElement = event.target as HTMLImageElement;
+
+    imgElement.src = 'images/user-placeholder.png';
+  }
+
+  onImageSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+
+    if (!input.files || input.files.length === 0) {
+      return;
+    }
+
+    this.selectedImage = input.files[0];
+  }
+
+  public sendAppointmentRequest() {
+    const formData = new FormData();
+
+    formData.append('date', new Date().toISOString());
+    formData.append('brief', this.description);
+    formData.append('image', this.selectedImage, this.selectedImage.name);
+    formData.append('procedure_id', this.procedure.id);
+
+    this.isLoading.set(true);
+    this.scheduleService.scheduleAppointmentWithDoctor(formData).subscribe({
+      
+      next: () => {
+        this.isLoading.set(false);
+        this.popupService.show({ message: "Appointment request sent, you will get notified about doctor's decision from appointments section in your profile page", type: 'info', timer: 8000})
+        this.modalService.close();
+      },
+
+      error: (error: HttpErrorResponse) => {
+        this.errorService.handleError(error);
+        this.popupService.show({ message: 'Something went wrong, please try again later', type: 'error' })
+      }
+    });
+  }
+}

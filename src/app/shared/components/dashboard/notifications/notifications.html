@@ -1,0 +1,7 @@
+@if (notifications(); as notifications) {
+    @if (notifications.results.length > 0) {
+        <div class="notifications-component-wrapper">
+            <span>{{notifications.results[0].text}}</span>
+        </div>
+    }
+}

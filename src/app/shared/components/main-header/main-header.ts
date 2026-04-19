@@ -1,4 +1,4 @@
-import { Component, inject, Signal, signal, WritableSignal } from '@angular/core';
+import { Component, inject, OnInit, Signal, signal, WritableSignal } from '@angular/core';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faUser, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { ModalService } from '../../../core/services/modal.service';
@@ -8,6 +8,10 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { Authservice } from '../../../core/services/auth.service';
 import { RegisterModal } from '../modals/register-modal/register-modal';
 import { ScrollFromTop } from "../../directives/scroll-from-top.directive";
+import { NotificationService } from '../../../core/services/notification.service';
+import { take } from 'rxjs';
+import { PaginatedResponse } from '../../../core/models/procedures.model';
+import { Notification } from '../../../core/models/notifications.model';
 
 @Component({
   selector: 'main-header',
@@ -15,17 +19,23 @@ import { ScrollFromTop } from "../../directives/scroll-from-top.directive";
   templateUrl: './main-header.html',
   styleUrl: './main-header.scss',
 })
-export class MainHeader {
+export class MainHeader implements OnInit {
   private modalService = inject(ModalService);
   private authService = inject(Authservice);
+  private notificationsService = inject(NotificationService);
   public router = inject(Router);
 
-  public isUserLoggedIn: WritableSignal<boolean> = signal<boolean>(this.authService.isLoggedIn());
+  public isUserLoggedIn: Signal<boolean> = this.authService.isLoggedIn;
+  public notificationsLength: WritableSignal<number> = signal(0);
   public isScrolled: WritableSignal<boolean> = signal<boolean>(false);
+  
   public faUser: IconDefinition = faUser;
-  public readonly isUserSignedIn: Signal<boolean> = this.authService.isLoggedIn;
 
   constructor() {}
+
+  ngOnInit(): void {
+    this.getNotifications();
+  }
 
   public changeIsScrolledState(state: boolean) {
     this.isScrolled.set(state);
@@ -37,5 +47,20 @@ export class MainHeader {
 
   public openRegisterModal() {
     this.modalService.open(RegisterModal);
+  }
+
+  private getNotifications() {
+    if (this.isUserLoggedIn()) {
+      this.notificationsService.getNotifications().pipe(take(1)).subscribe({
+        next: (data) => {
+          this.getNotificationsLength(data.results);
+        }
+      });
+    }
+  }
+
+  private getNotificationsLength(data: Notification[]) {
+    const unseenMessagesList = data.filter((ntfc) => ntfc.is_seen === false);
+    this.notificationsLength.set(unseenMessagesList.length);
   }
 }

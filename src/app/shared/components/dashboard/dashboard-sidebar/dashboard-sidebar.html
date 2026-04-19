@@ -18,6 +18,9 @@
             @if (link.role.includes(user().role)) {
                 <li>
                     <a class="mb-link text-size-2 route-link" [routerLink]="link.route" routerLinkActive="active"> 
+                        @if (link.name === 'Notifications' && unseenNotificationsLength()) {
+                            <div class="notification-circle"> {{unseenNotificationsLength()}} </div>
+                        }
                         <span> {{link.name}} </span>
                         <fa-icon [icon]="arrowRight"></fa-icon>
                     </a>

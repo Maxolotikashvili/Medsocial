@@ -10,10 +10,16 @@ import { ageValidator } from '../../../../validators/date-validator';
 import { PopupService } from '../../../../../core/services/popup.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorService } from '../../../../../core/services/error.service';
+import { Timezone } from '../../../../../core/models/location.model';
+import { LocationService } from '../../../../../core/services/location.service';
+import { take } from 'rxjs';
+import { MbDropdown } from '../../../../../features/mb-dropdown/mb-dropdown';
+import { DropdownOption } from '../../../../../core/models/dropdown.model';
+import { extractTimezone } from '../../../../utilities/convert-to-utc.utility';
 
 @Component({
   selector: 'profile-information',
-  imports: [ReactiveFormsModule, TitleCasePipe, MbInput, ReactiveFormsModule, MbCheckbox],
+  imports: [ReactiveFormsModule, TitleCasePipe, MbInput, ReactiveFormsModule, MbCheckbox, MbDropdown],
   templateUrl: './profile-information.html',
   styleUrl: './profile-information.scss',
 })
@@ -21,6 +27,7 @@ export class ProfileInformation implements OnInit {
   public user: InputSignal<ApiUser | undefined> = input();
 
   private formBuilder = inject(FormBuilder);
+  private locationService = inject(LocationService);
   private userService = inject(UserService);
   private popupService = inject(PopupService);
   private errorService = inject(ErrorService);
@@ -29,6 +36,7 @@ export class ProfileInformation implements OnInit {
   public readonly maxBirthDate: string = formatDate(new Date(), 'yyyy-MM-dd', 'en-us');
   public userForm!: FormGroup;
   public isEditModeOn: WritableSignal<boolean> = signal<boolean>(false);
+  public timeZones: WritableSignal<DropdownOption[]> = signal([]);
   public userInfo: Signal<{ key: string; value: string | number }[]> = computed(() => {
     if (this.isEditModeOn()) return [];
 
@@ -61,17 +69,11 @@ export class ProfileInformation implements OnInit {
     return baseInfo;
   });
 
-  public formFields: Signal<
-    {
-      controlName: string;
-      label: string;
-      type: 'text' | 'date' | 'checkbox' | 'number';
-      value: string | number | boolean;
-    }[]> = computed(() => {
+  public formFields: Signal<{controlName: string; label: string; type: 'text' | 'date' | 'checkbox' | 'number' | 'dropdown'; value: string | number | boolean;}[]> = computed(() => {
     const base: {
       controlName: string;
       label: string;
-      type: 'text' | 'date' | 'checkbox' | 'number';
+      type: 'text' | 'date' | 'checkbox' | 'number' | 'dropdown';
       value: string | number | boolean;
     }[] = [
       {
@@ -92,7 +94,7 @@ export class ProfileInformation implements OnInit {
       {
         controlName: 'timezone',
         label: 'Timezone',
-        type: 'text',
+        type: 'dropdown',
         value: this.user()?.timezone || '',
       },
       { controlName: 'image', label: 'Image', type: 'text', value: this.user()?.image || '' },
@@ -127,6 +129,7 @@ export class ProfileInformation implements OnInit {
 
   ngOnInit(): void {
     this.setUpUserForm();
+    this.getTimeZones();
   }
 
   private setUpUserForm() {
@@ -150,6 +153,26 @@ export class ProfileInformation implements OnInit {
     });
   }
 
+  private getTimeZones() {
+    this.locationService.getTimezones().pipe(take(1)).subscribe({
+      next: (timeZones: Timezone[]) => {
+        const dropDownTimezone: DropdownOption[] = timeZones.map((timeZone) => {return {id: timeZone.id, value: timeZone.name}});
+        this.timeZones.set(dropDownTimezone);
+
+        const userTz = this.user()?.timezone;
+
+        if (userTz) {
+          const selected = dropDownTimezone.find(tz => tz.value === userTz);
+          if (selected) {
+            this.userForm.patchValue({ timezone: selected });
+          }
+        }
+      },
+
+      error: (error: HttpErrorResponse) => {this.errorService.handleError(error)}
+    })
+  }
+
   public submitUserForm() {
     if (this.userForm.status !== 'VALID') return;
 
@@ -167,7 +190,11 @@ export class ProfileInformation implements OnInit {
     Object.keys(formValue).forEach((formKey) => {
       const apiKey = (keyMap[formKey] || formKey) as keyof Partial<UserInfo>;
 
-      const newValue = formValue[formKey];
+      let newValue = formValue[formKey];
+
+      if (formKey === 'timezone' && newValue) {
+        newValue = extractTimezone(newValue.value);
+      }
       const oldValue = user ? (user as any)[apiKey] : undefined;
 
       const newStr = newValue != null ? newValue.toString().toLowerCase() : '';
@@ -176,7 +203,7 @@ export class ProfileInformation implements OnInit {
         payload[apiKey] = newValue;
       }
     });
-
+    console.log(payload);
     if (user && Object.values(payload).length > 0) {
       this.userService.updateUserInfo(user.id, payload).subscribe({
         next: (newUser: UserInfo) => {

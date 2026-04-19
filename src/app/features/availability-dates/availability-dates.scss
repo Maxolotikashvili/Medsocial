@@ -1,0 +1,147 @@
+@use '../../styles/layout.scss' as *;
+
+.calendar-controls-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 4rem 0;
+
+    .calendar-day-wrapper,
+    .calendar-view-wrapper {
+        display: flex;
+        gap: 0.1rem;
+
+        .time-button,
+        .calendar-view {
+            width: 8rem;
+            height: 4rem;
+            border: none;
+            background-color: var(--color-blue-3);
+            color: var(--color-white-0);
+        }
+
+        .time-button:disabled {
+            background-color: var(--color-gray-0);
+            color: var(--color-white-0);
+            pointer-events: none;
+        }
+
+        .time-button:hover:disabled {
+            background-color: var(--color-gray-0);
+        }
+
+        .time-button:hover,
+        .calendar-view:hover,
+        .active {
+            background-color: var(--color-blue-1);
+            transition: background-color var(--global-transition-duration) ease;
+        }
+
+        .time-button:nth-child(1),
+        .calendar-view:nth-child(1) {
+            border-right: none;
+            border-top-left-radius: 4px;
+            border-bottom-left-radius: 4px;
+        }
+
+        .time-button:nth-child(3),
+        .calendar-view:nth-child(3) {
+            border-left: none;
+            border-top-right-radius: 4px;
+            border-bottom-right-radius: 4px;
+        }
+    }
+
+    .calendar-view-wrapper {
+        display: flex;
+        gap: 0.1rem;
+    }
+}
+
+.calendar-wrapper {
+    font-family: var(--font-family-dm);
+
+    .cal-cell-top {
+        position: relative;
+        gap: 1rem;
+
+        .availability-text {
+            @include position-center();
+            width: max-content;
+            padding: 0.4rem 1.5rem;
+            width: max-content;
+            text-align: center;
+            border: 1px solid;
+            border-radius: var(--global-square-radius);
+        }
+
+        .not-available {
+            color: var(--color-gray-0);
+            cursor: default;
+        }
+
+        .available {
+            color: var(--color-green-0);
+            cursor: pointer;
+        }
+
+        .month-day-number {
+            font-size: 1.4rem;
+            color: var(--color-black-0);
+        }
+    }
+
+    .cal-future {
+        .cal-cell-top {
+            .month-day-number {
+                opacity: 1;
+            }
+        }
+    }
+
+    .cal-day-headers {
+        .cal-weekend {
+            span {
+                color: var(--color-blue-0);
+            }
+        }
+    }
+
+    .cal-weekend {
+        .cal-cell-top {
+            .month-day-number {
+                color: var(--color-black-0)
+            }
+        }
+    }
+
+    .out-of-range-cell {
+        pointer-events: none;
+        opacity: 0.3;
+        cursor: default;
+    }
+
+    .cal-event-container {
+        .cal-event {
+            padding-inline: 1rem;
+            letter-spacing: 0.6px;
+        }
+    }
+
+    .cal-current-time-marker {
+        background-color: var(--color-blue-0);
+    }
+}
+
+.custom-tooltip-wrapper {
+    display: flex;
+    flex-flow: column;
+    gap: 0.1rem;
+    font-family: var(--font-family-dm);
+    color: var(--color-white-0);
+    padding: 0.5rem 2rem;
+    background-color: var(--color-blue-0);
+    border-radius: var(--global-square-radius);
+    letter-spacing: 0.4px;
+    z-index: 1000;
+}

@@ -9,6 +9,7 @@ import {
   Type,
 } from '@angular/core';
 import { ModalContainer } from '../../features/modal-container/modal-container';
+import { ModalConfig } from '../models/modal.model';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +23,7 @@ export class ModalService {
 
   constructor() {}
 
-  open(component: Type<any>) {
+  open<T>(component: Type<any>, config?: ModalConfig): void {
     if (!this.containerRef) {
       this.containerRef = createComponent(ModalContainer, {
         environmentInjector: this.appRef.injector,
@@ -35,10 +36,10 @@ export class ModalService {
       this.document.body.classList.add('no-scroll');
     }
 
-    this.containerRef.instance.loadComponent(component);
+    this.containerRef.instance.loadComponent(component, config);
   }
 
-  close() {
+  close(): void {
     if (this.containerRef) {
       this.appRef.detachView(this.containerRef.hostView);
       this.containerRef.destroy();

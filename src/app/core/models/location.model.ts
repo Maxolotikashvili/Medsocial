@@ -26,11 +26,10 @@ export interface Country {
 
 export interface LanguagesResponse {}
 
-export type TimezonesResponse = Timezone[];
 export interface Timezone {
-    id: number,
-    name: string,
-    zone: string
+  id: number;
+  name: string;
+  zone: string;
 }
 
 export interface CitiesQuery {

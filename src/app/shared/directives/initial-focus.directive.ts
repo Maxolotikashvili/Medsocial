@@ -11,9 +11,7 @@ export class InitialFocusDirective implements AfterViewInit {
   ngAfterViewInit(): void {
     this.zone.runOutsideAngular(() => {
       setTimeout(() => {
-        requestAnimationFrame(() => {
-          this.focusElement();
-        });
+        this.focusElement();
       }, 300);
     });
   }
@@ -22,12 +20,8 @@ export class InitialFocusDirective implements AfterViewInit {
     const host = this.el.nativeElement;
 
     const target =
-      host instanceof HTMLInputElement ||
-      host instanceof HTMLTextAreaElement
-        ? host
-        : host.querySelector<HTMLElement>(
-            'input, textarea, select, button, [tabindex]:not([tabindex="-1"])'
-          );
+      host instanceof HTMLInputElement || host instanceof HTMLTextAreaElement
+      ? host : host.querySelector<HTMLElement>('input, textarea, select, button, [tabindex]:not([tabindex="-1"])');
 
     target?.focus({ preventScroll: true });
   }

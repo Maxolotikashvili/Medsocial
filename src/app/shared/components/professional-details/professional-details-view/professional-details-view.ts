@@ -1,4 +1,4 @@
-import { Component, computed, input, InputSignal, output, Signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, InputSignal, output, Signal } from '@angular/core';
 import { Doctor } from '../../../../core/models/doctor.model';
 import { faBriefcase, faBuildingColumns, faCalendarDays, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
@@ -9,6 +9,7 @@ import { DatePipe, TitleCasePipe } from '@angular/common';
   imports: [FaIconComponent, TitleCasePipe, DatePipe],
   templateUrl: './professional-details-view.html',
   styleUrl: './professional-details-view.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProfessionalDetailsView {
   public readonly data = input.required<Doctor['educations'] | Doctor['experiences']>();

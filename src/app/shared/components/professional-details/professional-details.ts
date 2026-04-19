@@ -1,4 +1,4 @@
-import { Component, computed, input, InputSignal, Signal, signal, WritableSignal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, InputSignal, Signal, signal, WritableSignal } from '@angular/core';
 import { Doctor } from '../../../core/models/doctor.model';
 import { ProfessionalDetailsView } from './professional-details-view/professional-details-view';
 import { ProfessionalDetailsEdit } from './professional-details-edit/professional-details-edit';
@@ -8,6 +8,7 @@ import { ProfessionalDetailsEdit } from './professional-details-edit/professiona
   imports: [ProfessionalDetailsView, ProfessionalDetailsEdit],
   templateUrl: './professional-details.html',
   styleUrl: './professional-details.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProfessionalDetails {
   public readonly educations: InputSignal<Doctor['educations'] | null> = input<Doctor['educations'] | null>(null);
@@ -18,4 +19,5 @@ export class ProfessionalDetails {
 
   public readonly data: Signal<Doctor['educations'] | Doctor['experiences']> = computed(() => this.educations() ?? this.experiences() ?? []);
   public readonly type: Signal<'education' | 'experience'> = computed(() => this.educations() ? 'education' : 'experience');
+
 }

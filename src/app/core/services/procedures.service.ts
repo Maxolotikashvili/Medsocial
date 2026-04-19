@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { inject, Injectable, signal, Signal, WritableSignal } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { PaginatedResponse, Procedure, ProceduresQueryParams } from '../models/procedures.model';
 import { API_URL } from '../tokens/api-injection-token';

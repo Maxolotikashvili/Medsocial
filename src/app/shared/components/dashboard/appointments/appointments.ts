@@ -1,15 +1,12 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { register as registerSwiper} from 'swiper/element';
+import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-appointments',
+  selector: 'appointments',
   imports: [],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  schemas: [],
   templateUrl: './appointments.html',
   styleUrl: './appointments.scss',
 })
 export class Appointments {
-  constructor() {
-    registerSwiper();
-  }
+  
 }

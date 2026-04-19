@@ -1,13 +1,14 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Signal} from '@angular/core';
 import { TitleCasePipe } from '@angular/common';
-import { RouterLink, RouterLinkActive } from "@angular/router";
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { DASHBOARD_SIDEBAR_ROUTES } from '../../../../core/configs/navigation.config';
 import { DashboardNavLink } from '../../../../core/models/navigation.model';
 import { faAngleRight, IconDefinition } from '@fortawesome/free-solid-svg-icons';
-import { FaIconComponent } from "@fortawesome/angular-fontawesome";
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { Authservice } from '../../../../core/services/auth.service';
 import { USER_ROLES } from '../../../../core/configs/user.config';
 import { UserService } from '../../../../core/services/user.service';
+import { NotificationService } from '../../../../core/services/notification.service';
 
 @Component({
   selector: 'dashboard-sidebar',
@@ -18,11 +19,13 @@ import { UserService } from '../../../../core/services/user.service';
 export class DashboardSidebar {
   private userService = inject(UserService);
   private authService = inject(Authservice);
-  
+  private notificationService = inject(NotificationService);
+
   public readonly user = this.userService.user;
   public readonly userRoles = USER_ROLES;
   public readonly allRoutes: DashboardNavLink[] = DASHBOARD_SIDEBAR_ROUTES;
-  
+  public unseenNotificationsLength: Signal<number | undefined> = this.notificationService.unseenNotificationsLength;
+
   public arrowRight: IconDefinition = faAngleRight;
 
   constructor() {}
@@ -37,7 +40,7 @@ export class DashboardSidebar {
     if (this.user().role === this.userRoles.PATIENT) {
       image.src = 'images/user-placeholder.png';
     } else if (this.user().role === this.userRoles.DOCTOR) {
-      image.src = 'images/doctor-placeholder.png'
+      image.src = 'images/doctor-placeholder.png';
     }
   }
 }

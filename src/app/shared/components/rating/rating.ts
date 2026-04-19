@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, input, output, signal, WritableSignal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, InputSignal, output, signal, WritableSignal } from '@angular/core';
 import { faStar as nonSelectedFaStar, IconDefinition } from '@fortawesome/free-regular-svg-icons';
 import { faStar as selectedFaStar } from '@fortawesome/free-solid-svg-icons';
 import { RatingType, RatingValue } from '../../../core/models/rating.model';
@@ -15,6 +15,7 @@ import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 export class Rating {
   public mode = input.required<RatingType>();
   public rating = input<number>(0);
+  public reviewCount: InputSignal<number | undefined> = input<number>();
   public submitRating = output<RatingValue>();
 
   public hoveredStar = signal<number | null>(null);

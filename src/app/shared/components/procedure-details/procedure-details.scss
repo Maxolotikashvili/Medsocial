@@ -10,7 +10,7 @@
     .procedure-details-wrapper {
         display: flex;
         flex-flow: column;
-        width: 75%;
+        width: 68%;
         gap: 2.5rem;
 
         .image-wrapper {
@@ -113,17 +113,6 @@
                     flex-flow: column;
                     padding: 0.5rem 0;
 
-                    .rating-wrapper {
-                        display: flex;
-                        align-items: center;
-                        gap: 0.5rem;
-
-                        span {
-                            color: var(--color-blue-0);
-                            margin-bottom: 0.3rem;
-                        }
-                    }
-
                     .name-link:hover {
                         color: var(--color-blue-3);
                     }
@@ -150,30 +139,94 @@
                 }
             }
         }
+
+        .appointment-wrapper {
+            display: flex;
+            flex-flow: column;
+            gap: 2rem;
+        }
     }
 
-    .location-block {
-        @include flex-center();
+    .block-wrapper {
+        width: 32%;
+        display: flex;
         flex-flow: column;
         gap: 2rem;
-        width: 25%;
 
-        .text-wrapper {
-            .title-wrapper {
-                @include flex-center();
-                
+        .location-block {
+            @include flex-center();
+            flex-flow: column;
+            gap: 2rem;
+            width: 100%;
+
+            .text-wrapper {
+                .title-wrapper {
+                    @include flex-center();
+
+                    .icon {
+                        font-size: 2rem;
+                        color: var(--color-blue-3);
+                    }
+
+                    .title {
+                        color: var(--color-blue-3);
+                    }
+                }
+
+                .text {
+                    margin-top: 0.5rem;
+                }
+            }
+        }
+
+        .doctor-block {
+            display: flex;
+            flex-flow: column;
+            gap: 2rem;
+
+            .doctor-heading {
+                text-align: center;
+                color: var(--color-blue-3);
+            }
+
+            .block-content {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+
                 .icon {
                     font-size: 2rem;
                     color: var(--color-blue-3);
                 }
-                
-                .title {
-                    color: var(--color-blue-3);
+
+                .title-wrapper {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.4rem;
+
+                    .title {
+                        color: var(--color-blue-0);
+                    }
+                }
+
+                .description {
+                    color: var(--color-black-0);
                 }
             }
+        }
 
-            .text {
-                margin-top: 0.5rem;
+        .appointment-block {
+            display: flex;
+            flex-flow: column;
+            align-items: center;
+            gap: 4rem;
+
+            .title {
+                color: var(--color-blue-3);
+            }
+
+            .appointment-button {
+                width: 100%;
             }
         }
     }

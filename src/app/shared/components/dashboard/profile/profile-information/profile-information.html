@@ -11,7 +11,7 @@
             @for (info of userInfo(); track $index) {
                 <li class="info-list">
                     <span class="text-description info-name"> {{info.key | titlecase}} </span>
-                    <span class="text-description info-value"> {{info.value.toString() | titlecase}} </span>
+                    <span class="text-description info-value"> {{info.value.toString()}} </span>
                 </li>
             }
         }
@@ -21,21 +21,26 @@
         <form [formGroup]="userForm" (ngSubmit)="submitUserForm()">
             <ul class="info-list-wrapper">
                 @for (field of formFields(); track $index) {
-                    @if (field.type !== 'checkbox') {
+                    @if (field.type !== 'checkbox' && field.type !== 'dropdown') {
                         <li class="field-list">
                             <span class="text-description field-name"> {{field.label}} </span>
                             <mb-input [min]="minBirthDate" [max]="maxBirthDate" [value]="field.value" [placeholder]="field.label" [type]="field.type" [formControlName]="field.controlName" ></mb-input>
                         </li>
                         
-                    } @else {
+                    } @else if (field.type === 'checkbox') {
                         <mb-checkbox [formControlName]="field.controlName" [label]="field.label"></mb-checkbox>
+                    } @else if (field.type === 'dropdown') {
+                        <li class="field-list">
+                            <span class="text-description field-name">Timezone</span>
+                            <mb-dropdown [label]="field.label" [optionsList]="timeZones()" [formControlName]="field.controlName"></mb-dropdown>
+                        </li>
                     }
                 }
             </ul>
 
             <div class="buttons-wrapper">
                 <button class="mb-button-s mb-button-round submit-button" type="submit" [disabled]="userForm.status !== 'VALID'">Submit</button>
-                <button class="mb-button-s mb-button-round abort-button" (click)="isEditModeOn.set(false)">Abort</button>
+                <button class="mb-button-s mb-button-round abort-button" type="button" (click)="isEditModeOn.set(false)">Abort</button>
             </div>
         </form>
     }

@@ -27,6 +27,7 @@ import { ScrollFromBreadcrumbDirective } from "../../directives/scroll-from-brea
 import { ScrollService } from '../../../core/services/scroll.service';
 import { DropdownOption } from '../../../core/models/dropdown.model';
 import { Filter } from '../../../core/models/filter.model';
+import { CurrencyService } from '../../../core/services/currency.service';
 
 interface iconMap {
   eye: IconDefinition,
@@ -49,6 +50,7 @@ export class Procedures {
   private locationService = inject(LocationService);
   private errorService = inject(ErrorService);
   private scrollService = inject(ScrollService);
+  private currencyService = inject(CurrencyService);
 
   public isLoading: WritableSignal<boolean> = signal<boolean>(false);
   public filters: WritableSignal<ProceduresQueryParams> = signal({});
@@ -61,6 +63,7 @@ export class Procedures {
     location: faLocationDot,
     hospital: faHospital
   };
+  public currency = this.currencyService.currency;
 
   private procedures$ = toObservable(this.filters).pipe(distinctUntilChanged(), tap(() => this.isLoading.set(true)),
     switchMap((params) => this.proceduresService.getProceduresList(params)),

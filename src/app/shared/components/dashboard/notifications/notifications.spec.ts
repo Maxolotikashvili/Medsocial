@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RequestScheduleModal } from './request-schedule-modal';
+import { Notifications } from './notifications';
 
-describe('RequestScheduleModal', () => {
-  let component: RequestScheduleModal;
-  let fixture: ComponentFixture<RequestScheduleModal>;
+describe('Notifications', () => {
+  let component: Notifications;
+  let fixture: ComponentFixture<Notifications>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RequestScheduleModal]
+      imports: [Notifications]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(RequestScheduleModal);
+    fixture = TestBed.createComponent(Notifications);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

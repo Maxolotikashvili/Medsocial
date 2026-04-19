@@ -26,6 +26,7 @@ export const API_ENDPOINTS = {
     DOCTORS: {
         DOCTORS: 'doctors/',
         WORKING_HOURS: (id: string) => `doctors/${id}/working-hours/`,
+        DOCTORS_APPOINTMENT: (id: string) => `doctors/${id}/appointment/`,
         DOCTOR: (id: string) => `doctors/${id}/`,
         DOCTORS_REVIEW: (id: string) => `doctors/${id}/review/`,
         DOCTORS_REVIEWS: (id: string) => `doctors/${id}/reviews/`,

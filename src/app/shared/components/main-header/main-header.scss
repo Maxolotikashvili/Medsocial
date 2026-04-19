@@ -1,4 +1,5 @@
 @use '../../../styles/layout.scss' as *;
+@use '../../../styles/elements.scss' as *;
 
 $gap-size-between-links: 3.2rem;
 $gap-size-between-buttons: 1.6rem;
@@ -75,9 +76,14 @@ header {
             background-color: var(--color-green-0);
             color: var(--color-white-0);
         }
+
+        .sign-in-button, .register-button {
+            padding: 0.8rem 3rem;
+        }
     }
 
     .user-profile-link {
+        position: relative;
         border: 2px solid var(--color-blue-3);
         color: var(--color-blue-3);
         width: 50px;

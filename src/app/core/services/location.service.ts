@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { API_URL } from '../tokens/api-injection-token';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { CitiesQuery, CitiesResponse, CountriesQuery, CountriesResponse, LanguagesResponse, TimezonesResponse } from '../models/location.model';
+import { CitiesQuery, CitiesResponse, CountriesQuery, CountriesResponse, LanguagesResponse, Timezone } from '../models/location.model';
 import { API_ENDPOINTS } from '../configs/api-endpoints.config';
 import { filterObjectWithValues } from '../../shared/utilities/value-filterer-object.utility';
 
@@ -45,7 +45,7 @@ export class LocationService {
     return this.http.get<LanguagesResponse>(`${this.api_url}/${API_ENDPOINTS.ADDRESS.LANGUAGES}`);
   }
   
-  public getTimezones(): Observable<TimezonesResponse> {
-    return this.http.get<TimezonesResponse>(`${this.api_url}/${API_ENDPOINTS.ADDRESS.TIMEZONES}`);
+  public getTimezones(): Observable<Timezone[]> {
+    return this.http.get<Timezone[]>(`${this.api_url}/${API_ENDPOINTS.ADDRESS.TIMEZONES}`);
   }
 }

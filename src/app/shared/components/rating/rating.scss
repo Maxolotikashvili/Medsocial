@@ -3,17 +3,27 @@
     align-items: center;
     gap: 1rem;
 
-    .star-button {
-        background-color: unset;
-        border: none;
-
-        .star {
-            color: var(--color-green-0);
-            font-size: 1.8rem;
+    .stars-list {
+        display: flex;
+        align-items: center;
+        
+        .star-button {
+            background-color: unset;
+            border: none;
+            
+            .star {
+                color: var(--color-green-0);
+                font-size: 1.8rem;
+            }
+        }
+        
+        .reviews {
+            margin: 0 0 0.2rem 0.2rem;
+            color: var(--color-blue-0);
         }
     }
-
     .readonly {
         cursor: default;
     }
+
 }

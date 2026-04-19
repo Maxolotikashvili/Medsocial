@@ -70,9 +70,17 @@
         ypesetting industry.
       </p>
 
+      <div class="price-wrapper">
+        <h4 class="heading-h4">Price</h4>
+        <p class="text-description ">
+          <span class="text-description">Price for this procedure is  </span>
+          <strong class="text-size-3">{{procedure()?.price}}{{currency().symbol}} </strong>
+          </p>
+      </div>
       
       <div class="doctor-wrapper" animateOnScroll>
         <h3 class="heading-h3" animateOnScroll>Doctor</h3>
+       
         <div class="image-details-wrapper">
           <div class="image-wrapper">
             <img [src]="data.user.image" (error)="handleDoctorImageError($event)" alt="Doctor">
@@ -82,12 +90,9 @@
           </div>
 
           <div class="details-wrapper">
-            <div class="rating-wrapper">
-              <rating mode="readonly" [rating]="+data.user.rating.point"></rating>
-              <span class="text-small">({{data.user.rating.reviews}} Reviews)</span>
-            </div>
+            <rating mode="readonly" [rating]="+data.user.rating.point" [reviewCount]="+data.user.rating.reviews"></rating>
             <a class="heading-h4 name-link" [routerLink]="['/doctor', data.user.id]">Dr. {{data.user.first_name}} {{data.user.last_name}}</a>
-            <h6 class="heading-h6 title">Surgeon</h6>
+            <h6 class="heading-h6 title">{{data.user.title}}</h6>
 
             @if (data.user.age_is_public) {
               <p class="text-description description-wrapper">
@@ -103,36 +108,93 @@
         </div>
       </div>
 
-      <h3 class="heading-h3">Location</h3>
+      @if (user().role === roles.PATIENT) { 
+        <div class="appointment-wrapper">
+          <h3 class="heading-h3">Schedule appointment with {{data.user.first_name}}</h3>
+          
+          <a class="mb-button-m mb-button-round" effect="arrow" [routerLink]="['/schedule-appointment', data.id]">Book appointment</a>
+        </div>
+      }
+
+      <!-- <h3 class="heading-h3">Location</h3>
       <p class="text-description">
         <strong>{{data.hospital}},</strong> 
         <span> located in: </span>
         <strong>{{data.address.country.name | titlecase}}, {{data.address.city.name | titlecase}}</strong>
       </p>
-      <map [location]="data.hospital"></map>
+      <map [location]="data.hospital"></map> -->
 
     </div>
 
-    <div class="block location-block">
-      <div class="text-wrapper">
-        <div class="title-wrapper">
-          <fa-icon [icon]="icons['locationDot']" class="icon"></fa-icon>
-          <h4 class="heading-h4 title">Location</h4>
+    <div class="block-wrapper">
+      <!-- <div class="block location-block">
+        <div class="text-wrapper">
+          <div class="title-wrapper">
+            <fa-icon [icon]="icons['locationDot']" class="icon"></fa-icon>
+            <h4 class="heading-h4 title">Location</h4>
+          </div>
+
+          <p class="text-description text"> {{data.address.city.name}}, {{data.address.country.name}} </p>      
         </div>
 
-        <p class="text-description text"> {{data.address.city.name}}, {{data.address.country.name}} </p>      
-      </div>
+        <div class="text-wrapper">
+          <div class="title-wrapper">
+            <fa-icon [icon]="icons['hospital']" class="icon"></fa-icon>
+            <h4 class="heading-h4 title">Hospital</h4>
+          </div>
 
-      <div class="text-wrapper">
-        <div class="title-wrapper">
-          <fa-icon [icon]="icons['hospital']" class="icon"></fa-icon>
-          <h4 class="heading-h4 title">Hospital</h4>
+          <p class="text-description text"> {{data.hospital}} </p>      
+        </div>
+      </div> -->
+
+      <div class="block doctor-block">
+        <h4 class="heading-h4 doctor-heading">Doctor</h4>
+        
+        <div class="block-content">
+          <div class="title-wrapper">
+            <fa-icon [icon]="icons['doctor']" class="icon"></fa-icon>
+            <h5 class="heading-h5 text-weight-500 title">Name:</h5>
+          </div>
+
+          <span class="text-description description text-weight-500"> {{data.user.first_name}} {{data.user.last_name}}</span>
         </div>
 
-        <p class="text-description text"> {{data.hospital}} </p>      
+        
+        <div class="block-content">
+          <div class="title-wrapper">
+            <fa-icon [icon]="icons['title']" class="icon"></fa-icon>
+            <h5 class="heading-h5 text-weight-500 title">Speciality:</h5>
+          </div>
+          
+          <span class="text-description description text-weight-500"> {{data.user.title}} </span>
+        </div>
+        
+        <div class="block-content">
+          <div class="title-wrapper">
+            <fa-icon [icon]="icons['location']" class="icon"></fa-icon>
+            <h5 class="heading-h5 text-weight-500 title">Timezone:</h5>
+          </div>
+          
+          <span class="text-description description text-weight-500"> {{data.user.timezone}} </span>
+        </div>
+
+        <div class="block-content">
+          <div class="title-wrapper">
+            <fa-icon [icon]="icons['rating']" class="icon"></fa-icon>
+            <h5 class="heading-h5 text-weight-500 title">Rating:</h5>
+          </div>
+  
+          <rating mode="readonly" [rating]="+data.user.rating.point"></rating>
+        </div>
       </div>
+
+      @if (user().role === roles.PATIENT) {
+        <div class="block appointment-block">
+          <h4 class="heading-h4 title">Book appointment</h4>
+          <a class="mb-button-fullsize mb-button-round appointment-button" effect="arrow" [routerLink]="['/schedule-appointment', data.id]">Schedule Appointment</a>
+        </div>
+      }
     </div>
-
   </div>
 
 } @else {

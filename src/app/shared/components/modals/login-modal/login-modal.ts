@@ -10,11 +10,10 @@ import { Loading } from '../../../../features/loading/loading';
 import { finalize } from 'rxjs';
 import { ErrorService } from '../../../../core/services/error.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { InitialFocusDirective } from '../../../directives/initial-focus.directive';
 
 @Component({
   selector: 'login-modal',
-  imports: [MbCheckbox, MbInput, EffectDirective, Loading, InitialFocusDirective],
+  imports: [MbCheckbox, MbInput, EffectDirective, Loading],
   templateUrl: './login-modal.html',
   styleUrl: './login-modal.scss',
 })
@@ -41,8 +40,7 @@ export class LoginModal {
     this.isLoading.set(true);
     console.log(this.errorMessage())
 
-    this.authService
-      .login({ email: this.emailValue, password: this.passwordValue }).pipe(
+    this.authService.login({ email: this.emailValue, password: this.passwordValue }).pipe(
         takeUntilDestroyed(this.destroyRef),
         finalize(() => this.isLoading.set(false)),
       )
