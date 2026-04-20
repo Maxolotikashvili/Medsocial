@@ -6,7 +6,6 @@ import { API_URL } from '../tokens/api-injection-token';
 import { API_ENDPOINTS } from '../configs/api-endpoints.config';
 import { UserService } from './user.service';
 import { PaginatedResponse } from '../models/procedures.model';
-import { Timezone } from '../models/location.model';
 
 @Injectable({
   providedIn: 'root',
@@ -19,12 +18,20 @@ export class ScheduleService {
   constructor() {}
 
   public getWorkingSchedule(doctorId: string): Observable<PaginatedResponse<WorkSchedule>> {
-    return this.http.get<PaginatedResponse<WorkSchedule>>(`${this.apiUrl}/${API_ENDPOINTS.USERS.SCHEDULES(doctorId)}`);
+    return this.http.get<PaginatedResponse<WorkSchedule>>(`${this.apiUrl}/${API_ENDPOINTS.USERS.SCHEDULES.get(doctorId)}`);
   }
 
-  public updateWorkSchedule(payload: WorkSchedulePayload): Observable<WorkSchedule> {
+  public addWorkSchedule(payload: WorkSchedulePayload): Observable<WorkSchedule> {
     const userId = this.userService.user().id;
-    return this.http.post<WorkSchedule>(`${this.apiUrl}/${API_ENDPOINTS.USERS.SCHEDULES(userId)}`, payload);
+    return this.http.post<WorkSchedule>(`${this.apiUrl}/${API_ENDPOINTS.USERS.SCHEDULES.post(userId)}`, payload);
+  }
+
+  public updateWorkSchedule(payload: { doctorId: string, wh_id: string, body: WorkSchedule}): Observable<WorkSchedule> {
+    return this.http.patch<WorkSchedule>(`${this.apiUrl}/${API_ENDPOINTS.USERS.SCHEDULES.patch(payload.doctorId, payload.wh_id)}`, payload.body);
+  }
+
+  public deleteWorkSchedule(doctorId: string, wh_id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${API_ENDPOINTS.USERS.SCHEDULES.delete(doctorId, wh_id)}`);
   }
 
   public scheduleAppointmentWithDoctor(payload: AppointmentPayload | FormData): Observable<AppointmentPayload> {

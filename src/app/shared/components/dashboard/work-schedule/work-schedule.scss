@@ -1,63 +1,196 @@
-$weekday-wrapper-padding: 2rem;
+@use '../../../../styles/layout.scss' as *;
+@use '../../../../styles/elements.scss' as *;
+
+$grid-side-padding: 1rem;
 $border-color: var(--color-gray-0);
 
-:host {
-    width: 100%;
-}
+.work-schedule-component-wrapper {
+    width: 80rem;
 
-.schedule-form {
-    .grid-wrapper {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 1rem;
-
-        .schedule-weekday-wrapper {
+    .schedule-form {
+        .work-schedule-heading-wrapper {
             display: flex;
-            flex-flow: column;
-            border: 1px solid $border-color;
-            border-radius: var(--global-square-radius);
+            height: 6rem;
+            margin-bottom: 2rem;
 
-            .schedule-weekday-heading-wrapper {
+            .buttons-wrapper {
                 display: flex;
+                margin-left: auto;
                 align-items: center;
-                justify-content: space-between;
-                padding: $weekday-wrapper-padding;
-                border-bottom: 1px solid $border-color;
-            }
-
-            .schedule-weekday-body {
-                display: flex;
-                flex-flow: column;
+                margin-top: 2rem;
                 gap: 1rem;
-                padding: $weekday-wrapper-padding;
 
-                .formfield-wrapper {
+                .save-changes-button {
                     display: flex;
                     align-items: center;
-                    gap: 2rem;
-                    width: 100%;
+                    gap: 0.6rem;
+                    width: fit-content;
+                    font-size: 1.4rem;
+                    border: none;
+                    padding: 1rem 1.2rem;
+                    border: 1px solid var(--color-blue-2);
+                    height: fit-content;
+                    background-color: var(--color-blue-2);
+                    color: var(--color-white-0);
+                    border-radius: var(--global-square-radius);
+                    transition: all var(--global-transition-duration) ease;
+                }
 
-                    .label {
-                        min-width: 4rem;
-                    }
+                .save-changes-button:hover {
+                    background-color: var(--color-blue-1);
+                }
 
-                    mb-dropdown {
-                        width: 100%;
+                .reset-button {
+                    display: flex;
+                    align-items: center;
+                    gap: 1rem;
+                    border: 1px solid var(--color-blue-0);
+                    height: fit-content;
+                    padding: 0.6rem 1.6rem;
+                    background-color: transparent;
+                    color: var(--color-blue-0);
+                    border-radius: var(--global-square-radius);
+                    font-size: 1.4rem;
+                    transition: all var(--global-transition-duration) ease;
+
+                    .icon {
+                        font-size: 1.2rem;
                     }
+                }
+
+                .reset-button:hover {
+                    background-color: var(--color-blue-0);
+                    color: var(--color-white-0);
                 }
             }
         }
-    }
 
-    .buttons-wrapper {
-        display: flex;
-        justify-content: center;
-        margin-top: 2rem;
-        gap: 1rem;
+        .grid-header {
+            display: grid;
+            grid-template-columns: 20rem 1fr;
+            background-color: var(--color-white-1);
+            border-top-left-radius: var(--global-square-radius);
+            border-top-right-radius: var(--global-square-radius);
+            border: 1px solid $border-color;
 
-        button {
-            width: 20%;
-            padding: 1rem 0;
+            .working-days {
+                padding: 1rem $grid-side-padding;
+                color: var(--color-blue-0);
+            }
+
+            .heading-col2 {
+                border-left: 1px solid $border-color;
+                padding: 1rem $grid-side-padding;
+                border-color: $border-color;
+
+                .working-hours {
+                    color: var(--color-blue-0);
+                }
+
+                .apply-button {
+                    margin-left: 2rem;
+                    border: none;
+                    background-color: transparent;
+                    color: var(--color-blue-2);
+                    font-family: var(--font-family-dm);
+                }
+            }
+        }
+
+        .grid-body {
+            border: 1px solid $border-color;
+            border-top: none;
+
+            .schedule-weekday-wrapper {
+                display: grid;
+                align-items: flex-start;
+                grid-template-columns: 20rem 1fr;
+                min-height: 10rem;
+
+                .schedule-weekday-heading-wrapper {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    padding: 1rem $grid-side-padding;
+                }
+
+                .schedule-weekday-body {
+                    display: flex;
+                    flex-flow: column;
+                    gap: 1rem;
+                    padding: 1rem $grid-side-padding;
+                    height: 100%;
+                    border-left: 1px solid $border-color;
+
+                    .slot-wrapper {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 1rem;
+
+                        .slot-from-to-wrapper {
+                            display: flex;
+
+                            .dropdown-wrapper {
+                                display: flex;
+                                width: 90%;
+                                align-items: center;
+                                gap: 1rem;
+                            }
+
+                            .remove-slot-button {
+                                @include flex-center();
+                                width: 25px;
+                                height: 25px;
+                                margin: auto;
+                                transition: all var(--global-transition-duration) ease;
+                                padding-top: 1px;
+                            }
+                        }
+
+
+                        .remove-slot-button:hover {
+                            color: var(--color-white-0);
+                        }
+
+                        .remove-slot-button:not(:last-child) {
+                            margin-bottom: 2rem;
+                        }
+                    }
+
+                    .add-slot-button {
+                        margin-top: 1rem;
+                        width: fit-content;
+                        padding: 0.4rem 4rem;
+                        border-color: $border-color;
+                        color: var(--color-blue-0);
+                    }
+
+                    .add-slot-button:hover {
+                        background-color: var(--color-blue-0);
+                        color: var(--color-white-0);
+                    }
+
+                    .formfield-wrapper {
+                        display: flex;
+                        align-items: center;
+                        gap: 2rem;
+                        width: 100%;
+
+                        .label {
+                            min-width: 4rem;
+                        }
+
+                        mb-dropdown {
+                            width: 100%;
+                        }
+                    }
+                }
+            }
+
+        }
+
+        .schedule-weekday-wrapper:not(:last-child) {
+            border-bottom: 1px solid $border-color;
         }
     }
 }

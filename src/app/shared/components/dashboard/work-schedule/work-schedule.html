@@ -1,31 +1,75 @@
-<form [formGroup]="scheduleGroup" class="schedule-form" (ngSubmit)="submitScheduleForm()" animate.enter="enter-animation-left" scrollFromBreadcrumbDirective>
-    <div class="grid-wrapper">
-        @for (weekDay of weekDays; track $index) {
+<div class="work-schedule-component-wrapper">
+    <form [formGroup]="scheduleGroup" class="schedule-form" (ngSubmit)="submitScheduleForm()" animate.enter="enter-animation-left" scrollFromBreadcrumbDirective>
+        <div class="work-schedule-heading-wrapper">
+            <div class="heading-text-wrapper">
+                <h3 class="heading-h3 text-weight-500 setup-schedule">Setup schedule</h3>
+                <p class="text-small configure">Configure weekly working hours and specific time off</p>
+            </div>
+            
+            @if (isFormChanged) {
+                <div class="buttons-wrapper" animate.enter="enter-animation-bottom">
+                    <button class="reset-button" type="button" (click)="revertChanges()">
+                        <fa-icon [icon]="icons['xmark']" class="icon"></fa-icon>
+                        <span>Cancel</span>
+                    </button>
+                    <button class="save-changes-button" type="submit">
+                        <fa-icon [icon]="icons['save']"></fa-icon>
+                        <span>Save changes</span>
+                    </button>
+                </div>
+            }
+        </div>
+
+        <div class="grid-header">
+            <span class="text-small working-days">Working Days</span>
+        
+            <div class="heading-col2">
+                <span class="text-small working-hours">Working Hours</span>
+                <button class="apply-button" type="button">
+                    <fa-icon [icon]="icons['copy']"></fa-icon>
+                    <span class="apply">Apply same time all week</span>
+                </button>
+            </div>
+        </div>
+        <div class="grid-body">
+            @for (weekDay of weekDays; track weekDay.key) {
             <div class="schedule-weekday-wrapper">
                 <div class="schedule-weekday-heading-wrapper" [formGroupName]="weekDay.key">
-                    <div class="text-description week-day">{{weekDay.label}}</div>
-                    <mb-switch onLabel="Available" formControlName="isActive" [reversedLabels]="true"></mb-switch>
+                    <mb-switch [onLabel]="weekDay.label" formControlName="isActive"></mb-switch>
                 </div>
-                
+
                 <div class="schedule-weekday-body" [formGroupName]="weekDay.key">
-                    <div class="formfield-wrapper">
-                        <span class="text-description label">From:</span>
-                        <mb-dropdown formControlName="startTime" [disableSearch]="true" label="Start time" [optionsList]="workingHours()"></mb-dropdown>
+                    <div formArrayName="slots" class="slot-wrapper">
+                        @for (slot of getSlots(weekDay.key).controls; let i = $index; track slot.value?.id || i) {
+
+                        <div class="slot-from-to-wrapper">
+                            <div class="dropdown-wrapper">
+                                <span class="text-description">From</span>
+                                <div class="formfield-wrapper" [formGroupName]="i">
+                                    <mb-dropdown formControlName="startTime" label="From" [optionsList]="workingHours()"></mb-dropdown>
+                                </div>
+                                
+                                <span class="text-description">To</span>
+                                
+                                <div class="formfield-wrapper" [formGroupName]="i">
+                                    <mb-dropdown formControlName="endTime" label="To" [optionsList]="workingHours()"></mb-dropdown>
+                                </div>
+                            </div>
+
+                            @if ($index !== 0) {
+                                <button type="button" class="mb-button-square mb-button-abort remove-slot-button" (click)="removeSlot(weekDay.key, i)">
+                                    <fa-icon class="icon" [icon]="icons['xmark']"></fa-icon>
+                                </button>
+                            }
+                        </div>
+
+                        }
                     </div>
-                    
-                    <div class="formfield-wrapper">
-                        <span class="text-description label">To:</span>
-                        <mb-dropdown formControlName="endTime" [disableSearch]="true" label="End time" [optionsList]="workingHours()"></mb-dropdown>
-                    </div>
+
+                    <button type="button" class="mb-button-naked mb-button-square add-slot-button" (click)="addSlot(weekDay.key)">+ Add</button>
                 </div>
             </div>
-        }
-    </div>
-
-    @if (isFormChanged) {
-        <div class="buttons-wrapper" animate.enter="enter-animation-bottom" animate.leave="leave-animation">
-            <button class="mb-button-naked submit-button" type="submit">Save changes</button>
-            <button class="mb-button-naked mb-button-abort reset-button" type="button" (click)="revertChanges()">Revert</button>
+            }
         </div>
-    }
-</form>
+    </form>
+</div>

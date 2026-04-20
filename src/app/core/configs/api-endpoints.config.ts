@@ -72,10 +72,14 @@ export const API_ENDPOINTS = {
         NOTIFICATION: (id: string, notification_id: string) => `users/${id}/notifications/${notification_id}/`,
         PROCEDURES: (id: string) => `users/${id}/procedures/`,
         PROCEDURE: (id: string, procedure_id: string) => `users/${id}/procedures/${procedure_id}/`,
+        SCHEDULES: {
+            get: (id: string) => `users/${id}/working-hours/schedules/`,
+            post: (id: string) => `users/${id}/working-hours/schedules/`,
+            patch: (id: string, wh_id: string) => `users/${id}/working-hours/schedules/${wh_id}/`,
+            delete: (id: string, wh_id: string) => `users/${id}/working-hours/schedules/${wh_id}/`,
+        },
         SCHEDULE_OVERRIDES: (id: string) => `users/${id}/working-hours/schedule-overrides/`,
         SCHEDULE_OVERRIDE: (id: string, wh_id: string) => `users/${id}/working-hours/schedule-overrides/${wh_id}/`,
-        SCHEDULES: (id: string) => `users/${id}/working-hours/schedules/`,
-        // SCHEDULE: (id: string, wh_id: string) => `users/${id}/schedules/${wh_id}/`,
         DASHBOARD: 'users/dashboard/'
     }
 } as const

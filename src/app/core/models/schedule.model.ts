@@ -39,13 +39,13 @@ export interface ScheduleSettings {
 
 export type ISO8601UTC = string;
 
+export interface DoctorWorkingHoursPayload {
+  start_date: string;
+  end_date: string;
+}
+
 export interface DoctorWorkingHoursResponse {
   schedules: {
     [date: string]: [ISO8601UTC, ISO8601UTC][];
   };
-}
-
-export interface DoctorWorkingHoursPayload {
-  start_date: string;
-  end_date: string;
 }
