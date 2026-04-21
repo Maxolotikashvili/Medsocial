@@ -65,7 +65,6 @@ export class WorkSchedule implements OnInit {
       .subscribe({
         next: (scheduleData) => {
           this.data = scheduleData;
-          console.log(scheduleData, 'data');
           this.applyExistingScheduleToForm();
         },
 
@@ -419,12 +418,15 @@ export class WorkSchedule implements OnInit {
     }
   
     forkJoin(requests).subscribe({
-      next: () =>
+      next: () => {
         this.popupService.show({
           message: 'Work schedule updated',
           type: 'success',
-        }),
-
+        });
+        
+        const currentValues = Object.values(this.scheduleGroup.getRawValue());
+        this.originalSchedule.set(structuredClone(this.sanitizeScheduleForms(currentValues)));
+      },
       error: (err) => console.error('One or more requests failed', err),
     });
   }
