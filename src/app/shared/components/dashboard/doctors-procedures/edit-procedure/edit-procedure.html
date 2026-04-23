@@ -1,0 +1,180 @@
+<div class="edit-procedure-component-wrapper">
+    <form [formGroup]="procedureForm" class="form" (ngSubmit)="submitChanges()"
+        [class.mode-create]="!existingProcedure()" scrollFromBreadcrumbDirective>
+        <div class="form-fields-wrapper">
+            <div class="form-field-wrapper form-field-wrapper-flex">
+                <h6 class="heading-h6 text-weight-400 form-field-title">Title</h6>
+                <mb-input class="text-input" type="text" [label]="existingProcedure() ? '' : 'Procedure title'"
+                    formControlName="title"></mb-input>
+            </div>
+
+            <div class="form-field-wrapper form-field-wrapper-flex">
+                <h6 class="heading-h6 text-weight-400 form-field-title">Category</h6>
+                <mb-dropdown class="dropdown" formControlName="category" label="Select category"
+                    [optionsList]="procedureCategoriesList"></mb-dropdown>
+            </div>
+
+            <div class="form-field-wrapper">
+                <h6 class="heading-h6 text-weight-400 form-field-title">Description</h6>
+                <mb-textarea formControlName="description" placeholder="go little boy"></mb-textarea>
+            </div>
+
+            <div class="form-row price-row">
+                <div class="form-field-wrapper-flex">
+                    <h6 class="heading-h6 text-weight-400 form-field-title">Price</h6>
+                    
+                    <div class="price-wrapper">
+                        <mb-input type="number" [label]="existingProcedure() ? '' : 'Price'"
+                        formControlName="price"></mb-input>
+                        <span class="text-description"> {{currency.symbol}} </span>
+                    </div>
+                </div>
+
+                <mb-checkbox label="Discount" formControlName="isDiscount"></mb-checkbox>
+
+                @if (procedureForm.get('isDiscount')?.value) {
+                    <div class="form-field-wrapper-flex">
+                        <h6 class="heading-h6 text-weight-400 form-field-title">Discounted price</h6>
+                        
+                        <div class="price-wrapper">
+                            <mb-input type="number" [label]="existingProcedure() ? '' : 'Discounted price'"
+                            formControlName="discountedPrice"></mb-input>
+                            <span class="text-description"> {{currency.symbol}} </span>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="form-row">
+                <div class="form-field-wrapper">
+                    <h6 class="heading-h6 text-weight-400 form-field-title">Country</h6>
+                    <mb-dropdown class="dropdown" formControlName="country" label="Select country"
+                        (searchValueChange)="onCountrySearch($event)" [params]="countries.params()"
+                        (scrolledToBottom)="countries.nextPage()" [optionsList]="countries.data()"
+                        [isLoading]="countries.loading()"
+                        (selectionChange)="onCountryDropdownChange($event)"></mb-dropdown>
+                </div>
+
+                <div class="form-field-wrapper">
+                    <h6 class="heading-h6 text-weight-400 form-field-title">City</h6>
+                    <mb-dropdown class="dropdown" formControlName="city" label="Select city"
+                        (searchValueChange)="onCitySearch($event)" [params]="cities.params()"
+                        [isLoading]="cities.loading()" [optionsList]="cities.data()"
+                        (scrolledToBottom)="cities.nextPage()"></mb-dropdown>
+                </div>
+
+                <div class="form-field-wrapper">
+                    <h6 class="heading-h6 text-weight-400 form-field-title">Hospital</h6>
+                    <mb-dropdown [inputValue]="{ id: 1, value: 'Batumi' }" class="dropdown"
+                        (searchValueChange)="onHospitalSearch($event)" formControlName="hospital"
+                        label="Select hospital" [params]="hospitals.params()" (scrolledToBottom)="hospitals.nextPage()"
+                        [optionsList]="hospitals.data()" [isLoading]="hospitals.loading()"></mb-dropdown>
+                </div>
+            </div>
+
+            <div class="form-row region-row">
+                <div class="form-field-wrapper form-field-wrapper-flex">
+                    <h6 class="heading-h6 text-weight-400 form-field-title">Region</h6>
+                    <mb-input class="text-input" type="text" formControlName="region"
+                        [label]="!existingProcedure() ? 'Region' : ''"></mb-input>
+                </div>
+
+
+                <div class="form-field-wrapper form-field-wrapper-flex">
+                    <h6 class="heading-h6 text-weight-400 form-field-title">Street</h6>
+                    <mb-input class="text-input" type="text" formControlName="street"
+                        [label]="!existingProcedure() ? 'Street address ' : ''"></mb-input>
+                </div>
+            </div>
+
+            <div class="form-field-wrapper form-field-wrapper-flex additional-street-address-wrapper">
+                <h6 class="heading-h6 text-weight-400 form-field-title">Additional address text</h6>
+                <mb-input class="text-input" type="text" formControlName="addressText"
+                    [label]="!existingProcedure() ? 'Additional address text ' : ''"></mb-input>
+            </div>
+
+            <div class="form-field-wrapper form-field-wrapper-flex">
+                <h6 class="heading-h6 text-weight-400 form-field-title hospital-phone-title">Phone number</h6>
+                <mb-input class="text-input" type="text" formControlName="phone"
+                    [label]="!existingProcedure() ? 'Phone' : ''"></mb-input>
+            </div>
+
+        </div>
+
+        <div class="images-container">
+            <div class="image-section">
+                <h6 class="heading-h6 text-weight-400 form-field-title">Image displayed in list:</h6>
+                <div class="image-wrapper" [class.image-wrapper-error]="procedureForm.get('image')?.invalid && procedureForm.get('image')?.dirty">
+                @if (imageSrc()) {
+                    <img [src]="imageSrc()" class="before-image" alt="Before image">
+                    <button class="text-plain text-weight-800 preview-button"
+                        (click)="previewImage('before-image')">Preview</button>
+                }
+                    <button type="button" class="mb-button-naked upload-button"
+                        (click)="triggerFileInput('image')">+</button>
+                    <input type="file" #imageInput (change)="onFileSelected($event, 'image')" accept="image/*" style="display: none;">
+                </div>
+
+                @if (procedureForm.get('image')?.invalid && procedureForm.get('image')?.dirty) {
+                    <p class="text-description text-size-1 error-text" animate.enter="enter-animation-bottom">Image is required to upload</p>
+                }
+            </div>
+
+            <div class="image-section">
+                <h6 class="heading-h6 text-weight-400 form-field-title">Image displayed in details:</h6>
+                <div class="image-wrapper" [class.image-wrapper-error]="procedureForm.get('imageAfter')?.invalid && procedureForm.get('imageAfter')?.dirty">
+                @if (imageAfterSrc()) {
+                    <img [src]="imageAfterSrc()" class="after-image" alt="After image">
+                    <button class="text-plain text-weight-800 preview-button"
+                        (click)="previewImage('after-image')">Preview</button>
+                    }
+                <button type="button" class="mb-button-naked upload-button"
+                    (click)="triggerFileInput('imageAfter')">+</button>
+                <input type="file" #imageAfterInput (change)="onFileSelected($event, 'imageAfter')" accept="image/*" style="display: none;">
+                </div>
+
+                @if (procedureForm.get('image')?.invalid && procedureForm.get('image')?.dirty) {
+                    <p class="text-description text-size-1 error-text" animate.enter="enter-animation-bottom">Image is required to upload</p>
+                }
+            </div>
+        </div>
+
+        <div class="video-container">
+            <h6 class="heading-h6 text-weight-400 form-field-title">Video:</h6>
+            <div class="video-wrapper">
+
+                @if (videoSrc()) {
+                    <div class="video-preview-container">
+                        <video [src]="videoSrc()" controls class="video-preview"></video>
+                        <button type="button" class="text-plain text-weight-800 remove-button"
+                            (click)="removeVideo()">Remove Video</button>
+                    </div>
+                } @else {
+                    <button type="button" class="mb-button-naked upload-button" (click)="triggerFileInput('video')">
+                        <span class="text-size-1">+ Upload Video</span>
+                    </button>
+                    
+                    <p class="text-description text-size-1 error-text" animate.enter="enter-animation-bottom">(Video is mandatory)</p>
+                }
+
+                <input type="file" #videoInput (change)="onFileSelected($event, 'video')" accept="video/mp4,video/x-m4v,video/*,.mp4"
+                    style="display: none;">
+            </div>
+        </div>
+
+        <div class="buttons-wrapper">
+            <button class="mb-button-save" type="submit">
+                <fa-icon [icon]="icons['save']"></fa-icon>
+                <span>Submit</span>
+            </button>
+            <button class="mb-button-cancel" type="button" (click)="cancelEditing.emit()">
+                <fa-icon [icon]="icons['cancel']"></fa-icon>
+                <span>Cancel</span>
+            </button>
+        </div>
+    </form>
+</div>
+
+@if (isLoading()) {
+    <loading></loading>
+}

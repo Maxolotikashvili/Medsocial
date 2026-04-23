@@ -6,6 +6,10 @@ $popup-border-radius: 12px;
 $popup-box-shadow: -5px 10px 30px rgba(0, 0, 0, 0.2);
 $popup-text-color: var(--color-white-0);
 
+$popup-success-color: var(--color-green-0);
+$popup-info-color: var(--color-blue-3);
+$popup-error-color: var(--color-error);
+
 :host {
     position: fixed;
     top: 3.2rem;
@@ -36,15 +40,15 @@ $popup-text-color: var(--color-white-0);
     }
 
     &.success {
-        background: var(--color-green-0);
+        background: $popup-success-color;
     }
 
     &.error {
-        background: var(--color-red-0)
+        background: $popup-error-color;
     }
 
     &.info {
-        background: var(--color-blue-3)
+        background: $popup-info-color;
     }
 
     .close-btn {

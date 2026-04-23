@@ -1,0 +1,12 @@
+<textarea class="mb-textarea" [class]="'allow-resize-' + allowResize()" [class.is-invalid]="isInvalid" 
+    [value]="value()" 
+    [disabled]="isDisabled() || disabled()" 
+    (input)="onInput($event)"
+    (blur)="onBlur()"
+    [placeholder]="placeholder()"
+    [id]="id()"
+    [name]="name()"
+></textarea>
+@if (isInvalid) {
+    <p class="text-description text-size-1 error-text" animate.enter="enter-animation-bottom"> {{computedErrorText}} </p>
+}

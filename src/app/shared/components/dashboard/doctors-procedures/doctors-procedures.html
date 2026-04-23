@@ -1,0 +1,10 @@
+@if (editProcedure() === undefined) {
+    <procedures defaultLayout="view-list" [isEditModeOn]="true"
+        [initialFilters]="{ name: user.first_name, q: user.last_name}" [enableFilters]="false"
+        (addNewProcedure)="editProcedure.set(null)" (editExistingProcedure)="editProcedure.set($event)"
+        (deleteProcedure)="deleteProcedure($event)"
+        [refreshData]="refreshProcedures()"
+    ></procedures>
+} @else {
+    <edit-procedure [existingProcedure]="editProcedure()" (cancelEditing)="editProcedure.set(undefined)"></edit-procedure>
+}

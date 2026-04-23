@@ -21,7 +21,7 @@ export class NotificationService {
   public notifications = this.notificationsSignal.asReadonly();
   public unseenNotificationsLength: Signal<number> = computed(() => {
     const notifications = this.notificationsSignal();
-
+    console.log(notifications)
     return (
       notifications?.results.filter(n => n.is_seen === false).length ?? 0
     )

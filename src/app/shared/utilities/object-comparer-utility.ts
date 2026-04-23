@@ -14,32 +14,26 @@ export function shallowEqual(obj1: Record<string, any>, obj2: Record<string, any
 }
 
 export function deepEqual(a: any, b: any, visited = new WeakMap()): boolean {
-  // Handle strict equality and NaN
   if (Object.is(a, b)) return true;
 
-  // Handle null or non-object values
   if (typeof a !== 'object' || a === null ||
       typeof b !== 'object' || b === null) {
     return false;
   }
 
-  // Prevent circular reference issues
   if (visited.has(a)) {
     return visited.get(a) === b;
   }
   visited.set(a, b);
 
-  // Handle Date
   if (a instanceof Date && b instanceof Date) {
     return a.getTime() === b.getTime();
   }
 
-  // Handle RegExp
   if (a instanceof RegExp && b instanceof RegExp) {
     return a.toString() === b.toString();
   }
 
-  // Handle Arrays
   if (Array.isArray(a)) {
     if (!Array.isArray(b) || a.length !== b.length) return false;
     for (let i = 0; i < a.length; i++) {
@@ -48,7 +42,6 @@ export function deepEqual(a: any, b: any, visited = new WeakMap()): boolean {
     return true;
   }
 
-  // Handle Map
   if (a instanceof Map && b instanceof Map) {
     if (a.size !== b.size) return false;
     for (const [key, value] of a) {
@@ -59,7 +52,6 @@ export function deepEqual(a: any, b: any, visited = new WeakMap()): boolean {
     return true;
   }
 
-  // Handle Set
   if (a instanceof Set && b instanceof Set) {
     if (a.size !== b.size) return false;
     for (const value of a) {
@@ -68,7 +60,6 @@ export function deepEqual(a: any, b: any, visited = new WeakMap()): boolean {
     return true;
   }
 
-  // Handle plain objects
   const keysA = Object.keys(a);
   const keysB = Object.keys(b);
 

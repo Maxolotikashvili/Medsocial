@@ -49,21 +49,23 @@
                 <span class="text-description text-weight-500"> {{procedure.title}} </span>
             </div>
 
-            <div class="appointment-block">
-                <div  class="appointment-block-heading-wrapper">
-                    <h6 class="heading-h6 text-weight-500 appointment-block-heading">Additional information for doctor</h6>
+            <form [formGroup]="appointmentForm">
+                <div class="appointment-block">
+                    <div  class="appointment-block-heading-wrapper">
+                        <h6 class="heading-h6 text-weight-500 appointment-block-heading">Information for doctor</h6>
+                    </div>
+                    
+                    <mb-textarea class="textarea" placeholder="any Information, symptoms, questions, etc." formControlName="description"></mb-textarea>
                 </div>
                 
-                <textarea [(ngModel)]="description" class="mb-textarea textarea" id="info" placeholder="Information, symptoms, questions, etc."></textarea>
-            </div>
+                <div class="appointment-block image-block">
+                    <div  class="appointment-block-heading-wrapper">
+                        <h6 class="heading-h6 text-weight-500 appointment-block-heading">Upload image</h6>
+                    </div>
 
-            <div class="appointment-block">
-                <div  class="appointment-block-heading-wrapper">
-                    <h6 class="heading-h6 text-weight-500 appointment-block-heading">Upload image</h6>
+                    <input type="file" formControlName="image" id="imageUpload" accept="image/*" (change)="onImageSelected($event)" #imageInput>
                 </div>
-                
-                <input type="file" id="imageUpload" accept="image/*" (change)="onImageSelected($event)" #imageInput>
-            </div>
+            </form>
         </div>
 
         <button class="mb-button-fullsize mb-button-square request-button" (click)="sendAppointmentRequest()">Send appointment request</button>

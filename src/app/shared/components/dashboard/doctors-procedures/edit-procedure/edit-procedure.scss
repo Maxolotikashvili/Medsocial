@@ -1,0 +1,207 @@
+@use '../../../../../styles/layout.scss' as *;
+
+:host {
+    display: contents;
+}
+
+.edit-procedure-component-wrapper {
+    width: 100%;
+
+    .form {
+        display: flex;
+        flex-flow: column;
+        gap: 2rem;
+
+        .form-fields-wrapper {
+            display: flex;
+            flex-flow: column;
+            gap: 4rem;
+
+            .form-row {
+                display: flex;
+                align-items: center;
+                gap: 2rem;
+            }
+
+            .region-row {
+                gap: 4rem;
+            }
+
+            .price-row {
+                gap: 2rem;
+
+                .form-field-wrapper-flex {
+                    width: fit-content;
+                }
+            }
+
+            .form-field-wrapper {
+                display: flex;
+                flex-flow: column;
+                gap: 0.6rem;
+
+                .dropdown {
+                    width: 30rem;
+                    height: 4rem;
+                }
+
+                .text-input {
+                    width: 100%;
+                }
+
+                .textarea {
+                    width: 60vw;
+                }
+
+                .price-currency-symbol-wrapper {
+                    display: inline-flex;
+                    align-items: center;
+                }
+            }
+
+            .form-field-wrapper-flex {
+                width: 50%;
+                display: flex;
+                flex-flow: unset;
+                align-items: center;
+                gap: 1rem;
+
+                .price-wrapper {
+                    display: flex;
+                    align-items: center;
+                }
+
+                h6 {
+                    min-width: 5rem;
+                }
+
+                .hospital-phone-title {
+                    min-width: 15rem;
+                }
+            }
+
+            .additional-street-address-wrapper {
+                width: unset;
+
+                .form-field-title {
+                    min-width: 20rem;
+                }
+            }
+        }
+
+        .buttons-wrapper {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .images-container {
+            display: flex;
+            margin-top: 6rem;
+            gap: 2rem;
+            width: 100%;
+
+            .image-section {
+                position: relative;
+                display: flex;
+                align-items: center;
+                flex-flow: column;
+                width: 50%;
+                gap: 1rem;
+
+                .image-wrapper {
+                    width: 100%;
+                    height: 40rem;
+                    position: relative;
+                    border: 1px dashed var(--color-blue-0);
+                    transition: all var(--global-transition-duration) ease;
+
+                    .before-image,
+                    .after-image {
+                        width: 100%;
+                        height: inherit
+                    }
+
+                    .preview-button {
+                        position: absolute;
+                        bottom: 0%;
+                        left: 50%;
+                        color: var(--color-blue-3);
+                        transform: translate(-50%, 0%);
+                        border: 1px solid var(--color-blue-3);
+                        padding: 0.5rem 2rem;
+                        border-radius: var(--global-square-radius);
+                        background-color: transparent;
+                        opacity: 0;
+                        transition: all var(--global-transition-duration) ease;
+                    }
+                }
+
+                .image-wrapper-error {
+                    border-color: var(--color-error);
+                }
+
+                .image-wrapper:hover {
+                    .preview-button {
+                        bottom: 20%;
+                        transform: translate(-50%, -20%);
+                        opacity: 1;
+                    }
+
+                    .preview-button:hover {
+                        background-color: var(--color-blue-3);
+                        color: var(--color-white-0)
+                    }
+                }
+
+                .upload-button {
+                    @include position-center();
+                    background-color: transparent;
+                    border: 1px solid var(--color-blue-3);
+                    color: var(--color-blue-3);
+                    padding-bottom: 1rem;
+                    width: 50px;
+                    height: 50px;
+                    font-size: 3rem;
+                    cursor: pointer;
+                }
+
+                .upload-button:hover {
+                    background-color: var(--color-blue-3);
+                    color: var(--color-white-0);
+                }
+
+            }
+            
+            .image-section:not(:last-child) {
+                margin-bottom: 4rem;
+            }
+        }
+        
+        .error-text {
+            color: var(--color-error);
+            border-color: var(--color-error);
+        }
+        
+        .video-container {
+            display: flex;
+            flex-flow: column;
+            gap: 1rem;
+
+            .video-wrapper {
+                display: flex;
+                flex-flow: column;
+                align-items: flex-start;
+                gap: 1rem;
+
+                .video-preview-container {
+                    .video-preview {
+                        width: 100%;
+                        border-radius: 4px;
+                    }
+                }
+            }
+        }
+    }
+}

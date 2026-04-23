@@ -11,12 +11,16 @@
         display: flex;
         flex-flow: column;
         gap: 2rem;
-        padding: 4rem 0;
+        padding: 2rem 0;
 
         .appointment-block {
             display: flex;
             flex-flow: column;
             gap: 0.4rem;
+
+            .textarea {
+                height: 10rem;
+            }
 
             .appointment-block-heading-wrapper {
                 display: flex;
@@ -26,7 +30,7 @@
                 .icon {
                     font-size: 1.2rem;
                 }
-                
+
                 .appointment-block-heading {
                     color: var(--color-blue-1);
                 }
@@ -61,10 +65,10 @@
                     flex-flow: column;
                 }
             }
-
-            .textarea {
-                height: 6rem;
-            }
+        }
+        
+        .image-block {
+            margin-top: 4rem;
         }
     }
 

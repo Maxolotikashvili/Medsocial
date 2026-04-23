@@ -1,4 +1,4 @@
-<div class="dropdown-wrapper" (clickOutside)="toggleDropdown('off')" [class.dropdown-disabled]="isComponentDisabled()">
+<div class="dropdown-wrapper" (clickOutside)="toggleDropdown('off')" [class.dropdown-disabled]="isComponentDisabled()" [class.dropdown-error-state]="isInvalid">
     <button class="dropdown-toggle" (click)="toggleDropdown()" type="button">
         <span class="text-description three-dots label"> {{ displayedLabel() }} </span>
         <fa-icon [icon]="isOpen() ? icons['angleUp'] : icons['angleDown']"></fa-icon>

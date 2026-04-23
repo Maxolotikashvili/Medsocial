@@ -45,8 +45,8 @@ export class ModalContainer {
       element.showModal();
 
       requestAnimationFrame(() => {
-        const active = document.activeElement as HTMLElement;
-        active?.blur();
+        // const active = document.activeElement as HTMLElement;
+        // active?.blur();
       });
     }
   }

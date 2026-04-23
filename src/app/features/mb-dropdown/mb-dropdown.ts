@@ -58,6 +58,11 @@ export class MbDropdown implements ControlValueAccessor {
     });
   }
 
+  public get isInvalid(): boolean {
+    if (!this.ngControl) return false;
+    return !!(this.ngControl.invalid && (this.ngControl.touched || this.ngControl.dirty));
+  }
+
   private onChange: (val: any) => void = () => {};
   private onTouched: () => void = () => {};
 

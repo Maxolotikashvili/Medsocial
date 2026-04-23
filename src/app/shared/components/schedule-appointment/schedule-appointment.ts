@@ -58,7 +58,7 @@ export class ScheduleAppointment implements OnInit {
     this.isLoading.set(true);
 
     this.proceduresService
-      .getProcedureDetails(id)
+      .getProcedure(id)
       .pipe(
         tap((p) => this.procedure.set(p)),
         switchMap((p) => this.scheduleService.getDoctorWorkingHours(p.user.id, payload)),

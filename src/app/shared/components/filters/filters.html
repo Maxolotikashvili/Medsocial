@@ -3,13 +3,15 @@
         <ng-content></ng-content>
     </div>
     
-    <div class="buttons-wrapper">
-        @if (hasActiveFilters() && hasChangesSinceLastSubmit()) {   
-            <button class="mb-button-s mb-button-round apply-filters-button" (click)="submitFilters()">Apply</button>
-        }
-        
-        @if (isValueEmitted()) {
-            <button class="mb-button-s mb-button-round reset-filters-button" (click)="resetFilters()">Reset</button>
-        }
-    </div>
+    @if (hasActiveFilters()) {
+        <div class="buttons-wrapper">
+            @if (hasChangesSinceLastSubmit()) {   
+                <button class="mb-button-s mb-button-round apply-filters-button" (click)="submitFilters()">Apply</button>
+            }
+            
+            @if (isValueEmitted()) {
+                <button class="mb-button-s mb-button-round reset-filters-button" (click)="resetFilters()">Reset</button>
+            }
+        </div>
+    }
 </div>

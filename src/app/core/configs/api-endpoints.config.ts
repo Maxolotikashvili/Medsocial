@@ -31,6 +31,7 @@ export const API_ENDPOINTS = {
         DOCTORS_REVIEW: (id: string) => `doctors/${id}/review/`,
         DOCTORS_REVIEWS: (id: string) => `doctors/${id}/reviews/`,
         PROCEDURES: 'doctors/procedures/',
+        HOSPITALS: `doctors/hospitals/`,
         PROCEDURE: (id: string) => `doctors/procedures/${id}/`,
         PROCEDURES_REVIEW: (id: string) => `doctors/procedures/${id}/review/`,
         PROCEDURES_REVIEWS: (id: string) => `doctors/procedures/${id}/reviews/`
@@ -51,8 +52,8 @@ export const API_ENDPOINTS = {
 
     USERS: {
         USER: (id: string) => `users/${id}/`,
+        ADDRESS: (id: string, address_id: string) => `users/${id}/addressess/${address_id}/`,
         ADDRESSES: (id: string) => `users/${id}/addresses/`,
-        ADRESS: (id: string, address_id: string) => `users/${id}/addressess/${address_id}/`,
         CONSULTATIONS: (id: string) => `users/${id}/consultations/`,
         CONSULTATION: (id: string, consultation_id: string) => `users/${id}/consultations/${consultation_id}/`,
         EDUCATIONS: (id: string) => `users/${id}/educations/`,

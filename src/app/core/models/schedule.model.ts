@@ -49,3 +49,38 @@ export interface DoctorWorkingHoursResponse {
     [date: string]: [ISO8601UTC, ISO8601UTC][];
   };
 }
+
+export interface Consultation {
+  id: string;
+  date: string;
+  brief: string;
+  image: string;
+  status: 1 | 2 | 3;
+  doctor: ConsultationDoctor;
+  patient: ConsultationPatient;
+  created_at: string;
+}
+
+export interface ConsultationDoctor {
+  id: string;
+  first_name: string;
+  last_name: string;
+  title: string;
+  image: string;
+}
+
+export interface ConsultationPatient {
+  id: string;
+  first_name: string;
+  last_name: string;
+  title: string;
+  image: string;
+}
+
+export interface ConsultationQuery {
+  brief?: string,
+  start_date?: string,
+  end_date?: string
+  page?: number,
+  status?: 1 | 2 | 3
+}

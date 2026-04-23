@@ -1,5 +1,4 @@
 import { Doctor } from './doctor.model';
-import { DropdownOption } from './dropdown.model';
 
 export interface PaginatedResponse<T> {
   count: number,
@@ -18,12 +17,43 @@ export interface Procedure {
   user: Doctor;
   address: ProcedureAddress;
   category: ProcedureCategory;
-  hospital: string;
+  hospital: ProcedureHospital;
   image: string;
   image_after: string;
   video: string;
   is_favorite: string;
   created_at: Date;
+}
+
+export interface ProcedurePayload {
+  title: string,
+  category: ProcedureCategoryTitle,
+  description: string,
+  price: number;
+  discounted_price: number,
+  address_id: string,
+  hospital: ProcedureHospital['name'],
+  image: string,
+  image_after: string,
+  video: string,
+  status: 'AC' | 'DI'
+}
+
+export interface ProcedureResponse extends ProcedurePayload {
+  id: string
+}
+
+export interface ProcedureHospital {
+  id: number,
+  name: string,
+  description: string,
+  address: ProcedureAddress
+}
+
+export interface HospitalsQuery {
+  description?: string,
+  name?: string,
+  page?: number
 }
 
 export interface ProcedureCategory {

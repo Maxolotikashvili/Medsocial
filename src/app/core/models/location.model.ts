@@ -46,3 +46,26 @@ export interface CountriesQuery {
 export interface TimezonesQuery {
   q?: string;
 }
+
+export interface Address {
+  id: string,
+  country: Country,
+  city: City,
+  region: string,
+  street: string,
+  phone: string,
+  text: string
+};
+
+export interface AddressPayload {
+  country_id: number,
+  city_id: number,
+  region: string,
+  street: string,
+  phone: string,
+  text: string
+}
+
+export interface AddressResponse extends AddressPayload {
+  id: string
+}

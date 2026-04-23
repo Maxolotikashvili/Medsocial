@@ -9,11 +9,8 @@ import { transformObject } from './object-transformer.utility';
 
 export function useInfiniteData<T extends object, P>(
   fetchFn: (params: P, page: number) => Observable<PaginatedResponse<T>>,
-  options: {
-    initialParams?: P,
-    transform?: TransformConfig<T> 
-  } = {}
-) {
+  options: { initialParams?: P, transform?: TransformConfig<T> } = {} )
+  {
   const errorService = inject(ErrorService);
   const injector = inject(Injector);
   
@@ -21,6 +18,7 @@ export function useInfiniteData<T extends object, P>(
   const params = signal<P>(options.initialParams || {} as P);
   const loading = signal<boolean>(false);
   const hasNextPage = signal<boolean>(true);
+  const response = signal<PaginatedResponse<T> | null>(null);
 
   const data$ = toObservable(computed(() => ({ p: params(), pg: page() })), { injector }).pipe(
     filter(({ pg }) => pg === 1 || hasNextPage()),
@@ -29,6 +27,7 @@ export function useInfiniteData<T extends object, P>(
     
     switchMap(({ p, pg }) => fetchFn(p, pg).pipe(
       map(res => {
+        response.set(res);
         hasNextPage.set(res.next !== null);
         
         if (options.transform) {
@@ -50,6 +49,7 @@ export function useInfiniteData<T extends object, P>(
   const data = toSignal(data$, { injector, initialValue: [] as any[] });
 
   return { data, loading, params,hasNextPage,
+    response,
     nextPage: () => {
       if (!loading() && hasNextPage()) {
         page.update(p => p + 1);

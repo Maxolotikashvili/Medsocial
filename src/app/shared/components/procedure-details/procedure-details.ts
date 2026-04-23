@@ -44,7 +44,7 @@ export class ProcedureDetails implements OnInit {
     title: faAward
   }
   public user = this.userService.user;
-  public roles = USER_ROLES;
+  public roles = USER_ROLES
   public currency = this.currencyService.currency;
   
   constructor() {}
@@ -63,7 +63,7 @@ export class ProcedureDetails implements OnInit {
   }
   
   private getProcedure() {
-    const data = this.proceduresService.getProcedureDetails(this.procedureId())
+    const data = this.proceduresService.getProcedure(this.procedureId())
     this.procedure = toSignal<Procedure | undefined>(data, { injector: this.injector });
   }
 

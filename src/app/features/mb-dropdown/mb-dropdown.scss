@@ -97,6 +97,12 @@ $dropdown-max-width: 30.2rem;
     }
 }
 
+.dropdown-error-state {
+    .dropdown-toggle {
+        border: 1px solid var(--color-error);
+    }
+}
+
 .dropdown-disabled {
     .dropdown-toggle {
         color: var(--color-black-1);

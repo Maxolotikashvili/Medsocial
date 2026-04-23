@@ -7,7 +7,6 @@ import { MbCheckbox } from '../../../../features/mb-checkbox/mb-checkbox';
 import { Authservice } from '../../../../core/services/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Loading } from '../../../../features/loading/loading';
-import { finalize } from 'rxjs';
 import { ErrorService } from '../../../../core/services/error.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -38,19 +37,19 @@ export class LoginModal {
   public loginUser(event: Event) {
     event.preventDefault();
     this.isLoading.set(true);
-    console.log(this.errorMessage())
 
     this.authService.login({ email: this.emailValue, password: this.passwordValue }).pipe(
         takeUntilDestroyed(this.destroyRef),
-        finalize(() => this.isLoading.set(false)),
       )
       .subscribe({
         next: () => {
           location.reload();
+          this.isLoading.set(false)
         },
         error: (err: HttpErrorResponse) => {
           this.errorService.handleError(err);
           this.errorMessage.set(this.errorService.errorMessage());
+          this.isLoading.set(false);
         },
       });
   }

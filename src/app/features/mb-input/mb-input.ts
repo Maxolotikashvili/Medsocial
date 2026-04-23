@@ -1,16 +1,15 @@
-import { Component, input, model, Self, Optional, signal, computed, ChangeDetectionStrategy } from '@angular/core';
-import { ControlValueAccessor, NgControl, FormsModule, Validators } from '@angular/forms';
+import { Component, input, model, Self, Optional, signal, ChangeDetectionStrategy } from '@angular/core';
+import { ControlValueAccessor, NgControl, FormsModule, Validators, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'mb-input',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, ReactiveFormsModule],
   templateUrl: './mb-input.html',
   styleUrl: './mb-input.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MbInput implements ControlValueAccessor {
-  public readonly label = input<string>('');
+  public readonly label = input<string | number>('');
   public readonly placeholder = input<string>('');
   public readonly type = input<'text' | 'password' | 'email' | 'date' | 'number'>('text');
   public readonly required = input<boolean>(false);
@@ -23,13 +22,20 @@ export class MbInput implements ControlValueAccessor {
   public value = model<string | number | boolean>('');
   public isDisabled = signal<boolean>(false);
 
-  public readonly isInvalid = computed(() => {
-    return !!(this.ngControl?.invalid && this.ngControl?.touched);
-  })
+  constructor(@Self() @Optional() public ngControl: NgControl) {
+    if (this.ngControl) {
+      this.ngControl.valueAccessor = this;
+    }
+  }
 
-  public readonly currentErrorMessage = computed(() => {
+  public get isInvalid(): boolean {
+    if (!this.ngControl) return false;
+    return !!(this.ngControl.invalid && (this.ngControl.dirty || this.ngControl.touched));
+  }
+
+  public get currentErrorMessage(): string {
     const errors = this.ngControl?.errors;
-    if (!errors || !this.isInvalid) return '';
+    if (!errors) return '';
 
     if (errors['required']) return 'This field is required';
     if (errors['email']) return 'Please enter a valid email';
@@ -41,17 +47,12 @@ export class MbInput implements ControlValueAccessor {
     if (errors['invalidEmail']) return 'Please enter a valid email address (e.g. name@example.com)';
     if (errors['incompleteDate']) return 'Please enter full date (YYYY-MM-DD)';
     if (errors['invalidDate']) return 'Invalid date';
+    if (errors['pattern']) return 'Only numbers are allowed';
     if (errors['serverError']) {
       return errors['serverError'];
     }
 
     return 'Invalid input';
-  }) 
-
-  constructor(@Self() @Optional() public ngControl: NgControl) {
-    if (this.ngControl) {
-      this.ngControl.valueAccessor = this;
-    }
   }
 
   public get hasError(): boolean {
@@ -79,8 +80,7 @@ export class MbInput implements ControlValueAccessor {
       } else if (finalValue instanceof Date) {
         finalValue = finalValue.toISOString().split('T')[0];
       }
-
-    } 
+    }
     this.value.set(finalValue);
   }
 
@@ -96,18 +96,18 @@ export class MbInput implements ControlValueAccessor {
     this.isDisabled.set(isDisabled);
   }
 
- public handleInput(event: Event) {
-  const inputEl = event.target as HTMLInputElement;
-  let val = inputEl.value;
+  public handleInput(event: Event) {
+    const inputEl = event.target as HTMLInputElement;
+    let val = inputEl.value;
 
-  if (this.type() === 'date' && val.length < 10) {
-    this.onChange(null);
-    return;
+    if (this.type() === 'date' && val.length < 10) {
+      this.onChange(null);
+      return;
+    }
+
+    this.value.set(val);
+    this.onChange(val);
   }
-
-  this.value.set(val);
-  this.onChange(val);
-}
 
   public handleBlur() {
     this.onTouched();

@@ -1,20 +1,43 @@
 @if (procedures(); as data) {
-  <div class="procedures-component-wrapper" scrollFromBreadcrumbDirective>
-    <div class="filters-wrapper">
-      <filters (filterChange)="onFiltersChange($event)">
-        <mb-dropdown label="Country" [params]="countries.params()" (searchValueChange)="onCountrySearch($event)" [optionsList]="countries.data()" (selectionChange)="onCountryDropdownChange($event)" [isLoading]="countries.loading()"></mb-dropdown>
-        <mb-dropdown label="City" [params]="cities.params()" (searchValueChange)="onCitySearch($event)" [optionsList]="cities.data()" [disabled]="!cities.params().country" (scrolledToBottom)="cities.nextPage()" [isLoading]="cities.loading()"></mb-dropdown>
-        <mb-dropdown label="Department" [optionsList]="categories()"></mb-dropdown>
-        <!-- <mb-dropdown label="Hospitals" [optionsList]="hospitals()"></mb-dropdown> -->
-      </filters>
-      <mb-search label="Search" placeholder="Search..." id="search" (searchSubmit)="onSearchChange($event)"></mb-search>
-    </div>
-    @if (data.results.length > 0) {
-      <div class="procedures-wrapper">
+  <div class="procedures-component-wrapper-list" [class]="layoutClass()" scrollFromBreadcrumbDirective>
+    @if (enableFilters()) {
+      <div class="filters-wrapper">
+        <filters (filterChange)="onFiltersChange($event)">
+          <mb-dropdown label="Country" [params]="countries.params()" (searchValueChange)="onCountrySearch($event)"
+            [optionsList]="countries.data()" (selectionChange)="onCountryDropdownChange($event)"
+            [isLoading]="countries.loading()"></mb-dropdown>
+          <mb-dropdown label="City" [params]="cities.params()" (selectionChange)="onCityDropdownChange($event)" (searchValueChange)="onCitySearch($event)"
+            [optionsList]="cities.data()" [disabled]="!cities.params().country" (scrolledToBottom)="cities.nextPage()"
+            [isLoading]="cities.loading()"></mb-dropdown>
+          <mb-dropdown label="Department" [optionsList]="categories()"></mb-dropdown>
+          <mb-dropdown label="Hospitals" [disabled]="!hospitals.params().name" [optionsList]="hospitals.data()" [params]="hospitals.params()" (scrolledToBottom)="hospitals.nextPage()" [isLoading]="hospitals.loading()"></mb-dropdown>
+        </filters>
+        <mb-search label="Search" placeholder="Search..." id="search" (searchSubmit)="onSearchChange($event)"></mb-search>
+      </div>
+    }
+
+    <div class="procedures-wrapper">
+      <div class="layout-buttons-wrapper">
+        <button class="layout-button" (click)="selectLayout.set('view-list')">
+          <fa-icon [icon]="icons['list']" class="icon"></fa-icon>
+        </button>
+        <button class="layout-button" (click)="selectLayout.set('view-grid')">
+          <fa-icon [icon]="icons['grid']" class="icon"></fa-icon>
+        </button>
+      </div>
+      @if (isEditModeOn()) {
+        <div class="new-procedure-wrapper" animate.enter="enter-animation-bottom">
+          <button class="add-new-procedure-button" (click)="emitAddNewProcedure()">
+            <span class="plus">+</span>
+            <span class="text-description add-new">Add new procedure</span>  
+          </button>
+        </div>
+      }
+      @if (data.results.length > 0) {
         @for (procedure of data.results; track procedure.id) {
           <div class="card procedure-wrapper" animate.enter="enter-animation-bottom">
             <div class="image-wrapper">
-              <img [src]="procedure.image" (error)="handleImageError($event)" class="procedure-img" alt="Procedure"/>
+              <img [src]="procedure.image" (error)="handleImageError($event)" class="procedure-img" alt="Procedure" />
               <div class="service-icon procedure-icon" [class]="procedure.title | categoryColor">
                 <fa-icon [icon]="procedure.title | categoryIcon"></fa-icon>
               </div>
@@ -26,43 +49,60 @@
             </div>
 
             <ul class="details-list-wrapper">
-              
+
               <li class="details-list">
-                <fa-icon [icon]="icons.location" class="detail-icon"></fa-icon>
+                <fa-icon [icon]="icons['location']" class="detail-icon"></fa-icon>
                 <span class="text-description">{{procedure.address.city.name}}, {{procedure.address.country.name}}</span>
               </li>
-              
+
               <li class="details-list">
-                <fa-icon [icon]="icons.hospital" class="detail-icon"></fa-icon>
+                <fa-icon [icon]="icons['hospital']" class="detail-icon"></fa-icon>
                 <span class="text-description hospital">{{procedure.hospital}}</span>
               </li>
-              
-              <li class="details-list price-list"> 
+
+              <li class="details-list price-list">
                 <fa-icon [icon]="icons['price']" class="detail-icon"></fa-icon>
-  
-                @if (procedure.discounted_price && procedure.discounted_price < procedure.price) {
+
+                @if (procedure.discounted_price && procedure.discounted_price < procedure.price) { 
                   <del class="text-description"> {{procedure.price}}{{currency().symbol}} </del>
                 }
                 <span class="text-description"> {{procedure.discounted_price}}{{currency().symbol}} </span>
               </li>
             </ul>
 
-            <a class="mb-link text-size-2 read-more-link" [routerLink]="['/procedure-details', procedure.id]">Read More</a>
+            @if (!isEditModeOn()) {
+              <a class="mb-link text-size-2 read-more-link" [routerLink]="['/procedure-details', procedure.id]">Read More</a>
+            } @else {
+              <div class="buttons-wrapper">
+                <button class="mb-button-naked edit-button" (click)="emitEditExistingProcedure(procedure)">
+                  <fa-icon [icon]="icons['edit']"></fa-icon>
+                  <span>Edit</span>
+                </button>
+                
+                <button class="mb-button-naked delete-button" (click)="emitDeleteProcedure(procedure)">
+                  <fa-icon [icon]="icons['delete']"></fa-icon>
+                  <span>Delete</span>
+                </button>
+              </div>
+            }
+            
           </div>
         }
+      } @else {
+      <div class="no-results-wrapper">
+        <h1 class="heading-h1 no-results">No results</h1>
       </div>
+      }
+    </div>
 
+    @if (data.results.length > 0) {
       <div class="pagination-wrapper">
         <pagination [maxDisplayedPages]="5" [totalPages]="procedures()?.totalPages!" (pageChange)="handlePageChange($event)"></pagination>
-      </div>
-    } @else {
-        <div class="no-results-wrapper">
-            <h1 class="heading-h1 no-results">No results</h1>
-        </div>
-}
-  </div>
-}
+      </div> 
+    }
 
-@if (isLoading()) {
-  <loading></loading>
+    @if (isLoading()) { 
+      <loading [local]="true"></loading>
+    }
+  </div>
 }

@@ -68,6 +68,45 @@ button:disabled:hover {
     width: 100%;
 }
 
+.mb-button-save {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    width: fit-content;
+    font-size: 1.4rem;
+    border: none;
+    padding: 0.65rem 1.6rem;
+    border: 1px solid var(--color-blue-2);
+    height: fit-content;
+    background-color: var(--color-blue-2);
+    color: var(--color-white-0);
+    border-radius: var(--global-square-radius);
+    transition: all var(--global-transition-duration) ease;
+}
+
+.mb-button-save:hover {
+    background-color: var(--color-blue-1);
+}
+
+.mb-button-cancel {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border: 1px solid var(--color-blue-0);
+    height: fit-content;
+    padding: 0.6rem 1.6rem;
+    background-color: transparent;
+    color: var(--color-blue-0);
+    border-radius: var(--global-square-radius);
+    font-size: 1.4rem;
+    transition: all var(--global-transition-duration) ease;
+}
+
+.mb-button-cancel:hover {
+    background-color: var(--color-blue-0);
+    color: var(--color-white-0);
+}
+
 .mb-button-square {
     border-radius: 4px;
 }
@@ -97,8 +136,9 @@ button:disabled:hover {
 }
 
 .mb-textarea {
-    border: 1px solid var(--color-black-1);
     resize: none;
+    border: 1px solid var(--color-black-1);
+    font-family: var(--font-family-dm);
     height: 20rem;
-    padding: 0.4rem;
+    padding: 1rem;
 }
