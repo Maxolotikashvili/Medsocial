@@ -1,0 +1,5 @@
+<div class="card flex justify-center">
+    <p-drawer [style]="{'width': widthInPercent() + '%'}" [blockScroll]="blockScroll()" [position]="position()" [visible]="visible()" [header]="header()" (onHide)="closed.emit()">
+        <ng-content></ng-content>
+    </p-drawer>
+</div>

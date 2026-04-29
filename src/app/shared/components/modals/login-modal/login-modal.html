@@ -1,10 +1,17 @@
-<div class="login-modal-wrapper">
+<div class="login-modal-wrapper" tabindex="-1">
     <img src="images/company-logo.png" alt="Company-logo">
 
     <form (submit)="loginUser($event)">
         <div class="input-wrapper">
-            <mb-input [required]="true" id="email" label="Email" type="email" [(value)]="emailValue"></mb-input>
-            <mb-input [required]="true" id="password" label="Password" type="password" [(value)]="passwordValue"></mb-input>
+            <p-floatLabel variant="over">
+                <input id="email" #loginInput type="text" pInputText (change)="emailValue.set($event.target.value)">
+                <label for="email">Email</label>
+            </p-floatLabel>
+            
+            <p-floatLabel variant="over">
+                <input id="password" #loginInput type="password" pInputText (change)="passwordValue.set($event.target.value)">
+                <label for="password">Password</label>
+            </p-floatLabel>
         </div>
 
         <div class="remember-me-wrapper">

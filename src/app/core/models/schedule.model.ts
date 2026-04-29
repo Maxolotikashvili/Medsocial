@@ -84,3 +84,13 @@ export interface ConsultationQuery {
   page?: number,
   status?: 1 | 2 | 3
 }
+
+export interface OverrideSchedule {
+  id: string
+  date: string,
+  start_time: string,
+  end_time: string,
+  override_type: 'AVAILABLE' | 'UNAVAILABLE'
+}
+
+export type OverrideSchedulePayload = Omit<OverrideSchedule, 'id'>;

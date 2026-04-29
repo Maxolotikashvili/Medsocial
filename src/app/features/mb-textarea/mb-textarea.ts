@@ -55,7 +55,7 @@ export class MbTextarea implements ControlValueAccessor {
   get isInvalid(): boolean {
     const control = this.ngControl?.control;
     if (!control) return false;
-    console.log(control.invalid && control.touched)
+    
     return control.invalid && (control.touched || control.dirty);
   }
 

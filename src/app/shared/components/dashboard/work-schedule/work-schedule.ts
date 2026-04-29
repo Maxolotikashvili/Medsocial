@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal, WritableSignal } from '@angular/core';
 import { MbSwitch } from '../../../../features/mb-switch/mb-switch';
 import { FormBuilder, FormGroup, ReactiveFormsModule, FormArray } from '@angular/forms';
-import { WeekDay, WeekDayKey, WorkScheduleForm, WorkSchedulePayload, WorkSchedule as WorkScheduleType } from '../../../../core/models/schedule.model';
+import { WeekDay, WeekDayKey, WorkScheduleForm, WorkSchedule as WorkScheduleType } from '../../../../core/models/schedule.model';
 import { MbDropdown } from '../../../../features/mb-dropdown/mb-dropdown';
 import { SCHEDULE_SETTINGS, WEEK_DAYS } from '../../../../core/configs/schedule.config';
 import { ScheduleService } from '../../../../core/services/schedule.service';
@@ -17,10 +17,12 @@ import { ScrollFromBreadcrumbDirective } from '../../../directives/scroll-from-b
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faXmark, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { faCopy, faFloppyDisk } from '@fortawesome/free-regular-svg-icons';
+import { ToggleSwitchModule } from 'primeng/toggleswitch';
+import { SelectModule } from 'primeng/select';
 
 @Component({
   selector: 'work-schedule',
-  imports: [ReactiveFormsModule, MbSwitch, MbDropdown, ScrollFromBreadcrumbDirective, FaIconComponent],
+  imports: [ReactiveFormsModule, ToggleSwitchModule, SelectModule, MbSwitch, MbDropdown, ScrollFromBreadcrumbDirective, FaIconComponent],
   templateUrl: './work-schedule.html',
   styleUrl: './work-schedule.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -58,9 +60,8 @@ export class WorkSchedule implements OnInit {
   }
 
   private loadSchedule() {
-    const user = this.userService.user();
     this.scheduleService
-      .getWorkingSchedule(user.id)
+      .getWorkingSchedule()
       .pipe(take(1))
       .subscribe({
         next: (scheduleData) => {

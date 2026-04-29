@@ -7,11 +7,21 @@
     --color-blue-3: #00A6FB;
     --color-blue-4: #ecf7ff;
 
+    --blue-100: #ecf7ff;
+    --blue-200: #cfeaff;
+    --blue-300: #a6d8ff;
+    --blue-400: #6fc0ff;
+    --blue-500: #00A6FB;
+    --blue-600: #4589F4;
+    --blue-700: #1d78e2;
+    --blue-800: #5C728E;
+
     --color-black-0: #031d36;
     --color-black-1: color-mix(in srgb, var(--color-black-0), transparent 85%);
 
     --color-gray-0: #acacac82;
     --color-gray-1: #eaeaea;
+    --color-gray-3: #f9fafb;
 
     --color-white-0: #ffffff;
     --color-white-1: #f6f6f7;
@@ -28,7 +38,8 @@
 
     --color-error: #ff4444;
 
-    --box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 10px;
+    --box-shadow-1: rgba(149, 157, 165, 0.2) 0px 8px 10px;
+    --box-shadow-2: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
 }
 
 .background-blue {
@@ -53,4 +64,37 @@
 
 .background-gray {
     background-color: var(--color-gray-0);
+}
+
+:root {
+  /* 🔵 Primary Blue Scale */
+  --blue-50:  #ecf7ff;
+  --blue-100: #cfeaff;
+  --blue-200: #a6d8ff;
+  --blue-300: #6fc0ff;
+  --blue-400: #38b6ff;
+  --blue-500: #00A6FB;
+  --blue-600: #4589F4;
+  --blue-700: #1d78e2;
+  --blue-800: #5C728E;
+
+  --gray-500: #6a7282;
+
+  /* ⚫ Neutral */
+  --surface-0: #ffffff;
+  --surface-50: #f6f6f7;
+  --surface-100: #eaeaea;
+  --surface-200: #acacac82;
+
+  /* 🟢 States */
+  --success: #2ac28e;
+  --danger: #F7588D;
+  --warning: #ffc422;
+
+  /* 🧠 Text */
+  --text-primary: #031d36;
+  --text-secondary: color-mix(in srgb, #031d36, transparent 60%);
+
+  --radius: 12px;
+  --shadow: rgba(149, 157, 165, 0.2) 0px 8px 10px;
 }

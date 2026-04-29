@@ -1,7 +1,29 @@
 @if (notifications(); as notifications) {
     @if (notifications.results.length > 0) {
-        <div class="notifications-component-wrapper">
-            <span>{{notifications.results[0].text}}</span>
-        </div>
+        <div class="notifications-component-wrapper" scrollFromBreadcrumbDirective animate.enter="enter-animation-bottom">
+            <div class="notifications-heading">
+                <h3 class="heading-h3 text-weight-500">Notifications</h3>
+                @if (unseenNotificationsLength()) {
+                    <span class="text-description text-weight-500 unseen-notifications-length"> {{unseenNotificationsLength()}} New </span>
+                }
+            </div>
+
+            @for (notification of notifications.results; track $index) {
+                <div class="notification" [class.notification-unseen]="!notification.is_seen">
+                    @if (!notification.is_seen) {
+                        <div class="unseen-dot"></div>
+                    }
+                    <div class="texts-wrapper">
+                        <h6 class="heading-h6 text-weight-400 notification-text"> {{notification.text}} </h6>
+                        <div class="date-wrapper">
+                            <fa-icon class="icon" [icon]="icons['date']"></fa-icon>
+                            <p class="text-description notification-date"> {{notification.created_at | smartDate}}</p>
+                        </div>
+                    </div>
+                </div>
+            }
+            </div>
+    } @else {
+        <h1 class="heading-h1 all-set">You are all set</h1>
     }
 }

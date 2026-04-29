@@ -107,7 +107,7 @@
                 <div class="image-wrapper" [class.image-wrapper-error]="procedureForm.get('image')?.invalid && procedureForm.get('image')?.dirty">
                 @if (imageSrc()) {
                     <img [src]="imageSrc()" class="before-image" alt="Before image">
-                    <button class="text-plain text-weight-800 preview-button"
+                    <button type="button" class="text-plain text-weight-800 preview-button"
                         (click)="previewImage('before-image')">Preview</button>
                 }
                     <button type="button" class="mb-button-naked upload-button"
@@ -125,7 +125,7 @@
                 <div class="image-wrapper" [class.image-wrapper-error]="procedureForm.get('imageAfter')?.invalid && procedureForm.get('imageAfter')?.dirty">
                 @if (imageAfterSrc()) {
                     <img [src]="imageAfterSrc()" class="after-image" alt="After image">
-                    <button class="text-plain text-weight-800 preview-button"
+                    <button type="button" class="text-plain text-weight-800 preview-button"
                         (click)="previewImage('after-image')">Preview</button>
                     }
                 <button type="button" class="mb-button-naked upload-button"

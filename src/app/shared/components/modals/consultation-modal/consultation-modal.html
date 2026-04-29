@@ -1,0 +1,64 @@
+@if (modalData; as data) {
+    <div class="consultation-modal-wrapper">
+        <h3 class="heading-h3 text-weight-500 header">Appointment Request Details</h3>
+
+        <div class="content-wrapper">
+            <div class="text-description status" [class]="constultationStatus[data.status].toLowerCase()">{{constultationStatus[data.status]}}</div>
+            
+            <div class="patient-info-wrapper">
+                <h6 class="text-description text-size-1 block-heading">Patient information</h6>
+
+                <div class="text-image-wrapper">
+                    <img class="patient-img" [src]="data.patient.image" (error)="handleImageError($event)" alt="Patient">
+
+                    <div class="text-wrapper">
+                        <span class="text-description text-size-2 patient-text">{{data.patient.first_name | titlecase}} {{data.patient.last_name | titlecase}}</span>
+                        <span class="text-description text-size-1">Patient</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="block-wrapper">
+                <h6 class="text-description block-heading">Description</h6>
+                <p class="text-description block-body"> {{data.brief}} </p>
+            </div>
+            
+            @if (data.image) {
+                <div class="block-wrapper">
+                    <h6 class="text-description block-heading">Attached image</h6>
+                    <img class="attached-img" [src]="data.image" alt="Attached image">
+                </div>
+            }
+
+            <div class="block-row">
+                <div class="block-wrapper">
+                    <h6 class="text-description block-heading">Appointment date</h6>
+                    
+                    <div class="appointment-date-wrapper">
+                        <fa-icon class="icon" [icon]="icons['date']"></fa-icon>
+                        <span class="text-description block-body"> {{data.date | date: 'EEEE, MMMM d, y'}} </span>
+                    </div>
+                </div>
+
+                <div class="block-wrapper">
+                    <h6 class="text-description block-heading">Time</h6>
+
+                    <div class="appointment-date-wrapper">
+                        <fa-icon class="icon" [icon]="icons['time']"></fa-icon>
+                        <span class="text-description block-body"> {{data.date | date: 'HH:mm'}} {{user.timezone}}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="block-wrapper">
+                <h6 class="text-description block-heading">Meeting duration</h6>
+                <span class="text-description block-body"> {{meetingDuration}} hour </span>
+            </div>
+
+            <div class="buttons-wrapper">
+                <p-button class="p-btn-size-full" severity="success" label="Accept" (onClick)="acceptAppointment(data)"/>
+                <p-button class="p-btn-size-full p-btn-abort" severity="danger" label="Reject"/>
+            </div>
+        </div>
+    </div>
+}

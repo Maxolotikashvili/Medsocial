@@ -20,3 +20,13 @@ export const SCHEDULE_SETTINGS: ScheduleSettings = {
   workDays: 7,
   format: "12h"
 };
+
+export const CONSULTATION_STATUS: {
+  1: 'Requested',
+  2: 'Accepted',
+  3: 'Rejected'
+} = {
+  1: 'Requested',
+  2: 'Accepted',
+  3: 'Rejected'
+}

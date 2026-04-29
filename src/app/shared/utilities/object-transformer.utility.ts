@@ -1,16 +1,16 @@
 import { TransformConfig } from "../../core/models/utility.model";
 
-export function transformObject<T extends object>(
-  data: T[],
-  config: TransformConfig<T>
-): Record<string, any>[] {
+export function transformObject<TInput extends object, TOutput extends object>(
+  data: TInput[],
+  config: TransformConfig<TInput>
+): TOutput[] {
   const { transformKey = [], transformValue = [], remove = [] } = config;
 
   return data.map((obj) => {
     const transformed: Record<string, any> = {};
 
     for (const [key, value] of Object.entries(obj)) {
-      const currentKey = key as keyof T;
+      const currentKey = key as keyof TInput;
 
       if (remove.includes(currentKey)) continue;
 
@@ -23,6 +23,6 @@ export function transformObject<T extends object>(
       transformed[targetKey] = finalValue;
     }
 
-    return transformed;
+    return transformed as TOutput;
   });
 }

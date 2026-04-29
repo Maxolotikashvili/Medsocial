@@ -77,5 +77,4 @@ export class UserService {
 
     return this.http.post<Experience>(`${this.apiUrl}/${API_ENDPOINTS.USERS.EXPERIENCE.create(userId)}`, body);
   }
-
 }

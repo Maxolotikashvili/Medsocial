@@ -1,126 +1,118 @@
-import { Component, ChangeDetectionStrategy, ViewEncapsulation, input, InputSignal, OnInit } from '@angular/core';
-import { startOfDay, endOfDay, subDays, addDays, endOfMonth, isSameDay, isSameMonth, addHours, addMonths, isAfter, isBefore } from 'date-fns';
+import { Component, ChangeDetectionStrategy, input, ViewEncapsulation, InputSignal, OnInit, ViewChild } from '@angular/core';
+import { startOfDay, endOfDay, isSameDay, isSameMonth } from 'date-fns';
 import { Subject } from 'rxjs';
 import { provideCalendar, CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView, CalendarPreviousViewDirective, CalendarTodayDirective, CalendarNextViewDirective, CalendarMonthViewComponent, CalendarWeekViewComponent, CalendarDayViewComponent, CalendarDatePipe, DateAdapter } from 'angular-calendar';
 import { EventColor } from 'calendar-utils';
 import { FormsModule } from '@angular/forms';
 import { provideFlatpickrDefaults } from 'angularx-flatpickr';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
-import { CalendarEventInternal, CalendarEventParams } from '../../core/models/calendar.model';
+import { ButtonModule } from 'primeng/button';
+import { Popover, PopoverModule } from 'primeng/popover';
 
 @Component({
   selector: 'calendar',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: 'calendar.html',
-  imports: [
-    // CalendarPreviousViewDirective,
-    CalendarTodayDirective,
-    // CalendarNextViewDirective,
-    CalendarMonthViewComponent,
-    CalendarWeekViewComponent,
-    CalendarDayViewComponent,
-    FormsModule,
-    CalendarDatePipe,
-    // FaIconComponent
-],
-  styleUrls: ['./calendar.scss'],
+  templateUrl: './calendar.html',
+  styleUrl: './calendar.scss',
+  imports: [CalendarPreviousViewDirective, CalendarTodayDirective, CalendarNextViewDirective, CalendarMonthViewComponent, CalendarWeekViewComponent, CalendarDayViewComponent, FormsModule, CalendarDatePipe, ButtonModule, PopoverModule],
   providers: [
     provideFlatpickrDefaults(),
     provideCalendar({ provide: DateAdapter, useFactory: adapterFactory }),
   ],
   encapsulation: ViewEncapsulation.None,
 })
-export class Calendar implements OnInit {
-  
-  public initialView: InputSignal<'Day' | 'Week' | 'Month'> = input<'Day' | 'Week' | 'Month'>('Week');
-  public eventsList: InputSignal<CalendarEventInternal[]> = input<CalendarEventInternal[]>([]); 
-  // public availableDates: InputSignal<CalendarEventInternal[]> = input<CalendarEventInternal[]>([]);
+export class CalendarComponent implements OnInit {
+  @ViewChild('op') op!: Popover;
 
-  public view: CalendarView = CalendarView[this.initialView()];
-  readonly CalendarView = CalendarView;
+  public displayControls = input<boolean>(true);
+  public eventsList: InputSignal<CalendarEvent[]> = input<CalendarEvent[]>([]);
+  public initialView = input<'Day' | 'Week' | 'Month'>('Month');
+
+  public view: CalendarView = CalendarView['Month'];
+  public readonly CalendarView = CalendarView;
   public viewDate: Date = new Date();
-  // public currentDate = new Date();
-  public events: CalendarEvent[] = [];
-  // public minMonth: Date = startOfDay(new Date());
-  // public maxMonth: Date = addMonths(startOfDay(new Date()), 1);
+  public refresh = new Subject<void>();
+  public activeDayIsOpen: boolean = true;
 
-  private actions: CalendarEventAction[] = [
+  private colors: Record<string, EventColor> = {
+    red: {
+      primary: 'var(--danger)',
+      secondary: 'var(--color-white-0)',
+    },
+    
+    green: {
+      primary: 'var(--success)',
+      secondary: 'var(--surface-0)',
+    },
+
+    blue: {
+      primary: 'var(--blue-700)',
+      secondary: 'var(--surface-0)',
+    },
+
+    yellow: {
+      primary: 'var(--warning)',
+      secondary: 'var(--surface-0)',
+    }
+  };  
+
+  public readonly actions: CalendarEventAction[] = [
     {
-      label: '<fa-icon [icon]="icons.edit"></fa-icon>',
+      label: 'Edit',
       a11yLabel: 'Edit',
       onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.handleEvent('Edited', event);
+        // this.handleEvent('Edited', event);
       },
     },
     {
-      label: 'maxo',
+      label: 'Delete',
       a11yLabel: 'Delete',
       onClick: ({ event }: { event: CalendarEvent }): void => {
         this.events = this.events.filter((iEvent) => iEvent !== event);
-        this.handleEvent('Deleted', event);
+        // this.handleEvent('Deleted', event);
       },
     },
   ];
 
-  private colors: Record<string, EventColor> = {
-    red: {
-      primary: 'var(--color-red-0)',
-      secondaryText: 'var(--color-blue-0)',
-      secondary: 'var(--color-white-0)',
-    },
-    blue: {
-      primary: 'var(--color-blue-2)',
-      secondary: 'var(--color-white-0)',
-    },
-    yellow: {
-      primary: 'var(--color-yellow-0)',
-      secondary: 'var(--color-white-0)',
-    },
-    gray: {
-      primary: 'var(--color-gray-0)',
-      secondary: 'var(--color-gray-0)',
-      secondaryText: 'var(--color-white-0)'
-    }
-  };
-
-  public refresh = new Subject<void>();
-  public activeDayIsOpen: boolean = true;
+  public events: CalendarEvent[] = [];
 
   constructor() {}
 
   ngOnInit(): void {
-    this.initializeEvents();
-    // this.initializeAvailabilityDates();
+    this.assignInputParams();
+    this.assignEventsToEventsList();
   }
 
-  private initializeEvents() {
-    const eventParams: CalendarEventParams = {
-      actions: this.actions,
-    }
-
-    this.events = this.eventsList().map((inputEvent: CalendarEventInternal) => {
-      return {
-        ...inputEvent,
-        ...eventParams
+  private assignEventsToEventsList() {
+    this.events = this.eventsList().map((event) => {
+      if (event.meta.importance === 1) {
+        return {
+          ...event,
+          color: { ...this.colors['red'] }
+        }
       }
+
+      if (event.meta.importance === 2) {
+        return {
+          ...event,
+          color: { ...this.colors['green'] }
+        }
+      }
+
+      if (event.meta.importance === 1) {
+        return {
+          ...event,
+          color: { ...this.colors['blue'] }
+        }
+      }
+      console.log({...this.colors['red']})
+      return event;
     })
   }
 
-  // private initializeAvailabilityDates() {
-  //   if (this.availableDates().length > 0) {
-  //     this.events = this.availableDates().map((date) => {
-  //       return {
-  //         ...date,
-  //         meta: {
-  //           type: 'availability',
-  //           status: date.title === 'Available' ? 'open' : 'closed'
-  //         },
-  //         color: {...this.colors['gray']},
-  //         cssClass: 'not-available'
-  //       }
-  //     });
-  //   }
-  // }
+  private assignInputParams() {
+    this.view = CalendarView[this.initialView()];
+  }
 
   public dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
@@ -147,84 +139,40 @@ export class Calendar implements OnInit {
       }
       return iEvent;
     });
-    this.handleEvent('Dropped or resized', event);
   }
 
-  public handleEvent(action: string, event: CalendarEvent): void {
-    // this.modalData = { event, action };
-    // this.modal.open(this.modalContent, { size: 'lg' });
+  public handleEvent(calendarEvent: CalendarEvent, event: MouseEvent | KeyboardEvent): void {
+    const meetingLink = calendarEvent.meta.meetingLink;
+
+    this.op.toggle(event);
   }
 
-  // public addEvent(): void {
-  //   this.events = [
-  //     ...this.events,
-  //     {
-  //       title: 'New event',
-  //       start: startOfDay(new Date()),
-  //       end: endOfDay(new Date()),
-  //       color: this.colors['blue'],
-  //     },
-  //   ];
-  // }
+  public addEvent(): void {
+    this.events = [
+      ...this.events,
+      {
+        title: 'New event',
+        start: startOfDay(new Date()),
+        end: endOfDay(new Date()),
+        color: this.colors['red'],
+        draggable: true,
+        resizable: {
+          beforeStart: true,
+          afterEnd: true,
+        },
+      },
+    ];
+  }
 
-  public deleteEvent(eventToDelete: CalendarEvent): void {
+  public deleteEvent(eventToDelete: CalendarEvent) {
     this.events = this.events.filter((event) => event !== eventToDelete);
   }
 
-  public setView(view: CalendarView): void {
+  public setView(view: CalendarView) {
     this.view = view;
   }
 
-  public closeOpenMonthViewDay(): void {
+  public closeOpenMonthViewDay() {
     this.activeDayIsOpen = false;
-  }
-
-  satesto() {
-    const events: CalendarEvent[] = [
-    {
-      start: subDays(startOfDay(new Date()), 1),
-      end: addDays(new Date(), 1),
-      title: 'A 3 day event',
-      actions: this.actions,
-      allDay: true,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-    },
-    {
-      start: startOfDay(new Date()),
-      title: 'An event with no end date',
-      color: { ...this.colors['yellow'] },
-      actions: this.actions,
-    },
-    {
-      start: subDays(endOfMonth(new Date()), 3),
-      end: addDays(endOfMonth(new Date()), 3),
-      title: 'A long event that spans 2 months',
-      color: { ...this.colors['blue'] },
-      allDay: true,
-    },
-    {
-      start: addHours(startOfDay(new Date()), 2),
-      end: addHours(new Date(), 2),
-      title: 'A draggable and resizable event',
-      color: { ...this.colors['red'] },
-
-      actions: this.actions,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-      draggable: true,
-    },
-
-    {
-      start: new Date(2026, 3, 14, 12, 0),
-      end: new Date(2026, 3, 14, 13, 0),
-      title: 'My event',
-      actions: this.actions,
-    }
-  ];
   }
 }

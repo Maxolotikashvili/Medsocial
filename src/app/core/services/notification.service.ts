@@ -21,7 +21,6 @@ export class NotificationService {
   public notifications = this.notificationsSignal.asReadonly();
   public unseenNotificationsLength: Signal<number> = computed(() => {
     const notifications = this.notificationsSignal();
-    console.log(notifications)
     return (
       notifications?.results.filter(n => n.is_seen === false).length ?? 0
     )
@@ -51,10 +50,10 @@ export class NotificationService {
     });
   }
       
-  public markNotificationsAsSeen(notificationId: Notification['id'], payload: { isSeen: boolean }): Observable<Notification> {
+  public markNotificationsAsSeen(notificationId: Notification['id'], payload: { is_seen: boolean }): Observable<Notification> {
     const user = this.userService.user();
 
-    return this.http.post<Notification>(`${this.apiUrl}/${API_ENDPOINTS.USERS.NOTIFICATION(user.id, notificationId)}`, payload).pipe(
+    return this.http.patch<Notification>(`${this.apiUrl}/${API_ENDPOINTS.USERS.NOTIFICATION(user.id, notificationId)}`, payload).pipe(
       catchError((error) => {
         this.errorService.handleError(error);
         return EMPTY;

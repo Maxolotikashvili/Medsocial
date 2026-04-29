@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, signal, WritableSignal } from '@angular/core';
+import { AfterViewInit, Component, DestroyRef, ElementRef, inject, signal, ViewChild, WritableSignal } from '@angular/core';
 import { EffectDirective } from '../../../directives/effect.directive';
 import { RegisterModal } from '../register-modal/register-modal';
 import { ModalService } from '../../../../core/services/modal.service';
@@ -9,14 +9,19 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Loading } from '../../../../features/loading/loading';
 import { ErrorService } from '../../../../core/services/error.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { InputTextModule, InputText} from 'primeng/inputtext';
+import { FloatLabelModule } from 'primeng/floatlabel';
+import { FormsModule } from "@angular/forms";
 
 @Component({
   selector: 'login-modal',
-  imports: [MbCheckbox, MbInput, EffectDirective, Loading],
+  imports: [MbCheckbox, EffectDirective, Loading, InputTextModule, FormsModule, FloatLabelModule],
   templateUrl: './login-modal.html',
   styleUrl: './login-modal.scss',
 })
-export class LoginModal {
+export class LoginModal implements AfterViewInit {
+  @ViewChild('loginInput') loginInput!: ElementRef;
+
   private destroyRef = inject(DestroyRef);
   private modalService = inject(ModalService);
   private authService = inject(Authservice);
@@ -25,8 +30,8 @@ export class LoginModal {
   public isLoading = signal<boolean>(false);
   public errorMessage: WritableSignal<string | null> = signal<string | null>(null);
   public readonly isRememberMeChecked: boolean = false;
-  public readonly emailValue: string = '';
-  public readonly passwordValue: string = '';
+  public emailValue: WritableSignal<string> = signal<string>('');
+  public passwordValue: WritableSignal<string> = signal<string>('');
 
   constructor() {}
 
@@ -34,17 +39,27 @@ export class LoginModal {
     this.modalService.open(RegisterModal);
   }
 
+  ngAfterViewInit(): void {
+    this.focusInputAfterAnimationEnds();
+  }
+
+  private focusInputAfterAnimationEnds() {
+     setTimeout(() => {
+      this.loginInput.nativeElement.focus();
+    }, 300);  
+  }
+
   public loginUser(event: Event) {
     event.preventDefault();
     this.isLoading.set(true);
 
-    this.authService.login({ email: this.emailValue, password: this.passwordValue }).pipe(
+    this.authService.login({ email: this.emailValue(), password: this.passwordValue() }).pipe(
         takeUntilDestroyed(this.destroyRef),
       )
       .subscribe({
         next: () => {
           location.reload();
-          this.isLoading.set(false)
+          this.isLoading.set(false);
         },
         error: (err: HttpErrorResponse) => {
           this.errorService.handleError(err);

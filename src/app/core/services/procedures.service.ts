@@ -6,6 +6,7 @@ import { API_URL } from '../tokens/api-injection-token';
 import { API_ENDPOINTS } from '../configs/api-endpoints.config';
 import { Filter } from '../models/filter.model';
 import { UserService } from './user.service';
+import { getTotalPages } from '../../shared/utilities/get-total-page-size-utility';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +26,7 @@ export class ProceduresService {
     }
     return this.http.get<PaginatedResponse<Procedure>>(`${this.apiUrl}/${API_ENDPOINTS.DOCTORS.PROCEDURES}`, { params }).pipe(
       map((data) => {
-        return { ...data, totalPages: this.getTotalPages(data) };
+        return { ...data, totalPages: getTotalPages({count: data.count, next: data.next, previous: data.previous}) };
       }),
     );
   }
@@ -161,29 +162,29 @@ export class ProceduresService {
     return acc as ProceduresQueryParams;
   }
 
-  private getTotalPages(data: PaginatedResponse<Procedure>): number {
-    if (!data.count) {
-      return 0;
-    }
+  // private getTotalPages(data: PaginatedResponse<Procedure>): number {
+  //   if (!data.count) {
+  //     return 0;
+  //   }
 
-    const pageSize = this.getPageSize(data) ?? 20;
-    return Math.ceil(data.count / pageSize);
-  }
+  //   const pageSize = this.getPageSize(data) ?? 20;
+  //   return Math.ceil(data.count / pageSize);
+  // }
 
-  private getPageSize(data: PaginatedResponse<Procedure>): number | null {
-    const parseUrlPageSize = (url: string): number | null => {
-      const match = url.match(/[?&](?:page_size|pageSize|size)=([0-9]+)/);
-      return match ? Number(match[1]) : null;
-    };
+  // private getPageSize(data: PaginatedResponse<Procedure>): number | null {
+  //   const parseUrlPageSize = (url: string): number | null => {
+  //     const match = url.match(/[?&](?:page_size|pageSize|size)=([0-9]+)/);
+  //     return match ? Number(match[1]) : null;
+  //   };
 
-    if (typeof data.next === 'string' && data.next) {
-      return parseUrlPageSize(data.next);
-    }
+  //   if (typeof data.next === 'string' && data.next) {
+  //     return parseUrlPageSize(data.next);
+  //   }
 
-    if (typeof data.previous === 'string' && data.previous) {
-      return parseUrlPageSize(data.previous);
-    }
+  //   if (typeof data.previous === 'string' && data.previous) {
+  //     return parseUrlPageSize(data.previous);
+  //   }
 
-    return null;
-  }
+  //   return null;
+  // }
 }

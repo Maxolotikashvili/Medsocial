@@ -1,7 +1,7 @@
 <div class="sidebar-wrapper" animate.enter="enter-animation-right">
     <div class="image-wrapper">
     <img class="profile-image" [src]="user().image" (error)="handleImageError($event)" alt="User image" />
-    <h4 class="heading-h3 text-weight-400 name">{{ user().first_name | titlecase }} {{ user().last_name | titlecase }}</h4>
+    <h3 class="heading-h3 text-weight-400 name">{{ user().first_name | titlecase }} {{ user().last_name | titlecase }}</h3>
     <p class="text-description text-weight-500">
         @if (user().role === userRoles.PATIENT) {
             Patient

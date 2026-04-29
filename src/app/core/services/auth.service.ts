@@ -1,18 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, Signal, signal, WritableSignal } from '@angular/core';
 import { API_URL } from '../tokens/api-injection-token';
-import {
-  LoginRequest,
-  LoginResponse,
-  RegisterRequest,
-  TokenRefreshResponse,
-  TokenVerifyResponse,
-} from '../models/auth.model';
+import { LoginRequest, LoginResponse, RegisterRequest, TokenRefreshResponse, TokenVerifyResponse } from '../models/auth.model';
 import { EMPTY, Observable, switchMap, tap, timer } from 'rxjs';
 import { StorageService } from './storage.service';
 import { AUTH_CONFIG } from '../configs/auth.config';
 import { DecodedTokenType, ApiUser } from '../models/user.model';
-import { USER_INITIAL_VALUE } from '../configs/user.config';
 import { API_ENDPOINTS } from '../configs/api-endpoints.config';
 import { UserService } from './user.service';
 

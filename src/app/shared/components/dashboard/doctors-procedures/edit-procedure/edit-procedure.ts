@@ -1,35 +1,13 @@
-import {
-  Component,
-  DestroyRef,
-  effect,
-  ElementRef,
-  inject,
-  input,
-  InputSignal,
-  OnInit,
-  output,
-  signal,
-  ViewChild,
-  WritableSignal,
-} from '@angular/core';
+import { Component, DestroyRef, ElementRef, inject, input, InputSignal, OnInit, output, signal, ViewChild, WritableSignal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  HospitalsQuery,
-  Procedure,
-  ProcedurePayload,
-} from '../../../../../core/models/procedures.model';
+import { HospitalsQuery, Procedure, ProcedurePayload } from '../../../../../core/models/procedures.model';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CurrencyService } from '../../../../../core/services/currency.service';
 import { ALL_PROCEDURE_CATEGORIES } from '../../../../../core/configs/procedure.config';
 import { MbDropdown } from '../../../../../features/mb-dropdown/mb-dropdown';
 import { DropdownOption } from '../../../../../core/models/dropdown.model';
 import { useInfiniteData } from '../../../../utilities/use-infinite-data.utility';
-import {
-  AddressPayload,
-  AddressResponse,
-  CitiesQuery,
-  CountriesQuery,
-} from '../../../../../core/models/location.model';
+import { AddressPayload, AddressResponse, CitiesQuery, CountriesQuery } from '../../../../../core/models/location.model';
 import { LocationService } from '../../../../../core/services/location.service';
 import { MbInput } from '../../../../../features/mb-input/mb-input';
 import { ScrollFromBreadcrumbDirective } from '../../../../directives/scroll-from-breadcrumb.directive';
@@ -38,8 +16,7 @@ import { faXmark, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { faFloppyDisk } from '@fortawesome/free-regular-svg-icons';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { ProceduresService } from '../../../../../core/services/procedures.service';
-import { EMPTY, empty, Observable, of, switchMap, take } from 'rxjs';
-import { UserService } from '../../../../../core/services/user.service';
+import { Observable, switchMap } from 'rxjs';
 import { MbCheckbox } from '../../../../../features/mb-checkbox/mb-checkbox';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { PopupService } from '../../../../../core/services/popup.service';
@@ -47,21 +24,11 @@ import { ErrorService } from '../../../../../core/services/error.service';
 import { Loading } from '../../../../../features/loading/loading';
 import { HttpErrorResponse } from '@angular/common/http';
 import { deepEqual } from '../../../../utilities/object-comparer-utility';
-import { MbTextarea } from "../../../../../features/mb-textarea/mb-textarea";
+import { MbTextarea } from '../../../../../features/mb-textarea/mb-textarea';
 
 @Component({
   selector: 'edit-procedure',
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MbDropdown,
-    MbInput,
-    ScrollFromBreadcrumbDirective,
-    FaIconComponent,
-    MbCheckbox,
-    Loading,
-    MbTextarea
-],
+  imports: [CommonModule, ReactiveFormsModule, MbDropdown, MbInput, ScrollFromBreadcrumbDirective, FaIconComponent, MbCheckbox, Loading, MbTextarea],
   templateUrl: './edit-procedure.html',
   styleUrl: './edit-procedure.scss',
 })
@@ -70,9 +37,7 @@ export class EditProcedure implements OnInit {
   @ViewChild('imageAfterInput') imageAfterInput!: ElementRef;
   @ViewChild('videoInput') videoInput!: ElementRef;
 
-  public existingProcedure: InputSignal<Procedure | null | undefined> = input.required<
-    Procedure | null | undefined
->();
+  public existingProcedure: InputSignal<Procedure | null | undefined> = input.required<Procedure | null | undefined>();
   public cancelEditing = output<void>();
 
   private locationService = inject(LocationService);
@@ -145,18 +110,6 @@ export class EditProcedure implements OnInit {
     },
   );
 
-  public getOptionsList(controlName: string): DropdownOption[] {
-    if (!controlName) return [];
-
-    const optionsList: Record<string, DropdownOption[]> = {
-      category: this.procedureCategoriesList,
-      country: this.countries.data(),
-      city: this.cities.data(),
-    };
-
-    return optionsList[controlName];
-  }
-
   constructor() {}
 
   ngOnInit(): void {
@@ -189,7 +142,10 @@ export class EditProcedure implements OnInit {
       ],
       region: [existingProcedure?.address.region ?? '', Validators.required],
       street: [existingProcedure?.address.street ?? '', Validators.required],
-      phone: [existingProcedure?.address.phone ?? '', [Validators.required, Validators.pattern(/^\+?[0-9]*$/)]],
+      phone: [
+        existingProcedure?.address.phone ?? '',
+        [Validators.required, Validators.pattern(/^\+?[0-9]*$/)],
+      ],
       addressText: [existingProcedure?.address.text ?? '', Validators.required],
       video: [existingProcedure?.video ?? '', Validators.required],
     });
@@ -275,7 +231,7 @@ export class EditProcedure implements OnInit {
   public submitChanges() {
     if (!this.procedureForm.valid) {
       this.procedureForm.markAllAsDirty();
-      this.popupService.show({ message: 'Please fill all required inputs', type: 'info' })
+      this.popupService.show({ message: 'Please fill all required inputs', type: 'info' });
       return;
     }
 
@@ -284,8 +240,8 @@ export class EditProcedure implements OnInit {
     if (deepEqual(current, this.initialFormValue)) {
       this.popupService.show({
         message: 'Nothing to update',
-        type: 'info'
-      })
+        type: 'info',
+      });
 
       return;
     }
@@ -334,10 +290,10 @@ export class EditProcedure implements OnInit {
           this.cancelEditing.emit();
         },
 
-         error: (err: HttpErrorResponse) => {
+        error: (err: HttpErrorResponse) => {
           this.errorService.handleError(err);
           this.isLoading.set(false);
-        }
+        },
       });
   }
 
@@ -348,14 +304,14 @@ export class EditProcedure implements OnInit {
       .subscribe({
         next: () => {
           this.isLoading.set(false);
-          this.popupService.show({ message: 'Procedure is now updated', type: 'info' })
+          this.popupService.show({ message: 'Procedure is now updated', type: 'info' });
           this.cancelEditing.emit();
         },
 
         error: (err: HttpErrorResponse) => {
           this.errorService.handleError(err);
           this.isLoading.set(false);
-        }
+        },
       });
   }
 

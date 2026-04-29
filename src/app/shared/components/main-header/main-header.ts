@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, Signal, signal, WritableSignal } from '@angular/core';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { faUser, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { faCalendar, faUser, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { ModalService } from '../../../core/services/modal.service';
 import { EffectDirective } from '../../directives/effect.directive';
 import { LoginModal } from '../modals/login-modal/login-modal';
@@ -9,13 +9,14 @@ import { Authservice } from '../../../core/services/auth.service';
 import { RegisterModal } from '../modals/register-modal/register-modal';
 import { ScrollFromTop } from "../../directives/scroll-from-top.directive";
 import { NotificationService } from '../../../core/services/notification.service';
-import { take } from 'rxjs';
-import { PaginatedResponse } from '../../../core/models/procedures.model';
+import { take } from 'rxjs';;
 import { Notification } from '../../../core/models/notifications.model';
+import { Drawer } from "../../../features/drawer/drawer";
+import { CalendarComponent } from "../../../features/calendar/calendar";
 
 @Component({
   selector: 'main-header',
-  imports: [EffectDirective, FaIconComponent, RouterLink, RouterLinkActive, ScrollFromTop],
+  imports: [EffectDirective, FaIconComponent, RouterLink, RouterLinkActive, ScrollFromTop, Drawer, CalendarComponent],
   templateUrl: './main-header.html',
   styleUrl: './main-header.scss',
 })
@@ -28,8 +29,10 @@ export class MainHeader implements OnInit {
   public isUserLoggedIn: Signal<boolean> = this.authService.isLoggedIn;
   public notificationsLength: WritableSignal<number> = signal(0);
   public isScrolled: WritableSignal<boolean> = signal<boolean>(false);
+  public isCalendarOpened: WritableSignal<boolean> = signal(false);
   
   public faUser: IconDefinition = faUser;
+  public calendar: IconDefinition = faCalendar
 
   constructor() {}
 
@@ -63,4 +66,11 @@ export class MainHeader implements OnInit {
     const unseenMessagesList = data.filter((ntfc) => ntfc.is_seen === false);
     this.notificationsLength.set(unseenMessagesList.length);
   }
+
+  public openCalendar() {
+    this.isCalendarOpened.set(!this.isCalendarOpened());
+  }
+
+  date1 = new Date("April 29, 2026 03:24:00");
+  date2 = new Date("April 29, 2026 04:24:00");
 }

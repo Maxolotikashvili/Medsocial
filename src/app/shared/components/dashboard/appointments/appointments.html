@@ -1,0 +1,28 @@
+<div class="appointments-component-wrapper">
+    <h3 class="heading-h3 text-weight-500 appointments-heading">Appointments</h3>
+
+    <div class="appointments-wrapper">
+        @if (appointments.response(); as data) {
+            @for (appointment of data.results; track appointment.id) {
+                <div class="appointment-wrapper">
+                    <div class="appointment-text-block">
+                        <div class="header-wrapper">
+                            <span class="text-description text-size-1 status" [class]="consultationStatus[appointment.status].toLowerCase()"> {{consultationStatus[appointment.status]}} </span>
+                            <span class="text-description text-size-2 patient"> {{appointment.patient.first_name | titlecase}} {{appointment.patient.last_name | titlecase}} </span>
+                        </div>
+
+                        <p class="text-description summary"> {{appointment.brief}} </p>
+                    </div>
+
+                    <div class="button-wrapper">
+                        <div class="date-wrapper">
+                            <fa-icon class="icon" [icon]="icons['clock']"></fa-icon>
+                            <span class="text-description text-size-1 date"> {{appointment.created_at| smartDate}} </span>
+                        </div>
+                        <p-button class="p-btn-size-3" label="View" (onClick)="viewConsultation(appointment)"/>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>

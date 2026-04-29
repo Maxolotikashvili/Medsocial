@@ -5,6 +5,8 @@
 @use './app/styles/text-styles.scss';
 @use './app/styles/input-styles.scss';
 @use './app/styles/animations.scss';
+@use './app/styles/primeng-styles-override.scss';
+@use './app/styles/primeng-classes.scss';
 
 :root {
     --global-side-padding: 8.5rem;

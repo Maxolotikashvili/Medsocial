@@ -1,12 +1,14 @@
 import { inject, Injectable } from '@angular/core';
-import { AppointmentPayload, Consultation, DoctorWorkingHoursPayload, DoctorWorkingHoursResponse, WorkSchedule, WorkSchedulePayload } from '../models/schedule.model';
-import { EMPTY, Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { AppointmentPayload, Consultation, ConsultationQuery, DoctorWorkingHoursPayload, DoctorWorkingHoursResponse, OverrideSchedule, OverrideSchedulePayload, WorkSchedule, WorkSchedulePayload } from '../models/schedule.model';
+import { EMPTY, map, Observable } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { API_URL } from '../tokens/api-injection-token';
 import { API_ENDPOINTS } from '../configs/api-endpoints.config';
 import { UserService } from './user.service';
 import { PaginatedResponse } from '../models/procedures.model';
 import { USER_ROLES } from '../configs/user.config';
+import { buildHttpParams } from '../../shared/utilities/build-http-params.utility';
+import { getTotalPages } from '../../shared/utilities/get-total-page-size-utility';
 
 @Injectable({
   providedIn: 'root',
@@ -18,8 +20,9 @@ export class ScheduleService {
 
   constructor() {}
 
-  public getWorkingSchedule(doctorId: string): Observable<PaginatedResponse<WorkSchedule>> {
-    return this.http.get<PaginatedResponse<WorkSchedule>>(`${this.apiUrl}/${API_ENDPOINTS.USERS.SCHEDULES.get(doctorId)}`);
+  public getWorkingSchedule(): Observable<PaginatedResponse<WorkSchedule>> {
+    const user = this.userService.user();
+    return this.http.get<PaginatedResponse<WorkSchedule>>(`${this.apiUrl}/${API_ENDPOINTS.USERS.SCHEDULES.get(user.id)}`);
   }
 
   public addWorkSchedule(payload: WorkSchedulePayload): Observable<WorkSchedule> {
@@ -43,10 +46,23 @@ export class ScheduleService {
     return this.http.post<DoctorWorkingHoursResponse>(`${this.apiUrl}/${API_ENDPOINTS.DOCTORS.WORKING_HOURS(doctorId)}`, payload);
   }
 
-  public getConsultations(): Observable<PaginatedResponse<Consultation>> {
+  public getConsultations(queryParams: ConsultationQuery): Observable<PaginatedResponse<Consultation>> {
     const userId = this.userService.user().id;
+    
+    let params = new HttpParams();
+    
+    if (queryParams) {
+      params = buildHttpParams(queryParams);
+    }
 
-    return this.http.get<PaginatedResponse<Consultation>>(`${this.apiUrl}/${API_ENDPOINTS.USERS.CONSULTATIONS(userId)}`);
+    return this.http.get<PaginatedResponse<Consultation>>(`${this.apiUrl}/${API_ENDPOINTS.USERS.CONSULTATIONS(userId)}`).pipe(
+      map((data) => {
+        return {
+          ...data,
+          totalPages: getTotalPages({count: data.count, next: data.next, previous: data.previous})
+        }
+      })
+    );
   }
 
   public getConsultation(consultationId: string): Observable<Consultation> {
@@ -60,5 +76,17 @@ export class ScheduleService {
 
     if (user.role !== USER_ROLES.DOCTOR) return EMPTY;
     return this.http.patch<{status: 1 | 2 | 3}>(`${this.apiUrl}/${API_ENDPOINTS.USERS.CONSULTATION(user.id, consultationId)}`, status);
+  }
+
+  public getScheduleOverrides(): Observable<PaginatedResponse<OverrideSchedule>> {
+    const user = this.userService.user();
+
+    return this.http.get<PaginatedResponse<OverrideSchedule>>(`${this.apiUrl}/${API_ENDPOINTS.USERS.SCHEDULE_OVERRIDES(user.id)}`);
+  }
+  
+  public updateScheduleOverride(payload: {whId: string, body: OverrideSchedulePayload}): Observable<OverrideSchedule> {
+    const user = this.userService.user();
+
+    return this.http.patch<OverrideSchedule>(`${this.apiUrl}/${API_ENDPOINTS.USERS.SCHEDULE_OVERRIDE(user.id, payload.whId)}`, payload.body);
   }
 }

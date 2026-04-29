@@ -1,0 +1,107 @@
+$padding: 2.4rem;
+$patient-image-size: 7rem;
+$content-image-size: 64rem;
+
+.consultation-modal-wrapper {
+    .header {
+        border-bottom: 1px solid var(--color-gray-0);
+        padding: $padding;
+    }
+
+    .content-wrapper {
+        display: flex;
+        flex-flow: column;
+        gap: 2rem;
+        padding: $padding;
+
+        .status {
+            color: var(--color-white-0);
+            padding: 0.4rem 1.2rem;
+            border-radius: 100px;
+            width: fit-content;
+            height: fit-content;
+
+            &.requested {
+                background-color: var(--warning);
+            }
+
+            &.accepted {
+                background-color: var(--success);
+            }
+
+            &.rejected {
+                background-color: var(--danger);
+            }
+        }
+
+        .patient-info-wrapper {
+            display: flex;
+            flex-flow: column;
+            gap: 1rem;
+            border-radius: 6px;
+            padding: $padding;
+            background-color: var(--color-gray-3);
+
+            .text-image-wrapper {
+                display: flex;
+                gap: 1rem;
+
+                .patient-img {
+                    width: $patient-image-size;
+                    height: $patient-image-size;
+                    border: 1px solid var(--color-white-0);
+                    padding: 0.2rem;
+                    border-radius: 50%;
+                }
+
+                .text-wrapper {
+                    display: flex;
+                    flex-flow: column;
+                    justify-content: center;
+                    gap: 0.4rem;
+
+                    .patient-text {
+                        color: var(--color-black-0);
+                    }
+                }
+            }
+        }
+
+        .block-row {
+            display: flex;
+            align-items: center;
+            gap: 6rem;
+        }
+
+        .block-wrapper {
+            display: flex;
+            flex-flow: column;
+            gap: 0.5rem;
+
+            .block-heading {
+                font-size: 1.4rem;
+                color: var(--gray-500);
+            }
+
+            .block-body {
+                color: var(--color-black-0);
+            }
+
+            .attached-img {
+                border-radius: 6px;
+                width: $content-image-size;
+            }
+
+            .icon {
+                font-size: 1.4rem;
+                color: var(--color-blue-3);
+            }
+        }
+
+        .buttons-wrapper {
+            display: flex;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+    }
+}

@@ -1,14 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  inject,
-  OnInit,
-  Signal,
-  signal,
-  ViewChild,
-  WritableSignal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, inject, OnInit, Signal, signal, ViewChild, WritableSignal } from '@angular/core';
 import { Procedure } from '../../../../core/models/procedures.model';
 import { CalendarEvent } from 'calendar-utils';
 import { DatePipe } from '@angular/common';
@@ -19,13 +9,7 @@ import { DobToAgePipePipe } from '../../../pipes/dob-to-age.pipe';
 import { faCalendar, faClock, faUser } from '@fortawesome/free-regular-svg-icons';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { ScheduleService } from '../../../../core/services/schedule.service';
-import {
-  FormBuilder,
-  FormGroup,
-  FormsModule,
-  Validators,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Loading } from '../../../../features/loading/loading';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorService } from '../../../../core/services/error.service';
@@ -35,15 +19,7 @@ import { MbTextarea } from '../../../../features/mb-textarea/mb-textarea';
 
 @Component({
   selector: 'app-request-appointment-modal',
-  imports: [
-    DatePipe,
-    DobToAgePipePipe,
-    FaIconComponent,
-    FormsModule,
-    Loading,
-    MbTextarea,
-    ReactiveFormsModule,
-  ],
+  imports: [DatePipe, DobToAgePipePipe, FaIconComponent, FormsModule, Loading, MbTextarea, ReactiveFormsModule],
   templateUrl: './request-appointment-modal.html',
   styleUrl: './request-appointment-modal.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -133,22 +109,19 @@ export class RequestAppointmentModal implements OnInit {
     const formValues = this.appointmentForm.getRawValue();
     const formData = new FormData();
 
-    formData.append('date', new Date().toISOString());
+    formData.append('date', this.modalData.date.start.toISOString());
     formData.append('brief', formValues.description);
-
+    formData.append('procedure_id', this.procedure.id);
     if (formValues.image) {
       formData.append('image', formValues.image, formValues.image.name);
     }
-
-    formData.append('procedure_id', this.procedure.id);
-
+    
     this.isLoading.set(true);
     this.scheduleService.scheduleAppointmentWithDoctor(this.modalData.procedure.user.id, formData).subscribe({
       next: () => {
         this.isLoading.set(false);
         this.popupService.show({
-          message:
-            "Appointment request sent, you will get notified about doctor's decision from appointments section in your profile page",
+          message: "Appointment request sent, you will get notified about doctor's decision from appointments section in your profile page",
           type: 'info',
           timer: 6000,
         });

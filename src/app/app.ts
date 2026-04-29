@@ -16,4 +16,6 @@ export class App {
   public readonly title = signal('medproject');
   private popupService = inject(PopupService);
   public isPopupOpen = this.popupService.isOpen;
+  
+  constructor() {}
 }

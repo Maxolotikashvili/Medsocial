@@ -1,37 +1,55 @@
 <div class="calendar-controls-wrapper">
   <div class="calendar-day-wrapper">
-    <!-- <button class="time-button" [disabled]="viewDate.getMonth() <= minMonth.getMonth()" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()">Previous</button> -->
-    <button class="time-button" mwlCalendarToday [(viewDate)]="viewDate">Today</button>
-    <!-- <button class="time-button" [disabled]="viewDate.getMonth() >= maxMonth.getMonth()" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()">Next</button> -->
+    @if (displayControls()) {
+      <p-button [outlined]="true" class="p-btn-size-1 time-button" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()" label="Previous"/>
+    }
+    
+    <p-button [outlined]="true" class="p-btn-size-1 time-button" mwlCalendarToday [(viewDate)]="viewDate" label="Today"/>
+
+    @if (displayControls()) {
+      <p-button [outlined]="true" class="p-btn-size-1 time-button" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()" label="Next"/>
+    }
   </div>
+  
   <div class="calendar-date-wrapper">
-    <h3 class="heading-h3">{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
+    <h3 class="heading-h3 calendar-date">{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
   </div>
+  
   <div class="calendar-view-wrapper">
-    <button class="calendar-view" (click)="setView(CalendarView.Month)" [class.active]="view === CalendarView.Month">Month</button>
-    <button class="calendar-view" (click)="setView(CalendarView.Week)" [class.active]="view === CalendarView.Week">Week</button>
-    <button class="calendar-view" (click)="setView(CalendarView.Day)" [class.active]="view === CalendarView.Day">Day</button>
+    <p-button class="p-btn-size-1 time-button" label="Month" (onClick)="setView(CalendarView.Month)"/>
+    <p-button class="p-btn-size-1 time-button" label="Week" (onClick)="setView(CalendarView.Week)"/>
+    <p-button class="p-btn-size-1 time-button" label="Day" (onClick)="setView(CalendarView.Day)"/>
   </div>
 </div>
-<br />
+
 <div class="calendar-wrapper">
   @switch (view) { @case (CalendarView.Month) {
   <mwl-calendar-month-view  [viewDate]="viewDate" [events]="events" [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen"
     (dayClicked)="dayClicked($event.day)"
-    (eventClicked)="handleEvent('Clicked', $event.event)"
+    (eventClicked)="handleEvent($event.event, $event.sourceEvent)"
     (eventTimesChanged)="eventTimesChanged($event)"
   />
   } @case (CalendarView.Week) {
   <mwl-calendar-week-view [hourSegments]="1" [viewDate]="viewDate" [events]="events" [refresh]="refresh"
-    (eventClicked)="handleEvent('Clicked', $event.event)"
+    (eventClicked)="handleEvent($event.event, $event.sourceEvent)"
     (eventTimesChanged)="eventTimesChanged($event)"
   />
   } @case (CalendarView.Day) {
   <mwl-calendar-day-view 
     [hourSegments]="1"
     [viewDate]="viewDate" [events]="events" [refresh]="refresh"
-    (eventClicked)="handleEvent('Clicked', $event.event)"
+    (eventClicked)="handleEvent($event.event, $event.sourceEvent)"
     (eventTimesChanged)="eventTimesChanged($event)"
   />
   } }
+
+  <p-popover #op>
+    <div class="flex flex-column gap-3 w-15rem">
+        <span class="font-bold">Google Meet</span>
+        <p>Join the scheduled session below:</p>
+        <a href="https://meet.google.com/xyz-abc-123"  target="_blank" class="p-button p-button-sm p-button-primary no-underline text-center">
+          Join with Google Meet
+        </a>
+    </div>
+</p-popover>
 </div>

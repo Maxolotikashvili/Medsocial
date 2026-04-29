@@ -35,9 +35,19 @@
                 }
                 <fa-icon [icon]="faUser"></fa-icon>
             </a>
+            <button class="mb-button-naked user-profile-link" (click)="openCalendar()">
+                <fa-icon [icon]="calendar"></fa-icon>
+            </button>
         } @else {
             <button class="mb-button-naked sign-in-button" (click)="openLoginModal()">Sign In</button>
             <button class="mb-button-naked register-button" (click)="openRegisterModal()">Register</button>
         }   
     </div>
 </header>
+
+<drawer header="Calendar" [blockScroll]="true" [visible]="isCalendarOpened()" (closed)="isCalendarOpened.set(false)">
+    <calendar initialView="Week" [eventsList]="[
+        {id: 'maxo', start: date1, title: 'Some event', end: date2, meta: {importance: 2}}
+    ]"></calendar>
+</drawer>
+

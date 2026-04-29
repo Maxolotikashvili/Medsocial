@@ -26,7 +26,7 @@ export class ModalContainer {
     if (element.hasAttribute('open')) {
       const wrapper = element.querySelector('.modal-wrapper');
       wrapper?.classList.remove('modal-swapping');
-      void (wrapper as HTMLElement).offsetWidth;
+      // void (wrapper as HTMLElement).offsetWidth;
       wrapper?.classList.add('modal-swapping');
     }
 
